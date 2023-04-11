@@ -1,0 +1,37 @@
+/*
+MSQL File: check_integrator_asn_download.msql
+Description: This MSQL checks BOM download records for all trntyps
+*/
+
+publish data
+ where trntyp = $trntyp
+   and bomnum = $bomnum
+   and query_str = $table_to_validate_change ||'.'||$field_to_validate_change
+   and client_id = $client_id
+   and wh_id = $wh_id
+|
+if (@trntyp and (@trntyp = 'A' or @trntyp = 'D'))
+{
+    [select distinct 'x'
+       from bomhdr
+      where bomnum = @bomnum
+        and client_id = @client_id
+        and wh_id = @wh_id]
+}
+else if (@trntyp and @trntyp = 'C')
+{
+    [select @query_str:raw
+       from bomhdr,
+            bomdtl
+      where bomhdr.bomnum = bomdtl.bomnum
+        and bomhdr.wh_id = bomdtl.wh_id
+        and bomhdr.client_id = bomdtl.client_id
+        and bomhdr.bomnum = @bomnum
+        and bomhdr.client_id = @client_id
+        and bomhdr.wh_id = @wh_id]
+}
+else
+{
+    set return status
+     where status = 510
+}

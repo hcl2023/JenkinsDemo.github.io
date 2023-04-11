@@ -1,0 +1,81 @@
+Playlist: 
+
+Resources: ../..
+
+Working Directory: 
+
+Namespaces: 
+
+FailFast: NONE
+
+Items:
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1010 Web Inbound Close Receipt.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1020 Web Inbound Reverse Receiving.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1030 Web Inbound Create Order.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1040 Web Inbound Create Quality Issue.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1050 Web Inbound Complete OSD Receipt.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1060 Web Inbound Validate Inbound Shipments.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1070 Web Inbound Create Inbound Shipment.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1080 Web Inbound Copy Inbound Order to Inbound Shipment.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1090 Web Inbound Unload All Without Receiving.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1100 Web Inbound Putaway.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1110 Web Inbound Non ASN Receiving.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1111 Web Inbound ASN Receiving.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1120 Web Inbound Receiving Without Trailer.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1130 Web Inbound Assign Shipment.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1140 Web Inbound Complete Shipment.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1150 Web Inbound Capture Quality Incident.feature
+
+Feature: ../../Test Cases/Base/Inventory/BASE-CNT-1010 Web Inventory Count Create Batch.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1010 Web Inventory Adjustment Add.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1020 Web Inventory Adjustment Delete.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1030 Web Inventory Adjustment Increase.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1040 Web Inventory Adjustment Decrease.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1050 Web Inventory Move.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1060 Web Inventory Status Change.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1070 Web Inventory Display.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1080 Web Inventory Add Hold.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1090 Web Inventory Release Hold.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1100 Web Inventory Adjust With Approval Limits.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1110 Web Inventory Location Display.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1120 Web Inventory Error Location.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1130 Web Inventory Change Lot.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1140 Web Inventory Relabel LPN.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1150 Web Inventory Adjustment Reject Approval.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1160 Web Inventory Add Hold Multiple LPNs.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1170 Web Inventory Remove Hold Multiple LPNs.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1180 Web Inventory Adjustment Approval from Cost.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1190 Web Inventory Adjust Case Level UOM.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-RPL-1010 Web Inventory Generate Triggered Replenishment.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-RPL-1030 Web Inventory Generate Top-Off Replenishment.feature
+
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1010 Web Outbound Trailer Close.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1030 Web Outbound Validate Order.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1040 Web Outbound Validate Shipment.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1050 Web Outbound Validate Load.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1060 Web Outbound Create Order.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1070 Web Outbound Assign Transport Equipment to Load.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1080 Web Outbound Remove Load from Trailer.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1090 Web Outbound Create Shipment.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1100 Web Outbound Create Load.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1110 Web Outbound Deassign LPN from Load.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1120 Web Outbound Close Load with Safety Questions.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1130 Web Outbound Trailer Reopen.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1140 Web Outbound Close and Dispatch Trailer.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-WAV-1010 Web Outbound Allocate Wave.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-WAV-1020 Web Outbound Shipment Planning.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-WAV-1030 Web Outbound Unallocate Wave.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-WAV-1050 Web Outbound Plan Wave Delete Load.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-WAV-1040 Web Outbound Plan Wave Remove Stop.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-WAV-1070 Web Outbound Unplan Wave.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-WAV-1090 Web Outbound Cancel Orders from Load.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-RPL-1020 Web Outbound Cancel Replenishment Task.feature
+
+Feature: ../../Test Cases/Base/Yard/BASE-SHP-1020 Web Outbound Trailer Dispatch.feature
+Feature: ../../Test Cases/Base/Yard/BASE-LDG-1010 Web Outbound Trailer Load.feature
+Feature: ../../Test Cases/Base/Yard/BASE-YRD-1010 Web Trailer Move.feature
+Feature: ../../Test Cases/Base/Yard/BASE-YRD-1020 Web Inbound Trailer Check In.feature
+Feature: ../../Test Cases/Base/Yard/BASE-YRD-1030 Web Inbound Trailer Check In with Safety Check.feature
+Feature: ../../Test Cases/Base/Yard/BASE-YRD-1040 Web Outbound Trailer Check In.feature
+Feature: ../../Test Cases/Base/Yard/BASE-YRD-1050 Web Outbound Trailer Check In with Safety Check.feature
+Feature: ../../Test Cases/Base/Yard/BASE-YRD-1060 Web Storage Trailer Check In.feature

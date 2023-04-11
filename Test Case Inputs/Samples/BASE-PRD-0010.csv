@@ -1,0 +1,2 @@
+wko_typ,wkonum,wkorev,tlp_prtnum,tlp_prt_client_id,bomnum,invsts,prdqty,prdlin,rcvqty,pickMethod,over_consumption,oprcod
+ASMBLE,CYCTSTWKO1,1,SOAP-KIT01,CLIENT A,BOM0000003,A,10,PRODLIN1,10,CasePick,FALSE,CPK

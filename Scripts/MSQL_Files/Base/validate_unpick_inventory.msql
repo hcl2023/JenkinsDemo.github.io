@@ -1,0 +1,17 @@
+/*
+   MSQL File: validate_unpick_inventory.msql
+   Description: This MSQL script verifies the LPN is not tied to a shipment thus verifying successful unpicking. This script requires MOCA environment variables to be set for pck_lodnum,ship_id and wh_id
+ */
+publish data
+ where pck_lodnum = $pck_lodnum
+   and ship_id = $ship_id
+   and wh_id = $wh_id
+|
+[select ship_line_id
+   from shipment_line
+  where ship_id = @ship_id]
+|
+[select 'x'
+   from inventory_view
+  where lodnum = @pck_lodnum
+    and (ship_line_id is NULL or ship_line_id != @ship_line_id)]

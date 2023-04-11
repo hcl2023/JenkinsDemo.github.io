@@ -1,0 +1,156 @@
+Playlist: 
+
+Resources: ../..
+
+Working Directory: 
+
+Namespaces: 
+
+FailFast: NONE
+
+Items:
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-0010 Terminal Inbound Receiving.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-0020 Terminal Inbound Putaway.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-0030 Terminal Inbound Reverse Receiving.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-0040 Terminal Inbound ASN Receiving.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-0050 Terminal Inbound Receiving Without Order.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-0060 Terminal Inbound ASN Receiving Non Trusted Supplier.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-0070 Terminal Inbound Unload All.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-0080 Terminal Inbound Directed Putaway from Receiving Override.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-0090 Terminal Inbound Over Receiving Authorized.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-0100 Terminal Inbound Directed Putaway Directed Work.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-0110 Terminal Inbound Blind Receiving.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1010 Web Inbound Close Receipt.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1020 Web Inbound Reverse Receiving.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1030 Web Inbound Create Order.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1040 Web Inbound Create Quality Issue.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1050 Web Inbound Complete OSD Receipt.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1060 Web Inbound Validate Inbound Shipments.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1070 Web Inbound Create Inbound Shipment.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1080 Web Inbound Copy Inbound Order to Inbound Shipment.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1090 Web Inbound Unload All Without Receiving.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1100 Web Inbound Putaway.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1110 Web Inbound Non ASN Receiving.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1111 Web Inbound ASN Receiving.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1120 Web Inbound Receiving Without Trailer.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1130 Web Inbound Assign Shipment.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1140 Web Inbound Complete Shipment.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1150 Web Inbound Capture Quality Incident.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-5010 Flow Reverse Receive LPN.feature
+
+Feature: ../../Test Cases/Base/Integration/BASE-INT-2010 Integrator Download ASN Inbound.feature
+Feature: ../../Test Cases/Base/Integration/BASE-INT-2020 Integrator Download Customer Inbound.feature
+Feature: ../../Test Cases/Base/Integration/BASE-INT-2030 Integrator Download Supplier Inbound.feature
+Feature: ../../Test Cases/Base/Integration/BASE-INT-2040 Integrator Download Order Inbound.feature
+Feature: ../../Test Cases/Base/Integration/BASE-INT-2050 Integrator Download PartFootprint Inbound.feature
+Feature: ../../Test Cases/Base/Integration/BASE-INT-2060 Integrator Download BOM Inbound.feature
+Feature: ../../Test Cases/Base/Integration/BASE-INT-2070 Integrator Download Work Order Inbound.feature
+Feature: ../../Test Cases/Base/Integration/BASE-INT-2080 Integrator Download Part Inbound.feature
+Feature: ../../Test Cases/Base/Integration/BASE-INT-2090 Integrator Download PO Inbound.feature
+Feature: ../../Test Cases/Base/Integration/BASE-INT-2100 Integrator Download Shipment Order Inbound.feature
+
+Feature: ../../Test Cases/Base/Inventory/BASE-CNT-0010 Terminal Inventory Count LPN Undirected.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-CNT-0011 Terminal Inventory Count LPN Directed.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-CNT-0021 Terminal Inventory Count Summary Directed.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-CNT-0030 Terminal Inventory Count Detail Undirected.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-CNT-0031 Terminal Inventory Count Detail Directed.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-CNT-0040 Terminal Inventory Audit Count Undirected.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-CNT-0041 Terminal Inventory Audit Count Directed.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-CNT-0042 Terminal Inventory Audit Count Add LPN Directed.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-CNT-0050 Terminal Inventory Count Manual Undirected.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-CNT-1010 Web Inventory Count Create Batch.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-0010 Terminal Inventory Adjustment Add.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-0020 Terminal Inventory Adjustment Delete.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-0030 Terminal Inventory Adjustment Increase.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-0040 Terminal Inventory Adjustment Decrease.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-0050 Terminal Inventory Transfer Directed.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-0060 Terminal Inventory Transfer Undirected.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-0070 Terminal Inventory Status Change.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-0080 Terminal Inbound Directed Putaway from Inventory Override.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-0090 Terminal Inventory Location Display.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-0100 Terminal Inventory Display.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-0120 Terminal Partial Inventory Move.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-0130 Terminal Inventory Transfer Invalid.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-0140 Terminal Inventory Transfer Multiple LPNs Undirected.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-0150 Terminal Inventory Partial Move Multiple LPNs.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1010 Web Inventory Adjustment Add.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1020 Web Inventory Adjustment Delete.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1030 Web Inventory Adjustment Increase.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1040 Web Inventory Adjustment Decrease.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1050 Web Inventory Move.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1060 Web Inventory Status Change.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1070 Web Inventory Display.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1080 Web Inventory Add Hold.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1090 Web Inventory Release Hold.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1100 Web Inventory Adjust With Approval Limits.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1110 Web Inventory Location Display.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1120 Web Inventory Error Location.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1130 Web Inventory Change Lot.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1140 Web Inventory Relabel LPN.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1150 Web Inventory Adjustment Reject Approval.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1160 Web Inventory Add Hold Multiple LPNs.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1170 Web Inventory Remove Hold Multiple LPNs.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1180 Web Inventory Adjustment Approval from Cost.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1190 Web Inventory Adjust Case Level UOM.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-5000 Flow Inventory Move.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-5010 Flow Inventory Adjust With Approval Limits.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-RPL-1010 Web Inventory Generate Triggered Replenishment.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-RPL-1030 Web Inventory Generate Top-Off Replenishment.feature
+
+Feature: ../../Test Cases/Base/Outbound/BASE-BLD-0010 Terminal Outbound Pallet Building Undirected.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-LDG-0010 Terminal Outbound Loading LTL Directed.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-LDG-0020 Terminal Outbound Loading LTL Undirected.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-LDG-0030 Terminal Outbound Loading TL Directed.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-LDG-0040 Terminal Outbound Loading TL Undirected.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-LDG-5000 Flow Outbound Audit.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-0010 Terminal Outbound Carton Picking Undirected.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-0020 Terminal Outbound Carton Picking Undirected Cancel and Reallocate.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-0030 Terminal Outbound Pallet Picking Directed.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-0040 Terminal Outbound Pallet Picking Cancel Directed.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-0050 Terminal Outbound List Pick Case To Pallet Directed Cancel and Reallocate.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-0060 Terminal Outbound List Pick Case To Pallet Directed.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-0070 Terminal Outbound Pallet Picking Undirected.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-0080 Terminal Outbound Unpicking.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-0090 Terminal Outbound List Pick Case To Pallet Undirected.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-0100 Terminal Outbound List Pick Short Ship With Reship Directed.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-0110 Terminal Count Near Zero.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-0120 Terminal List Pick Equipment Full Set Down Resume.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-RPL-0010 Terminal Outbound Pallet Replenishment.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-RPL-0020 Terminal Outbound Case Replenishment.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-RPL-1020 Web Outbound Cancel Replenishment Task.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-0010 Terminal Outbound Trailer Close.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-0020 Terminal Outbound Reopen Closed Transport Equipment.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-0030 Terminal Unload and Unpick Shipment.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1010 Web Outbound Trailer Close.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1030 Web Outbound Validate Order.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1040 Web Outbound Validate Shipment.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1050 Web Outbound Validate Load.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1060 Web Outbound Create Order.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1070 Web Outbound Assign Transport Equipment to Load.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1080 Web Outbound Remove Load from Trailer.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1090 Web Outbound Create Shipment.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1100 Web Outbound Create Load.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1110 Web Outbound Deassign LPN from Load.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1120 Web Outbound Close Load with Safety Questions.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1130 Web Outbound Trailer Reopen.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1140 Web Outbound Close and Dispatch Trailer.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-WAV-1010 Web Outbound Allocate Wave.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-WAV-1020 Web Outbound Shipment Planning.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-WAV-1030 Web Outbound Unallocate Wave.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-WAV-1050 Web Outbound Plan Wave Delete Load.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-WAV-1040 Web Outbound Plan Wave Remove Stop.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-WAV-1070 Web Outbound Unplan Wave.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-WAV-1090 Web Outbound Cancel Orders from Load.feature
+
+Feature: ../../Test Cases/Base/Production/BASE-PRD-0010 Flow Work Order.feature
+
+Feature: ../../Test Cases/Base/Yard/BASE-SHP-1020 Web Outbound Trailer Dispatch.feature
+Feature: ../../Test Cases/Base/Yard/BASE-LDG-1010 Web Outbound Trailer Load.feature
+Feature: ../../Test Cases/Base/Yard/BASE-YRD-0010 Terminal Trailer Move.feature
+Feature: ../../Test Cases/Base/Yard/BASE-YRD-1010 Web Trailer Move.feature
+Feature: ../../Test Cases/Base/Yard/BASE-YRD-1020 Web Inbound Trailer Check In.feature
+Feature: ../../Test Cases/Base/Yard/BASE-YRD-1030 Web Inbound Trailer Check In with Safety Check.feature
+Feature: ../../Test Cases/Base/Yard/BASE-YRD-1040 Web Outbound Trailer Check In.feature
+Feature: ../../Test Cases/Base/Yard/BASE-YRD-1050 Web Outbound Trailer Check In with Safety Check.feature
+Feature: ../../Test Cases/Base/Yard/BASE-YRD-1060 Web Storage Trailer Check In.feature
+Feature: ../../Test Cases/Base/Yard/BASE-YRD-5000 Flow Yard Audit.feature

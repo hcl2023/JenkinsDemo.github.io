@@ -1,0 +1,27 @@
+/*
+MSQL File: validate_order_cancelled.msql
+Description: This MSQL script is used to validate that the order or order line is cancelled or not.
+    MOCA environment variables for ordnum and prtnum are required.
+    Another input from CSV - Cancel Mode is required.
+*/
+ 
+publish data
+ where ordnum = $ordnum
+   and prtnum = $prtnum
+   and cancel_mode = $cancel_mode
+|
+if (@cancel_mode = 'ORDER')
+{
+    [select 'x'
+       from shipment_line
+      where ordnum = @ordnum
+        and linsts = 'B']
+}
+else if (@cancel_mode = 'ORDER_LINE')
+{
+    [select 'x'
+       from shipment_line
+      where ordnum = @ordnum
+        and prtnum = @prtnum
+        and linsts = 'B']
+}

@@ -1,0 +1,15 @@
+/*
+   MSQL File: assign_transfer_work.msql
+   Description: This msql assigns is called as part of Flow Inventory Move test case to assign the transfer work to the relevant user in the work queue. 
+ */
+publish data
+ where username = $username
+   and source_loc = $srcloc
+   and wh_id = $wh_id
+|
+[update wrkque
+    set effpri = 1,
+        asg_usr_id = @username
+  where oprcod = 'TRN'
+    and srcloc = @source_loc
+    and wh_id = @wh_id]

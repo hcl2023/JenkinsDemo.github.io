@@ -1,0 +1,15 @@
+/*
+MSQL File: validate_trailer_assign_to_shipment.msql
+Description: This MSQL validate trailer assign to shipment
+*/
+
+/* This will Verify trlr_id is assigned to shipment. */
+publish data
+ where trknum = $trknum
+
+|
+[select *
+   from rcvtrk
+  where trknum = @trknum
+    and trlr_id != ' '
+ ]

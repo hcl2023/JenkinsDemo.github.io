@@ -1,0 +1,2 @@
+ordnum,ship_id,adr_id,cstnum,carcod,srvlvl,ordtyp,prtnum,untqty,invsts_prg,wave_num,move_id,trlr_id,dock
+CYC_OBORD1050,CYC_OBSHP1050,CYC_OBADR1050,CYC_OBCST1050,CYCCAR1,TL,C,C_DR_PRT12,1,A,CYC_OBWAV1050,CYC_OBMOV5,CYC_OBTRL1050,CYC_SDCK_021

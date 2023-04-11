@@ -1,0 +1,19 @@
+/*
+MSQL File: get_inventory.msql
+Description: This MSQL gets putaway inventory for validating deposit location
+*/
+
+publish data
+ where wh_id = $wh_id
+   and client_id = $client_id
+   and prtnum = $prtnum
+   and lodnum = $lodnum
+|
+
+[select stoloc
+   from inventory_view
+  where lodnum = @lodnum
+    and wh_id = @wh_id
+    and prt_client_id = @client_id
+    and prtnum = @prtnum];
+	

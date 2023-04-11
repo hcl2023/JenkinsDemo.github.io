@@ -1,0 +1,46 @@
+Playlist: 
+
+Resources: ../..
+
+Working Directory: 
+
+Namespaces: 
+
+FailFast: NONE
+
+Items:
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-0010 Terminal Inventory Adjustment Add.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-0020 Terminal Inventory Adjustment Delete.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-0030 Terminal Inventory Adjustment Increase.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-0040 Terminal Inventory Adjustment Decrease.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-0050 Terminal Inventory Transfer Directed.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-0060 Terminal Inventory Transfer Undirected.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-0070 Terminal Inventory Status Change.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-0080 Terminal Inbound Directed Putaway from Inventory Override.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-0090 Terminal Inventory Location Display.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-0100 Terminal Inventory Display.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-0120 Terminal Partial Inventory Move.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-0130 Terminal Inventory Transfer Invalid.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-0140 Terminal Inventory Transfer Multiple LPNs Undirected.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-0150 Terminal Inventory Partial Move Multiple LPNs.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1010 Web Inventory Adjustment Add.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1020 Web Inventory Adjustment Delete.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1030 Web Inventory Adjustment Increase.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1040 Web Inventory Adjustment Decrease.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1050 Web Inventory Move.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1060 Web Inventory Status Change.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1070 Web Inventory Display.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1080 Web Inventory Add Hold.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1090 Web Inventory Release Hold.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1100 Web Inventory Adjust With Approval Limits.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1110 Web Inventory Location Display.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1120 Web Inventory Error Location.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1130 Web Inventory Change Lot.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1140 Web Inventory Relabel LPN.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1150 Web Inventory Adjustment Reject Approval.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1160 Web Inventory Add Hold Multiple LPNs.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1170 Web Inventory Remove Hold Multiple LPNs.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1180 Web Inventory Adjustment Approval from Cost.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1190 Web Inventory Adjust Case Level UOM.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-5000 Flow Inventory Move.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-5010 Flow Inventory Adjust With Approval Limits.feature

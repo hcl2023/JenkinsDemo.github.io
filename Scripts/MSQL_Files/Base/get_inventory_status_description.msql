@@ -1,0 +1,14 @@
+/*
+MSQL File: get_inventory_status_description.msql
+Description: This MSQL script gets the inventory status description for the invsts. 
+   This description is used by Web UI scenarios to select the inventory status description that is displayed on screen.
+   MOCA environment variable for invsts must be provided for this query to return results
+*/
+
+publish data
+ where invsts = $invsts
+|
+[select lngdsc
+   from dscmst
+  where colnam = 'invsts'
+    and colval = @invsts]

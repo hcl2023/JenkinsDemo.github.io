@@ -1,0 +1,17 @@
+/*
+MSQL File: get_pallet_in_pallet_build_position.msql
+Description: This MSQL script is used to get the pallet (lodnum) that is currently in a given pallet 
+   build pallet position.
+   MOCA environment variables for pallet_loc,  palpos, and wh_id are required
+*/
+
+publish data
+ where pallet_loc = $pallet_loc
+   and palpos = $palpos
+   and wh_id = $wh_id
+|
+[select lodnum
+   from invlod
+  where palpos = rtrim(ltrim(@palpos))
+    and stoloc = @pallet_loc
+    and wh_id = @wh_id ]

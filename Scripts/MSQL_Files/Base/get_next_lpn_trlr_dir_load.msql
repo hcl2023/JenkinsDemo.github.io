@@ -1,0 +1,23 @@
+/*
+MSQL File: get_next_lpn_trlr_dir_load.msql
+Description: This MSQL gets yard_loc and lodnum for trailer loading 
+*/
+
+publish data
+ where devcod = $devcod
+   and wh_id = $wh_id
+|
+[select wrkque.dstloc as yard_loc,
+        inventory_view.lodnum as lodnum
+   from wrkque,
+        shipment,
+        pckwrk_view,
+        inventory_view
+  where wrkque.oprcod = 'LOD'
+    and wrkque.wrksts = 'ACK'
+    and wrkque.ackdevcod = @devcod
+    and wrkque.wh_id = @wh_id
+    and shipment.stop_id = wrkque.refloc
+    and pckwrk_view.ship_id = shipment.ship_id
+    and pckwrk_view.wrkref = inventory_view.wrkref
+    and inventory_view.stoloc = wrkque.srcloc]

@@ -1,0 +1,28 @@
+Playlist: 
+
+Resources: ../..
+
+Working Directory: 
+
+Namespaces: 
+
+FailFast: NONE
+
+Items:
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-0010 Terminal Outbound Trailer Close.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-0020 Terminal Outbound Reopen Closed Transport Equipment.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-0030 Terminal Unload and Unpick Shipment.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1010 Web Outbound Trailer Close.feature
+Feature: ../../Test Cases/Base/Yard/BASE-SHP-1020 Web Outbound Trailer Dispatch.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1030 Web Outbound Validate Order.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1040 Web Outbound Validate Shipment.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1050 Web Outbound Validate Load.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1060 Web Outbound Create Order.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1070 Web Outbound Assign Transport Equipment to Load.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1080 Web Outbound Remove Load from Trailer.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1090 Web Outbound Create Shipment.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1100 Web Outbound Create Load.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1110 Web Outbound Deassign LPN from Load.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1120 Web Outbound Close Load with Safety Questions.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1130 Web Outbound Trailer Reopen.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1140 Web Outbound Close and Dispatch Trailer.feature

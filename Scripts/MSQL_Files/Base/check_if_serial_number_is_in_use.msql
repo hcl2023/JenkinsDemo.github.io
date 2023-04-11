@@ -1,0 +1,11 @@
+/*
+MSQL File: check_if_serial_number_is_in_use.msql
+Description: This MSQL checks inv_ser_num table to see if passed in serial_number is in use 
+*/
+
+publish data
+ where serial_num = $serial_num
+|
+[select distinct ser_num
+   from inv_ser_num
+  where ser_num = @serial_num]

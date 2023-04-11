@@ -1,0 +1,22 @@
+/* 
+MSQL File: get_details_from_ship.msql
+Description: This MOCA script gets lodnum and stoloc from the passed in ship_id 
+*/
+
+publish data
+  where wh_id = $wh_id
+    and ship_id = $ship_id
+|
+[select ship_line_id
+   from shipment_line
+  where ship_id = @ship_id]
+|
+[select lodnum,
+        stoloc
+   from inventory_view
+  where ship_line_id = @ship_line_id
+    and wh_id = @wh_id]
+|
+publish data
+  where lodnum = @lodnum
+    and stoloc = @stoloc

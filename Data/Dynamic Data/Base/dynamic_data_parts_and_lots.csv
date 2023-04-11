@@ -1,0 +1,12 @@
+value,instruction_type,instruction,where_clause,order_by_clause,return_fields,retry_value,comment
+?prtnum:any,MSQL,dynamic data/get_any_part.msql,,prtnum,"prtnum,prt_client_id",,Returns any part and part client id  
+?prtnum:lot_controlled,MSQL,dynamic data/get_any_part.msql,lotflg=1 and exists(select 'x' from prtlot where prtnum=prtmst.prtnum and wh_id = prtmst.wh_id_tmpl and prt_client_id = prtmst.prt_client_id),prtnum,"prtnum,prt_client_id",,Returns any lot controlled part and prt_client_id  
+?prtnum:any_for_client,MSQL,dynamic data/get_any_part_for_client.msql,,prtnum,prtnum,,Returns any part (assumed client_id or prt_client_id are set or uses ----)
+?prtnum:lot_controlled_for_client,MSQL,dynamic data/get_any_part_for_client.msql,lotflg=1,prtnum,prtnum,,Returns any lot controlled part (assumed client_id or prt_client_id are set or uses ----)
+?prtnum:cradle_to_grave,MSQL,dynamic data/get_any_part_for_client.msql,ser_typ='CRDL_TO_GRAVE',prtnum,"prtnum,prt_client_id",,Returns any cradle to grave SN part (assumed client_id or prt_client_id are set or uses ----)
+?prtnum:outbound_capture,MSQL,dynamic data/get_any_part_for_client.msql,ser_typ='OUTCAP_ONLY',prtnum,"prtnum,prt_client_id",,Returns any outbound capture SN part (assumed client_id or prt_client_id are set or uses ----)
+?prtnum:prompt,Prompt-String,Enter Part Number,,,prtnum,,Prompt user for Part
+?lotnum:any,MSQL,dynamic data/get_any_lot.msql,,,lotnum,,Return a lot number for any lot
+?lotnum:any_for_part,MSQL,dynamic data/get_any_lot_for_part.msql,,lotnum,lotnum,  ,Return a lot number for a part and client
+?lotnum:any_for_part_and_status,MSQL,dynamic data/get_any_lot_for_part.msql,lot_sts='$lot_sts',lotnum,lotnum,,Return a lot number for a lot with a status (assumes lot_sts and part and client are set)
+?lotnum:any_for_status,MSQL,dynamic data/get_any_lot.msql,lot_sts='$lot_sts',lotnum,"lotnum,prtnum,prt_client_id",,Return a lot number/part number/prt_client for a lot with a status (lot_sts must be set)

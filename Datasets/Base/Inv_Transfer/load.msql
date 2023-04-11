@@ -1,0 +1,84 @@
+/*
+Dataset Name: Inv_Transfer/load
+Description: If the lodnum is "CYC-LOAD-XFER", then we're going to generate a new system
+    generated lodnum, and return that so our cycle script for load transfer knows
+    which pallet to move.  Otherwise, just return the lodnum.  The cycle
+    script will look for 'lodnum' in the result set.
+*/
+publish data
+  where lodnum = $lodnum
+    and prtnum = $prtnum
+    and wh_id = $wh_id
+    and client_id = $client_id
+    and prt_client_id = $prt_client_id
+    and devcod = $devcod
+    and untqty = $untqty
+    and directed = $directed
+    and srcloc = $srcloc
+    and dstloc = $dstloc
+	and usr_id = $username
+|
+if (@lodnum = 'CYC-LOAD-XFER')
+{
+    generate next number
+     where numcod = 'lodnum'
+    |
+	[select ftpcod
+   		from prtftp
+  	where prtnum = @prtnum
+      and wh_id = @wh_id
+      and prt_client_id = nvl(@prt_client_id, @client_id)]
+	|
+    create inventory
+     where srcloc = 'PERM-ADJ-LOC'
+       and asset_typ = ''
+       and wh_id = @wh_id
+       and reacod = 'ADJ-ACCEPT'
+       and adj_ref2 = ''
+       and adj_ref1 = ''
+       and prtnum = @prtnum
+       and prt_client_id = nvl(@prt_client_id, @client_id)
+       and client_id = @client_id
+       and actcod = ''
+       and invsts = 'A'
+       and ftpcod = @ftpcod
+       and untcas = 10
+       and untpak = 1
+       and lodnum = @nxtnum
+       and dstloc = @uc_cyc_srcloc
+       and untqty = @untqty
+    |
+    if (@directed is not null)
+    {
+        create work
+         where oprcod = 'TRN'
+           and srcloc = @uc_cyc_srcloc
+           and dstloc = @uc_cyc_dstloc
+           and lodnum = @nxtnum
+           and asg_usr_id = @usr_id
+           and wrkpri = 1
+           and lodlvl = 'L'
+    }
+    |
+    publish data
+     where lodnum = @nxtnum
+       and reqnum = @reqnum
+}
+else
+{
+    if (@directed is not null)
+    {
+        create work
+         where oprcod = 'TRN'
+           and srcloc = @uc_cyc_srcloc
+           and dstloc = @uc_cyc_dstloc
+           and lodnum = @lodnum
+           and asg_usr_id = @usr_id
+           and wrkpri = 1
+           and lodlvl = 'L'
+    }
+    |
+    publish data
+     where lodnum = @lodnum
+       and reqnum = @reqnum
+}

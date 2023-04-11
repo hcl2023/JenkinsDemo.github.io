@@ -1,0 +1,58 @@
+/* 
+MSQL File: validate_door_is_available.msql
+Description: This script confirms that a dock door location is empty  
+This MSQL is designed to be used with the validation logic.
+Inputs:
+	Required:
+		wh_id - Warehouse Id 
+		parameter_1 - door (parameter_1)
+	Optional:
+		None
+Outputs:
+	validation_status - TRUE or FALSE 
+	error_message - Error Message set when validation fails
+*/
+publish data
+ where wh_id = $wh_id
+   and door = $parameter_1
+|
+[select count('x') trailer_cnt,
+		max(trlr_id || ' / ' || trlr_num) trailer
+   from trlr
+  where yard_loc_wh_id = @wh_id
+    and yard_loc = @door]
+|
+[select locsts, useflg
+   from locmst
+  where wh_id = @wh_id
+    and stoloc = @door] catch(@?)
+|
+if (@? != 0)
+{
+    publish data
+     where validation_status = 'FALSE'
+       and error_message = "Door " || @door || " is invalid"
+}
+else if (@trailer_cnt > 0)
+{
+    publish data
+     where validation_status = 'FALSE'
+       and error_message = "Door " || @door || " is occupied by trailer " || @trailer
+}
+else if (@locsts != 'E')
+{
+    publish data
+     where validation_status = 'FALSE'
+       and error_message = "Location " || @door || " is not in Empty status (" || @locsts || ")"
+}
+else if (@useflg = 0)
+{
+    publish data
+     where validation_status = 'FALSE'
+       and error_message = "Location " || @door || " is not usable"
+}
+else
+{
+    publish data
+     where validation_status = 'TRUE'
+}

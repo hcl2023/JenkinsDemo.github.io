@@ -1,0 +1,38 @@
+/* 
+MSQL File: validate_part_is_serialized.msql
+Description: This script confirms that a part is serialized
+This MSQL is designed to be used with the validation logic.
+Inputs:
+	Required:
+		wh_id - Warehouse Id 
+		parameter_1 - Part Number (parameter_1)		
+	Optional:
+	    parameter_2 - Part Client Id (parameter_2)
+Outputs:
+	validation_status - TRUE or FALSE 
+	error_message - Error Message set when validation fails
+*/
+publish data
+ where wh_id = $wh_id
+   and prtnum = $parameter_1 
+   and prt_client_id = nvl($parameter_2, nvl($prt_client_id, nvl($client_id, '----')))
+|
+[select count('x') sn_check
+   from prtmst_view
+  where wh_id = @wh_id
+	and prt_client_id = @prt_client_id
+    and prtnum = @prtnum
+	and ser_typ is not null]
+|
+if (@sn_check > 0)
+{
+    publish data
+     where validation_status = 'TRUE'
+}
+else 
+{
+    publish data
+     where validation_status = 'FALSE'
+       and error_message = "Part " || @prtnum || ' / '|| @prt_client_id || " is not serialized" 
+}
+ 

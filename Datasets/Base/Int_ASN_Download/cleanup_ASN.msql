@@ -1,0 +1,112 @@
+publish data
+ where wh_id = $wh_id
+   and client_id = $client_id
+   and prt_client_id = $prt_client_id
+   and devcod = $devcod
+   and trlr_num = $trlr_num
+|
+[select *
+   from trlr
+  where trlr_num = @trlr_num
+    and trlr_cod = 'RCV'] catch(@?)
+|
+if (@? = 0)
+{
+    [select *
+       from rcvtrk
+      where trlr_id = @trlr_id] catch(-1403)
+    |
+    if (@? = 0)
+    {
+        [select *
+           from rcvlin
+          where trknum = @trknum
+            and idnqty > 0] catch(-1403)
+        |
+        if (@? = 0)
+        {
+            [select *
+               from inventory_view
+              where rcvkey = @rcvkey] catch(@?)
+            |
+            if (@? = 0)
+            {
+                [delete
+                   from invdtl
+                  where dtlnum = @dtlnum] catch(@?)
+                |
+                [delete
+                   from invsub
+                  where subnum = @subnum
+                    and prmflg != 1] catch(@?)
+                |
+                [delete
+                   from invlod
+                  where lodnum = @lodnum
+                    and prmflg != 1] catch(@?)
+                |
+                [delete
+                   from prtmst_sup_wh
+                  where prtnum = @prtnum] catch(@?)
+                |
+                [delete
+                   from invmov
+                  where lodnum = @dtlnum] catch(-1403)
+                |
+                validate location
+                 where stoloc = @stoloc
+                   and wh_id = @wh_id catch(@?)
+                |
+                if (@action)
+                {
+                    execute server command
+                     where cmd = @action catch(@?)
+                }
+                |
+                [select *
+                   from invsum
+                  where stoloc = @stoloc
+                    and untqty = 0] catch(@?)
+                |
+                if (@? = 0)
+                {
+                    [delete
+                       from invsum
+                      where stoloc = @stoloc] catch(@?)
+                }
+            }
+        }
+        |
+        [delete
+           from rcvlin
+          where trknum = @trknum] catch(-1403)
+        |
+        [delete
+           from rcvinv
+          where trknum = @trknum] catch(-1403)
+        |
+        [delete
+           from rcvtrk
+          where trknum = @trknum] catch(-1403)
+        |
+        [delete
+           from inb_serv_rcvinv
+          where trknum = @trknum] catch(-1403)
+        |
+        [delete
+           from locmst
+          where stoloc = @trknum] catch(-1403)
+    }
+    |
+    [delete
+       from trlract
+      where trlr_id = @trlr_id] catch(-1403)
+    |
+    [delete
+       from locmst
+      where stoloc = @trlr_num] catch(-1403)
+    |
+    [delete
+       from trlr
+      where trlr_id = @trlr_id] catch(-1403)
+}

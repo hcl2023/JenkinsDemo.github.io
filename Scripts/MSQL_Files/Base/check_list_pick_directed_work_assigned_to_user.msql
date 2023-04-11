@@ -1,0 +1,24 @@
+/*
+MSQL File: check_list_pick_directed_work_assigned_to_user.msql
+Description: This MSQL script checks the wrkque to ensure the list_id on the user's RF terminal
+   is assigned to the user during the terminal list picking scenarios.
+   This script also returns the reqnum associated with the work so Cycle can create a lock policy
+   for the work during volume testing.
+   The script requires MOCA environment variables to be set for oprcod, devcod, username, 
+   and list_id in order to return results
+*/
+
+publish data
+ where oprcod = $oprcod
+   and devcod = $devcod
+   and username = $username
+   and list_id = $list_id
+|
+[select reqnum,
+        wh_id
+   from wrkque
+  where oprcod = @oprcod
+    and ackdevcod = @devcod
+    and asg_usr_id = @username
+    and ack_usr_id = @username
+    and list_id = rtrim(ltrim(@list_id))]

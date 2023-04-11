@@ -1,0 +1,31 @@
+/*
+MSQL File: get_cycle_count_batch_for_lpn_count.msql
+Description: This MSQL script is used by lpn cycle counting scenarios to get the next eligible count batch for lpn cycle counting.
+   MOCA environment variables for wh_id and cnttyp need to be provided for this query to return results
+*/
+
+publish data
+ where cnttyp = $cnttyp
+   and wh_id = $wh_id
+|
+[select cntwrk.cntbat
+   from cntwrk
+   join locmst
+     on cntwrk.stoloc = locmst.stoloc
+    and cntwrk.wh_id = locmst.wh_id
+   join cnttyp
+     on cntwrk.cnttyp = cnttyp.cnttyp
+   join cntzon
+     on cntzon.cnt_zone_id = locmst.cnt_zone_id
+    and cntzon.lpncntflg = 1
+   join poldat_view
+     on poldat_view.polcod = 'CYCLE-COUNTING'
+    and poldat_view.polvar = 'LPN-COUNT'
+    and poldat_view.polval = 'CNTTYP'
+    and poldat_view.wh_id = locmst.wh_id
+    and poldat_view.rtstr1 = cntwrk.cnttyp
+  where cntwrk.wh_id = @wh_id
+    and cntwrk.cntsts = 'R'
+    and cntwrk.cnttyp = @cnttyp
+    and rownum = 1
+  order by cntwrk.cntbat]

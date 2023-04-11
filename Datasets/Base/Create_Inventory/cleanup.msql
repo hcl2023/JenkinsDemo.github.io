@@ -1,0 +1,64 @@
+/* Dataset Name: Create_Inventory/cleanup
+   Description: This Cleans up the data created during Inventory test cases.
+   It first deletes all data associated with the Inventory
+   Import variables assigned in Cycle 
+*/
+
+publish data
+ where wh_id = $wh_id
+   and client_id = $client_id
+   and prt_client_id = $prt_client_id
+   and devcod = $devcod
+   and lodnum = $lodnum
+   and stoloc = $stoloc
+   and prtnum = $prtnum
+|
+[select *
+   from inventory_view
+  where lodnum = @lodnum
+    and stoloc = @stoloc
+	and prtnum = @prtnum
+    and prt_client_id = @prt_client_id
+    and wh_id = @wh_id] catch(-1403)
+|
+move inventory
+ where dstloc = 'PERM-ADJ-LOC'
+   and reacod = 'ADJ-ACCEPT'
+   and adj_ref2 = ''
+   and adj_ref1 = ''
+   and actcod = 'IDNTFY_AJ'
+   and wh_id = @wh_id catch(@?)
+|
+[select *
+   from cntwrk
+  where stoloc = @stoloc
+    and prt_client_id = @prt_client_id
+    and wh_id = @wh_id] catch(@?)
+|
+if (@? = 0)
+{
+    cancel counts
+     where cntbat = @cntbat
+       and wh_id = @wh_id catch(@?)
+}
+|
+[select *
+   from rf_invadj
+  where stoloc = @stoloc] catch(@?)
+|
+if (@? = 0)
+{
+    [delete
+       from rf_invadj
+      where stoloc = @stoloc]
+}
+|
+/*run validation on source pick location in case invsum needs to be corrected*/
+fix validation errors for location
+ where wh_id = @wh_id
+   and stoloc = @stoloc catch(-1403)
+|
+/*reset location status*/
+reset location status
+ where wh_id = @wh_id
+   and stoloc = @stoloc catch(-1403)

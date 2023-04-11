@@ -1,0 +1,16 @@
+/*
+MSQL File: validate_lotnum_on_inventory_by_lpn.msql
+Description: This MSQL script validates that a specific lotnum is tied to inventory on a specific load number (lpn)
+   MOCA environment variables for lodnum, validate_lotnum, and wh_id must be provided for the query to return results
+*/
+
+publish data
+ where lodnum = $lodnum
+   and validate_lotnum = $validate_lotnum
+   and wh_id = $wh_id
+|
+[select distinct 1
+   from inventory_view
+  where inventory_view.lodnum = @lodnum
+    and inventory_view.lotnum = @validate_lotnum
+    and inventory_view.wh_id = @wh_id]

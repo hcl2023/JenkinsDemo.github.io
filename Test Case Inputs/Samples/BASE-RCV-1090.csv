@@ -1,0 +1,5 @@
+trlr_num,yard_loc,prtnum,rcvsts,expqty,supnum,rec_loc,move_option,move_to_loc
+TSTRK01,RDCK-022,SOAP-10,A,50,DEFSUP,RCVSTG-020,move_to,RDCK-020
+TSTRK01,RDCK-022,SOAP-10,A,50,DEFSUP,RCVSTG-020,dispatch,,
+TSTRK01,RDCK-022,SOAP-10,A,50,DEFSUP,RCVSTG-020,leave,,
+TSTRK01,RDCK-022,SOAP-10,A,50,DEFSUP,RCVSTG-020,,,

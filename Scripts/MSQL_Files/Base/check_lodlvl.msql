@@ -1,0 +1,16 @@
+/*
+MSQL File: check_lodlvl.msql
+Description: This MSQL determines the lodlvl of a part
+*/
+
+publish data
+ where wh_id = $wh_id
+   and prtnum = $prtnum
+   and prt_client_id = nvl($client_id, '----')
+|
+[select lodlvl
+   from prtmst_view
+  where wh_id = @wh_id
+    and prt_client_id = @prt_client_id
+    and prtnum = @prtnum
+]

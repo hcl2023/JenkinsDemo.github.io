@@ -1,0 +1,35 @@
+publish data
+ where wh_id = $wh_id
+   and client_id = $client_id
+   and prt_client_id = $prt_client_id
+   and devcod = $devcod
+   and lodnum = $lodnum
+   and dep_loc = $deposit_loc
+   and prtnum = $prtnum
+|
+[select *
+   from inventory_view
+  where lodnum = @lodnum
+	and prtnum = @prtnum
+    and prt_client_id = @prt_client_id
+    and wh_id = @wh_id] catch(-1403)
+|
+if (@? = 0)
+{
+    move inventory
+     where dstloc = 'PERM-ADJ-LOC'
+       and reacod = 'ADJ-ACCEPT'
+       and adj_ref2 = ''
+       and adj_ref1 = ''
+       and actcod = 'IDNTFY_AJ'
+}
+|
+[select * from inventory_view where  lodnum = @lodnum ] catch(-1403)
+|
+{
+	if (@dep_loc != '') {
+		fix validation errors for location
+			where stoloc = @dep_loc
+   			and wh_id = @wh_id catch(-1403)
+	}
+}

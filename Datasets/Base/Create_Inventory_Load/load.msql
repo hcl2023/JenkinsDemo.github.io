@@ -1,0 +1,49 @@
+/*
+Dataset Name: Create_Inventory_Load/load
+Description: This dataset will be used to load data for Inventory test cases.
+*/
+publish data
+    where lodnum = $lodnum 
+	    and wh_id = $wh_id
+        and client_id = $client_id
+        and prt_client_id = $prt_client_id
+        and devcod = $devcod
+        and reacod = $reacod
+        and prtnum = $prtnum
+        and actcod = $actcod
+        and invsts = $invsts
+        and ftpcod = $ftpcod
+        and stoloc = $stoloc
+        and untqty = $untqty
+        and lotnum = $lotnum
+        and catch_qty = $catch_qty
+|
+if(@lodnum is null){
+    generate next number where numcod = 'lodnum'
+	|
+	publish data where lodnum = @nxtnum
+}else{
+    publish data where lodnum = @lodnum
+}
+|
+create inventory
+ where srcloc = 'PERM-ADJ-LOC'
+   and asset_typ = ''
+   and wh_id = @wh_id
+   and devcod = @devcod
+   and reacod = @reacod
+   and adj_ref2 = ''
+   and adj_ref1 = ''
+   and prtnum = @prtnum
+   and prt_client_id = @prt_client_id
+   and client_id = @client_id
+   and untcas = '1'
+   and untpak = '1'
+   and actcod = @actcod
+   and invsts = @invsts
+   and ftpcod = @ftpcod
+   and lodnum = @lodnum
+   and dstloc = @stoloc
+   and untqty = @untqty
+   and lotnum = nvl(@lotnum, '----')
+   and catch_qty = @catch_qty;

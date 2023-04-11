@@ -1,0 +1,14 @@
+/* 
+MSQL File: get_location_verification_code.msql
+Description: This MSQL script is used to get the location verification code for a warehouse location.
+    MOCA environment variables for stoloc and wh_id are required
+*/
+
+publish data
+ where stoloc = $verify_location
+   and wh_id = $wh_id
+|
+[select nvl(locvrc, stoloc) locvrc
+   from locmst
+  where stoloc = @stoloc
+    and wh_id = @wh_id]

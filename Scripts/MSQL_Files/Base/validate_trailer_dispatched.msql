@@ -1,0 +1,14 @@
+/*
+MSQL File: validate_trailer_dispatched.msql
+Description: This MSQL script is used to validate that the trailer is dispatched or not.
+    MOCA environment variables for trlr_id and trlr_stat are required.
+*/
+ 
+publish data
+ where trlr_id = $trlr_id
+   and trlr_stat = $trlr_stat
+|
+[select *
+   from trlr
+  where trlr_id = @trlr_id
+    and trlr_stat = 'D'];

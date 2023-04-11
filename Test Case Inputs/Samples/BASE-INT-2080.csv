@@ -1,0 +1,2 @@
+prtnum,clause,system,tran_name,pre_validation,post_validation,detail_file_name
+CYC-PRT-SR1-05,and untcst = 10,HOST,PART_INB_IFD,Check Integrator Part Download,Check Integrator Part Download,BASE-INT-2080-01.csv

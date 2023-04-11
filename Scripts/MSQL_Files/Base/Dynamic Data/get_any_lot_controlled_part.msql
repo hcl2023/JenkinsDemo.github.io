@@ -1,0 +1,26 @@
+/*  
+MSQL File: get_any_lot_controlled_part.msql
+Description: 
+Get a part that is lot conrolled and for which lots exists for a specified warehouse and Client Id.  Built for use with Dynamic Data logic.
+*/
+publish data 
+ where wh_id = $wh_id
+   and prt_client_id = nvl($prt_client_id, nvl($client_id,'----'))
+   and dynamic_where = nvl($where_clause, "1 = 1")
+   and dynamic_order_by = nvl($order_by_clause, "1")
+   and dynamic_rownum = nvl($rownum, 1)
+|
+[select *
+   from prtmst
+  where wh_id_tmpl = @wh_id 
+	and prt_client_id = @prt_client_id
+	and lotflg = 1
+	and prdflg = 1
+	and rcvflg = 1
+	and exists (select 'x' 
+	              from prtlot
+				 where prt_client_id = prtmst.prt_client_id
+				   and prtnum = prtmst.prtnum)
+    and @dynamic_where:RAW
+	and rownum = @dynamic_rownum 
+order by @dynamic_order_by:RAW]

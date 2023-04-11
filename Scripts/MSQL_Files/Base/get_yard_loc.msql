@@ -1,0 +1,11 @@
+/*
+MSQL File: get_yard_loc.msql
+Description: This MSQL gets the yard location for a dock door
+*/
+
+publish data
+ where dock_door = $dock_door
+|
+[select distinct trlr.yard_loc
+   from trlr
+  where trlr.yard_loc = nvl(@dock_door, trlr.yard_loc)]

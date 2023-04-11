@@ -1,0 +1,10 @@
+value,instruction_type,instruction,where_clause,order_by_clause,return_fields,retry_value,comment
+?prtnum:use_current_value,Scenario,Get Value from Cycle Variable,prtnum,,value,,Used to assign the current value in prtnum for another input field
+?stoloc:use_current_value,Scenario,Get Value from Cycle Variable,stoloc,,value,,Used to assign the current value in stoloc for another input field
+?wh_id:use_current_value,Scenario,Get Value from Cycle Variable,wh_id,,value,,Used to assign the current value in wh_id for another input field
+?client_id:use_current_value,Scenario,Get Value from Cycle Variable,client_id,,value,,Used to assign the current value in client_id for another input field
+?lodnum:use_current_value,Scenario,Get Value from Cycle Variable,lodnum,,value,,Used to assign the current value in lodnum for another input field
+?subnum:use_current_value,Scenario,Get Value from Cycle Variable,subnum,,value,,Used to assign the current value in subnum for another input field
+?dtlnum:use_current_value,Scenario,Get Value from Cycle Variable,dtlnum,,value,,Used to assign the current value in dtlnum for another input field
+?untqty:use_current_value,Scenario,Get Value from Cycle Variable,untqty,,value,,Used to assign the current value in untqty for another input field
+?uomcod:use_current_value,Scenario,Get Value from Cycle Variable,uomcod,,value,,Used to assign the current value in uomnum for another input field

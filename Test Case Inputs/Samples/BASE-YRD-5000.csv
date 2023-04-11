@@ -1,0 +1,3 @@
+trlr_id,carcod,yard_loc,trlr_cod,audit_start_loc,audit_end_loc,vehtyp,yard_audit_type
+TRLR_YRD_5000,CYCCAR1,YARD-010,SHIP,YARD-010,YARD-010,YARD,with_trailer
+TRLR_YRD_5000,CYCCAR1,YARD-010,SHIP,YARD-010,YARD-011,YARD,without_trailer

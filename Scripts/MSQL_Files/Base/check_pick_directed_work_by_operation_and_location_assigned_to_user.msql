@@ -1,0 +1,23 @@
+/*
+MSQL File: check_pick_directed_work_by_operation_and_location_assigned_to_user.msql
+Description: This MSQL script checks the wrkque to ensure the pick work on the user's 
+   RF terminal is the correct work assigned to the user for the picking operation code being tested.
+   This script also returns the reqnum associated with the work so Cycle can create a lock policy 
+   for the work during volume testing.
+   The script requires MOCA environment variables to be set for oprcod, devcod, username, and srcloc in order to return results
+*/
+
+publish data
+ where oprcod = $oprcod
+   and devcod = $devcod
+   and username = $username
+   and srcloc = $srcloc
+|
+[select reqnum,
+        wh_id
+   from wrkque
+  where oprcod = @oprcod
+    and ackdevcod = @devcod
+    and asg_usr_id = @username
+    and ack_usr_id = @username
+    and srcloc = rtrim(ltrim(@srcloc ))]

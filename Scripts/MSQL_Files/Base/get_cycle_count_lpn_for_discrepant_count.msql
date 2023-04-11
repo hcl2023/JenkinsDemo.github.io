@@ -1,0 +1,17 @@
+/*
+MSQL File: get_cycle_count_lpn_for_discrepant_count.msql
+Description: This MSQL script gets the next LPN for lpn cycle counting based on location and warehouse. 
+   This query returns the lpn to be counted from a location that does not match the current count location to 
+   force a count mismatch during lpn cycle counting.
+   MOCA environment variables for stoloc and wh_id are required for the query to return results
+*/
+
+publish data
+ where stoloc = $stoloc
+   and wh_id = $wh_id
+|
+[select invlod.lodnum
+   from invlod
+  where invlod.stoloc != @stoloc
+    and invlod.wh_id = @wh_id
+    and rownum = 1]

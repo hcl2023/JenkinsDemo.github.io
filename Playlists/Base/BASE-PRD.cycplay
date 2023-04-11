@@ -1,0 +1,12 @@
+Playlist: 
+
+Resources: ../..
+
+Working Directory: 
+
+Namespaces: 
+
+FailFast: NONE
+
+Items:
+Feature: ../../Test Cases/Base/Production/BASE-PRD-0010 Flow Work Order.feature

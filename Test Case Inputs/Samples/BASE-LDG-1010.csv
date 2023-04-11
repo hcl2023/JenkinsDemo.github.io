@@ -1,0 +1,2 @@
+ordnum,ship_id,adr_id,cstnum,carcod,srvlvl,ordtyp,prtnum,untqty,invsts_prg,wave_num,move_id,trlr_id,dock,pck_dstloc,operation
+CYC_OBORD1,CYC_OBSHP1,CYC_OBADR1,CYC_OBCST1,CYCCAR1,TL,C,CYC_PRT14,1,A,CYC_OBWAV1,CYC_OBMOV1,CYC_OBTRL1,CYC_SDCK_005,RDT001,LOAD

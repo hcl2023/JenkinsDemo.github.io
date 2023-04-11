@@ -1,0 +1,172 @@
+/*
+    Dataset Name: Top_Off_Replen/cleanup
+    Description: This dataset will be used to clean data that was created during Top_Off_Replen dataset
+*/
+
+publish data
+ where wh_id = $wh_id
+   and client_id = $client_id
+   and prt_client_id = $prt_client_id
+   and devcod = $devcod
+   and rpl_srcloc = $srcloc
+   and rpl_dstloc = $repl_loc
+   and usr_id = $username
+|
+/* Purge any outstanding replenishment work, picks*/
+{
+    if (@rpl_dstloc != '')
+    {
+        [select wrkref,
+                list_id
+           from pckwrk_hdr
+          where wh_id = @wh_id
+            and srcloc = @rpl_srcloc
+            and wrktyp = 'T'] catch(-1403)
+        |
+        if (@? = 0)
+        {
+            /*delete replen work*/
+            [delete
+               from wrkque
+              where wrkref = @wrkref
+                and wh_id = @wh_id
+                and client_id = @client_id] catch(-1403)
+            |
+            /*delete pick detail*/
+            [delete
+               from pckwrk_dtl
+              where wrkref = @wrkref
+                and wh_id = @wh_id] catch(-1403)
+            |
+            /*delete pick header*/
+            [delete
+               from pckwrk_hdr
+              where wrkref = @wrkref
+                and wh_id = @wh_id] catch(-1403)
+            |
+            /*fix invsum for source location */
+            fix validation errors for location
+             where wh_id = @wh_id
+               and stoloc = @rpl_srcloc catch(-1403)
+            |
+            /*delete pcklst*/
+            [delete
+               from pcklst
+              where list_id = @list_id] catch(-1403)
+        };
+    }
+}
+|
+/* Delete Adjusted Inventory in dst replenishment location (repl_loc) rpl_dstloc */
+{
+    [select invlod.lodnum,
+            invsub.subnum,
+            invdtl.dtlnum,
+            invlod.wh_id,
+            invdtl.lotnum,
+            invlod.stoloc,
+            invlod.lodnum,
+            invdtl.prtnum,
+            invdtl.prt_client_id,
+            invdtl.revlvl,
+            invdtl.untqty remaining_untqty
+       from invlod
+       join invsub
+         on invlod.lodnum = invsub.lodnum
+       join invdtl
+         on invsub.subnum = invdtl.subnum
+      where stoloc = @rpl_dstloc] catch(-1403)
+    |
+    if (@? = 0)
+    {
+        /* delete loaded lodnum and subnum */
+        [delete
+           from invlod
+          where lodnum = @lodnum] catch(-1403)
+        |
+        [delete
+           from invsub
+          where subnum = @subnum] catch(-1403)
+        |
+        [delete
+           from invdtl
+          where subnum = @subnum] catch(-1403)
+    }
+}
+|
+/*run validation on destination location in case invsum needs to be corrected*/
+fix validation errors for location
+ where wh_id = @wh_id
+   and stoloc = @rpl_dstloc catch(-1403)
+|
+/*reset location status*/
+reset location status
+ where wh_id = @wh_id
+   and stoloc = @rpl_dstloc catch(-1403)
+|
+{
+    /* delete loaded lodnum and subnum from the srcloc location */
+    [select invlod.lodnum,
+            invsub.subnum,
+            invdtl.dtlnum,
+            invlod.wh_id,
+            invdtl.lotnum,
+            invlod.stoloc,
+            invlod.lodnum,
+            invdtl.prtnum,
+            invdtl.prt_client_id,
+            invdtl.revlvl
+       from invlod
+       join invsub
+         on invlod.lodnum = invsub.lodnum
+       join invdtl
+         on invsub.subnum = invdtl.subnum
+      where stoloc = @rpl_srcloc] catch(-1403)
+    |
+    if (@? = 0)
+    {
+        /* delete loaded lodnum and subnum */
+        [delete
+           from invlod
+          where lodnum = @lodnum] catch(-1403)
+        |
+        [delete
+           from invsub
+          where subnum = @subnum] catch(-1403)
+        |
+        [delete
+           from invdtl
+          where subnum = @subnum] catch(-1403)
+    }
+}
+|
+/*run validation on source pick location in case invsum needs to be corrected*/
+fix validation errors for location
+ where wh_id = @wh_id
+   and stoloc = @rpl_srcloc catch(-1403)
+|
+/*reset location status*/
+reset location status
+ where wh_id = @wh_id
+   and stoloc = @rpl_srcloc catch(-1403)
+|
+/* last ditch effort to catch any previous inventory that didn't get deleted */
+list inventory
+ where stoloc = @rpl_dstloc
+   and wh_id = @wh_id catch(-1403)
+|
+if (@? = 0)
+{
+    /* delete loaded lodnum and subnum */
+    [delete
+       from invlod
+      where lodnum = @lodnum] catch(-1403)
+    |
+    [delete
+       from invsub
+      where subnum = @subnum] catch(-1403)
+    |
+    [delete
+       from invdtl
+      where subnum = @subnum] catch(-1403)
+}

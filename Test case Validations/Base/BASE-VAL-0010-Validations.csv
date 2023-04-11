@@ -1,0 +1,2 @@
+type,instruction_type,instruction,parameter_1
+PRE,MSQL,Validations/validate_location_is_empty.msql,$stoloc

@@ -1,0 +1,2 @@
+invnum,system,tran_name,pre_validation,post_validation,detail_file_name
+CYC_INV021,HOST,RA_INB_IFD,Check Integrator PO Download,Check Integrator PO Download,BASE-INT-2090-01.csv

@@ -1,0 +1,16 @@
+/*
+MSQL File: check_default_footprint.msql
+Description: This MSQL checks the default footprint.
+*/
+
+publish data
+ where prtnum = $prtnum
+   and ftpcod = $ftpcod
+   and client_id = $client_id
+|
+[select distinct 'x'
+   from prtftp
+  where prtnum = @prtnum
+    and prt_client_id = @client_id
+    and ftpcod = @ftpcod
+    and defftp_flg = 1]

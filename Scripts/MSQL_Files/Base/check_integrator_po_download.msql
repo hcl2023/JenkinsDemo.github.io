@@ -1,0 +1,38 @@
+/*
+MSQL File: check_integrator_po_download.msql
+Description: This MSQL checks PO download records for all trntyps
+*/
+
+publish data
+ where trntyp = $trntyp
+   and invnum = $invnum
+   and query_str = $table_to_validate_change || '.' || $field_to_validate_change
+   and client_id = $client_id
+   and wh_id = $wh_id
+|
+if (@trntyp and (@trntyp = 'A' or @trntyp = 'D'))
+{
+    [select distinct 'x'
+       from rimhdr
+      where invnum = @invnum
+        and client_id = @client_id
+        and wh_id = @wh_id]
+}
+else if (@trntyp and @trntyp = 'C')
+{
+    [select @query_str:raw
+       from rimhdr,
+            rimlin
+      where rimhdr.invnum = rimlin.invnum
+        and rimhdr.supnum = rimlin.supnum
+        and rimhdr.wh_id = rimlin.wh_id
+        and rimhdr.client_id = rimlin.client_id
+        and rimhdr.invnum = @invnum
+        and rimhdr.client_id = @client_id
+        and rimhdr.wh_id = @wh_id]
+}
+else
+{
+    set return status
+     where status = 510
+}

@@ -1,0 +1,38 @@
+/*
+MSQL File: check_integrator_work_order_download.msql
+Description: This MSQL checks work order download records for all trntyps
+*/
+
+publish data
+ where trntyp = $trntyp
+   and wkonum = $wkonum
+   and wkorev = $wkorev
+   and wkolin = $wkolin
+   and query_str = $table_to_validate_change || '.' || $field_to_validate_change
+   and client_id = $client_id
+   and wh_id = $wh_id
+|
+if (@trntyp and (@trntyp = 'A' or @trntyp = 'D'))
+{
+    [select distinct 'x'
+       from wkohdr
+      where wkonum = @wkonum
+        and client_id = @client_id
+        and wh_id = @wh_id
+        and wkorev = @wkorev]
+}
+else if (@trntyp and @trntyp = 'C')
+{
+    [select @query_str:raw
+       from wkodtl
+      where wkonum = @wkonum
+        and client_id = @client_id
+        and wh_id = @wh_id
+        and wkorev = @wkorev
+        and wkolin = @wkolin]
+}
+else
+{
+    set return status
+     where status = 510
+}

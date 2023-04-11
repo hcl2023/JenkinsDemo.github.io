@@ -1,0 +1,21 @@
+Playlist: 
+
+Resources: ..\..
+
+Working Directory: 
+
+Namespaces: 
+
+FailFast: NONE
+
+Items:
+Feature: ..\..\Test Cases\Base\Inventory\BASE-CNT-0010 Terminal Inventory Count LPN Undirected.feature
+Feature: ..\..\Test Cases\Base\Inventory\BASE-CNT-0011 Terminal Inventory Count LPN Directed.feature
+Feature: ..\..\Test Cases\Base\Inventory\BASE-CNT-0021 Terminal Inventory Count Summary Directed.feature
+Feature: ..\..\Test Cases\Base\Inventory\BASE-CNT-0030 Terminal Inventory Count Detail Undirected.feature
+Feature: ..\..\Test Cases\Base\Inventory\BASE-CNT-0031 Terminal Inventory Count Detail Directed.feature
+Feature: ..\..\Test Cases\Base\Inventory\BASE-CNT-0040 Terminal Inventory Audit Count Undirected.feature
+Feature: ..\..\Test Cases\Base\Inventory\BASE-CNT-0041 Terminal Inventory Audit Count Directed.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-CNT-0042 Terminal Inventory Audit Count Add LPN Directed.feature
+Feature: ..\..\Test Cases\Base\Inventory\BASE-CNT-0050 Terminal Inventory Count Manual Undirected.feature
+Feature: ..\..\Test Cases\Base\Inventory\BASE-CNT-1010 Web Inventory Count Create Batch.feature

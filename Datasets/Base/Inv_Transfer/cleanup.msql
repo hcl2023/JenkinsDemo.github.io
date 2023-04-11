@@ -1,0 +1,57 @@
+/*
+Dataset Name: Inv_Transfer/cleanup
+Description: This dataset cleans up the data loaded and created during the execution of Inv_Transfer dataset
+*/
+
+publish data
+ where wh_id = $wh_id
+   and client_id = $client_id
+   and prt_client_id = $prt_client_id
+   and devcod = $devcod
+   and reqnum = $reqnum
+   and lodnum = $lodnum
+   and sample_lodnum = $sample_lodnum
+   and srcloc = $srcloc
+   and dstloc = $dstloc
+|
+{
+  if (@reqnum is not null)
+  {
+    remove work request
+     where reqnum = @reqnum catch (@?)
+  }
+  ;
+  if (@lodnum = 'CYC-LOAD-XFER' and @sample_lodnum is not null)
+  {
+    move inventory
+     where lodnum = @sample_lodnum
+       and dstloc = 'PERM-ADJ-LOC'
+       and reacod = 'ADJ-ACCEPT'
+       and adj_ref2 = ''
+       and adj_ref1 = ''
+       and actcod = 'IDNTFY_AJ'
+  }
+  ;
+  if (@lodnum != 'CYC-LOAD-XFER' and @lodnum is not null)
+  {
+	purge lpn immediate
+	where lodnum = @lodnum
+      and wh_id = @wh_id
+  }
+  ;
+  /* run validation on location to fix any errors - source location */
+  if (@uc_cyc_srcloc is not null)
+  {
+    fix validation errors for location
+       where wh_id = @wh_id
+       and stoloc = @uc_cyc_srcloc catch(-1403)
+  }
+  ;
+  /* run validation on location to fix any errors - destination location */
+  if (@uc_cyc_dstloc is not null)
+  {
+    fix validation errors for location
+       where wh_id = @wh_id
+       and stoloc = @uc_cyc_dstloc catch(-1403)
+  }
+}

@@ -1,0 +1,2 @@
+adr_id,ordnum,cstnum,ship_id,ordtyp,untqty,prtnum,carcod,srvlvl,invsts_prg,route_to_addr,aesnum,eshp_dte,lshp_dte,edel_dte,ldel_dte
+CYC_OBADR1090,CYC_OBORD1090,CYC_OBCST1090,CYC_OBSHP1090,C,100,SOAP-08,CYCCAR1,TL,A,CYC_OBADR1090,12345,01/01/2040,01/02/2040,01/01/2050,01/02/2050

@@ -1,0 +1,56 @@
+/*
+Dataset Name: Create_Trailer/cleanup
+Description: This dataset will delete trailer
+*/
+
+publish data
+ where wh_id = $wh_id
+   and client_id = $client_id
+   and prt_client_id = $prt_client_id
+   and devcod = $devcod
+   and trlr_id = $trlr_id
+|
+/*Purge trailer data*/
+{
+    if (@trlr_id != '')
+    {
+        [select yard_loc
+           from trlr
+          where trlr_id = @trlr_id
+            and yard_loc_wh_id = @wh_id] catch(-1403)
+        |
+        /* delete the trailer location */
+        [delete
+           from locmst
+          where stoloc = @trlr_id
+            and wh_id = @wh_id] catch(-1403)
+        |
+        /* delete the trailer record */
+        [delete
+           from trlr
+          where trlr_id = @trlr_id
+            and stoloc_wh_id = @wh_id] catch(-1403)
+        |
+        /* reset dock door status */
+        if (@yard_loc != '')
+        {
+            reset location status
+             where stoloc = @yard_loc
+               and wh_id = @wh_id
+        }
+        |
+        /* Clear trailer safety check workflows */
+        [delete
+           from cnfrm_bck_serv
+          where trlr_id = @trlr_id] catch(-1403)
+        |
+        [delete
+           from cnfrm_noninv_serv
+          where non_invtid = @trlr_id] catch(-1403)
+        |
+        /* clear any records from cur_trlr_act table */
+        [delete
+           from cur_trlr_act
+          where trlr_id = @trlr_id] catch(-1403)
+    }
+}

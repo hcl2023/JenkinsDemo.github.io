@@ -1,0 +1,2 @@
+ordnum,ship_id,adr_id,cstnum,carcod,srvlvl,ordtyp,prtnum,untqty,invsts_prg,wave_num,move_id,car_move_id,trlr_id,trlr_num,dock,dock_door,oprcod,cancel_code,bckflg,short_pick_flag,create_order,short_pick_qty,detail_file_name,pck_dstloc,trac_ref,driver_lic,driver_nam
+OR_PCK4100,SH_PCK4100,AD_PCK4100,CT_PCK4100,CYCCAR1,TL,C,C_DR_PRT12,200,A,WV_PCK4100,MV_PCK4100,MV_PCK4100,TR_PCK4100,TR_PCK4100,CYC_SDCK_091,CYC_SDCK_091,LPCK,C-N-R,1,TRUE,Yes,100,BASE-PCK-4100-01.csv,RDT001,RDT001,REF123,765432,NAME

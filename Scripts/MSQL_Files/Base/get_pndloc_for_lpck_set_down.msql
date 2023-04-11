@@ -1,0 +1,18 @@
+/*MSQL File: get_pndloc_for_lpck_set_down.msql
+  Description: This MSQL script returns a pickup and deposit (P&D) location to be used to set down a list pick pallet
+   The script requires MOCA environment variables to be set for wh_id and applicable configuration in order to return results*/
+publish data
+ where wh_id = $wh_id
+|
+[select stoloc
+   from locmst
+  where locmst.wh_id = @wh_id
+    and locmst.wrk_zone_id is not NULL
+    and exists(select 'x'
+                 from loc_typ lt
+                where lt.wh_id = locmst.wh_id
+                  and lt.loc_typ_id = locmst.loc_typ_id
+                  and lt.pdflg = 1
+                  and lt.rcv_stgflg = 0
+                  and lt.prd_stgflg = 0
+                  and lt.stgflg = 0)];

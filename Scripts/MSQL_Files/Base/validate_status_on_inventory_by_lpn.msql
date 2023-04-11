@@ -1,0 +1,20 @@
+/*
+MSQL File: validate_status_on_inventory_by_lpn.msql
+Description: This MSQL script validates that a specific inventory status is tied to inventory on a specific load number (lpn)
+   MOCA environment variables for lodnum, validate_invsts, and wh_id must be provided for the query to return results
+*/
+
+publish data
+ where lodnum = $lodnum
+   and validate_invsts = $validate_invsts
+   and wh_id = $wh_id
+|
+[select distinct 1
+   from dscmst,
+        inventory_view
+  where dscmst.lngdsc = @validate_invsts
+    and dscmst.colnam = 'invsts'
+    and dscmst.locale_id = 'US_ENGLISH'
+    and inventory_view.lodnum = @lodnum
+    and inventory_view.invsts = dscmst.colval
+    and inventory_view.wh_id = @wh_id]

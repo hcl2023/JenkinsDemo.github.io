@@ -1,0 +1,2 @@
+ordnum,ship_id,adr_id,cstnum,carcod,srvlvl,ordtyp,prtnum,untqty,invsts_prg,wave_num,move_id,car_move_id,trlr_id,trlr_num,dock,dock_door,oprcod,cancel_pick_flat,bckflg,short_pick_flag,create_order,pck_dstloc
+OR_PCK0100,SH_PCKl100,AD_PCK0100,CT_PCK0100,CYCCAR1,TL,C,C_DR_PRT12,100,A,WV_PCKl100,MV_PCKl100,MV_PCKl100,TR_PCKl100,TR_PCKl100,CYC_SDCK_100,CYC_SDCK_100,LPCK,FALSE,1,FALSE,no,RDT001

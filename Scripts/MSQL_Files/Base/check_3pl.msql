@@ -1,0 +1,11 @@
+/*
+MSQL File: check_3pl.msql
+Description: This MSQL determines if 3pl is installed
+*/
+
+publish data
+ where wh_id = $wh_id
+|
+get installed configuration
+ where config = 'THIRD-PARTY-LOGISTICS'
+   and wh_id = @wh_id

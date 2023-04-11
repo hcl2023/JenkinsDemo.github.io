@@ -1,0 +1,11 @@
+/*
+MSQL File: get_trailer_id_from_trailer_number.msql
+Description: This MSQL gets the trlr_id from trlr_num
+*/
+
+publish data
+ where trlr_num = $trlr_num
+|
+[select trlr_id
+   from trlr
+  where trlr_num = @trlr_num]

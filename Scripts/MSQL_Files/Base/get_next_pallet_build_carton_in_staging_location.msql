@@ -1,0 +1,34 @@
+/* 
+MSQL File: get_next_pallet_build_carton_in_staging_location.msql
+Description: This MSQL script gets the next carton in a pallet build staging location for pallet building scenarios.
+   This query requires a MOCA environment variables for wh_id and pb_stage_loc to be provided in order to return results
+*/
+
+publish data
+ where pb_stage_loc = $pb_stage_loc
+   and wh_id = $wh_id
+|
+[select subnum,
+        wh_id,
+        stoloc
+   from inventory_view i
+  where stoloc = @pb_stage_loc
+    and wh_id = @wh_id
+    and rownum < 2
+  order by mod(to_char(lstmov, 'ss'), to_char(sysdate, 'ss') + 1)]
+|
+[select pndloc,
+        @subnum subnum
+   from nxtloc_view
+  where subnum = @subnum
+    and rownum < 2]
+|
+validate rf identifier for pallet build
+ where invtid = @subnum
+   and wh_id = @wh_id
+   and stoloc = @stoloc
+|
+publish data
+ where pndloc = @pndloc
+   and subnum = @subnum
+   and consolidate_val = @plt_bld_consol_by_val_list

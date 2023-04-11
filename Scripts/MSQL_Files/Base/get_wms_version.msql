@@ -1,0 +1,19 @@
+/*
+MSQL File: get_wms_version.msql
+Description: This MSQL script will extract the WMS version number
+*/
+
+{
+    list library version
+    |
+    if (@version and @product = 'dcs')
+    {
+        publish data
+         where wms_version = @version
+    }
+    else noop
+} >> res
+|
+publish top rows
+ where res = @res
+   and count = 1

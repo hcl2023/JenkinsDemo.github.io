@@ -1,0 +1,13 @@
+/*
+MSQL File: check_lot.msql
+Description: This MSQL determines if part is lot enabled
+*/
+
+publish data
+ where wh_id = $wh_id
+   and prtnum = $prtnum
+|
+[select distinct lotflg
+   from prtmst_view
+  where wh_id = @wh_id
+    and prtnum = @prtnum]

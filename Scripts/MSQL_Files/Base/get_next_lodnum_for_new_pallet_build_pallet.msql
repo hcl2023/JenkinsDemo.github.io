@@ -1,0 +1,7 @@
+/*
+MSQL File: get_next_lodnum_for_new_pallet_build_pallet.msql
+Description: This MSQL script is used to get the next lodnum for a new pallet build pallet.
+*/
+
+generate next number
+ where numcod = 'lodnum'

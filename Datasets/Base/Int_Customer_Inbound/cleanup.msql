@@ -1,0 +1,15 @@
+publish data
+ where wh_id = $wh_id
+    and client_id = $client_id
+    and prt_client_id = $prt_client_id
+    and devcod = $devcod
+    and cstnum = $cstnum
+    and host_ext_id = $host_ext_id
+|
+remove customer
+ where client_id = @client_id
+   and cstnum = @cstnum catch(@?);
+remove address
+ where host_ext_id = @host_ext_id
+   and client_id = @client_id catch(@?)
+

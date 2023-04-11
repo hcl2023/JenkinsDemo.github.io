@@ -1,0 +1,71 @@
+/*
+  Dataset: Inv_Add_Hold
+  Description: This dataset will be used to load data for Web Inventory Hold
+     hold_mode = 1 is for adding holds and will only create inventory
+     hold_mode = 0 is for releasing holds and will vcreate inventory and a hold record
+*/
+publish data
+    where wh_id = $wh_id
+      and client_id = $client_id
+      and prt_client_id = $prt_client_id
+      and devcod = $devcod
+	  and prtnum = $prtnum
+      and stoloc = $stoloc
+      and lodnum = $lodnum
+      and reacod = $reacod
+      and lodnum = $lodnum
+      and actcod = $actcod
+      and invsts = $invsts
+      and ftpcod = $ftpcod
+      and untqty = $untqty
+      and lotnum = $lotnum
+      and catch_qty = $catch_qty
+      and hold_mode = $hold_mode
+      and hldnum = $hldnum
+|
+if (@lodnum is null) {
+    generate next number where numcod = 'lodnum'
+	|
+	publish data where lodnum = @nxtnum
+} else {
+    publish data where lodnum = @lodnum
+}
+|
+create inventory
+ where srcloc = 'PERM-ADJ-LOC'
+   and asset_typ = ''
+   and wh_id = @wh_id
+   and devcod = @devcod
+   and reacod = @reacod
+   and adj_ref2 = ''
+   and adj_ref1 = ''
+   and prtnum = @prtnum
+   and prt_client_id = @prt_client_id
+   and client_id = @client_id
+   and untcas = '1'
+   and untpak = '1'
+   and actcod = @actcod
+   and invsts = @invsts
+   and ftpcod = @ftpcod
+   and lodnum = @lodnum
+   and dstloc = @stoloc
+   and untqty = @untqty
+   and lotnum = nvl(@lotnum, '----')
+   and catch_qty = @catch_qty
+|
+if (@hold_mode = 0)
+{
+    [select dtlnum as hld_dtlnum
+       from inventory_view
+      where lodnum = nvl(@lodnum, @dstlod)
+        and wh_id = @wh_id]
+    |
+    process inventory hold change
+     where dtlnum_list = @hld_dtlnum
+       and prc_hldpfx = @wh_id
+       and prc_hldnum = @hldnum
+       and prc_reacod = @reacod
+       and acttyp = 'A'
+       and to_invsts_list = @invsts
+       and wh_id = @wh_id
+}

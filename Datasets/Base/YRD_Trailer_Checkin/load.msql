@@ -1,0 +1,86 @@
+/*
+Dataset Name: YRD_Trailer_Checkin/load.msql
+Description: Loads the data needed for trailer checking test case.
+*/
+
+publish data
+  where trknum = $trlr_num
+    and host_wh_id = $wh_id
+    and client_id = $client_id
+    and carcod = ''
+    and invnum = $trlr_num
+    and supnum = $supnum
+    and invtyp = 'P'
+    and locale_id = 'US_ENGLISH'
+    and rec_loc = $rec_loc
+    and trlr_num = $trlr_num
+    and expqty = $expqty
+    and prtnum = $prtnum
+    and rcvsts = $rcvsts
+|
+[select count(1) trlrcnt 
+   from trlr
+  where trlr_num =  @trlr_num
+    and trlr_stat <> 'D'
+    and carcod is null
+    and stoloc_wh_id = @wh_id]
+|
+publish data
+  where trntyp = decode(@trlrcnt, 0, 'A', 'R')
+|
+if (@trknum != '')
+{
+    if (@trntyp = 'R' or @trntyp = 'C')
+    {
+        [update rcvlin
+            set edtflg = 0
+          where trknum = @trknum
+            and wh_id = @wh_id] catch(-1403)
+        |
+        preprocess host receipt asn
+         where trntyp = @trntyp
+           and trknum = @trknum
+           and wh_id = @host_wh_id
+    }
+}
+|
+[select dscmst.short_dsc,
+        dscmst.lngdsc,
+        aremst.*
+   from dscmst,
+        aremst,
+        loc_typ
+  where aremst.arecod || '|' || aremst.wh_id = dscmst.colval
+    and dscmst.colnam = 'arecod|wh_id'
+    and dscmst.locale_id = nvl(NULL, @locale_id)
+	and aremst.wh_id = loc_typ.wh_id
+    and aremst.wh_id = nvl(NULL, @host_wh_id)
+    and aremst.arecod = loc_typ.loc_typ
+    and expflg = 1
+    and wip_expflg = 0
+  order by nvl(dscmst.lngdsc, aremst.arecod)]
+|
+process host receipt trailer
+  where trntyp = @trntyp
+    and trlr_num = @trknum
+    and trlr_cod = 'RCV'
+    and trlr_typ = 'TRCK'
+    and stoloc_wh_id = @host_wh_id
+|
+Process Host Receipt Truck
+  where wh_id = @host_wh_id
+|
+Process Host Receipt Invoice
+  where dummyWhere = 1
+|
+{
+Process Host Receipt Line
+ where supnum = @supnum
+   and invnum_lin = '0001'
+   and invlin = '0001'
+   and invsln = '0001'
+   and expqty = @expqty
+   and prtnum = @prtnum
+   and rcvsts = @rcvsts
+   and invsts = @rcvsts;
+}

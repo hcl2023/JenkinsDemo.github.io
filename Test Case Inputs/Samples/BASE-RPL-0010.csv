@@ -1,0 +1,2 @@
+oprcod,vehtyp,ordnum,ship_id,adr_id,cstnum,carcod,srvlvl,ordtyp,prtnum,untqty,invsts_prg,wave_num,move_id,trlr_id,dock,pallod,palqty,palloc,adjrea,adjact
+PRP,PALRPL,O_CYC_PR_RPL0010,S_CYC_PR_RPL0010,A_CYC_PR_RPL0010,C_CYC_PR_RPL0010,CYCCAR1,TL,C,C_PR_PRT12,1,A,W_CYC_PR_RPL0010,M_PR_0010,T_CYC_PR_RPL0010,CYC_SDCK_084,CYC_PR_LPN_0010,100,CYC_PR_PAL2,ADJ-ACCEPT,INVADJ-CYC

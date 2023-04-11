@@ -1,0 +1,16 @@
+/* 
+MSQL File: get_uom_from_prtnum.msql
+Description: This MOCA script gets stkuom from prtnum 
+*/
+
+publish data
+  where wh_id = $wh_id
+    and prtnum = $prtnum
+|
+[select stkuom
+   from prtmst
+  where prtnum = @prtnum
+    and wh_id_tmpl = @wh_id]
+|
+publish data
+  where stkuom = @stkuom

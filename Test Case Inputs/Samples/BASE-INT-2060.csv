@@ -1,0 +1,2 @@
+bomnum,system,tran_name,pre_validation,post_validation,detail_file_name
+BOMCYCLE01,HOST,BOM_INB_IFD,Check Integrator BOM Download,Check Integrator BOM Download,BASE-INT-2060-01.csv

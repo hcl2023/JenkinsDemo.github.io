@@ -1,0 +1,13 @@
+/*
+MSQL File: check_load_deleted.msql
+Description: This MSQL checks if the load/carrier move was deleted
+*/
+
+publish data
+ where move_id = $move_id
+   and wh_id = $wh_id
+   and client_id = $client_id
+|
+[select distinct car_move_id
+   from car_move
+  where car_move_id = @move_id];

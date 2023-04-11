@@ -1,0 +1,16 @@
+/*
+MSQL File: get_cycle_count_next_item_and_client_from_location.msql
+Descriptions: This MSQL script gets the next item and client_id to count for a given 
+   count batch, storage locaiton, and wh_id. MOCA environment variables for cntbat, 
+   stoloc, and wh_id must be provided for this query to return results
+*/
+
+publish data
+ where cntbat = $cntbat
+   and stoloc = $stoloc
+   and wh_id = $wh_id
+|
+get next cycle count
+ where cntbat = @cntbat
+   and stoloc = @stoloc
+   and wh_id = @wh_id

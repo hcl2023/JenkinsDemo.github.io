@@ -1,0 +1,21 @@
+/*
+MSQL File: get_adj_dtlnum_from_lodnum.msql
+Description: This MSQL gets the adjustment detail record for the load
+*/
+
+publish data
+ where stoloc = $stoloc
+   and lodnum = $lodnum
+   and prtnum = $prtnum
+   and check_adjqty = $check_adjqty
+   and wh_id = $wh_id
+   and client_id = $client_id
+|
+[select dtlnum
+   from rf_invadj
+  where stoloc = rtrim(ltrim(@stoloc))
+    and lodnum = rtrim(ltrim(@lodnum))
+    and prtnum = rtrim(ltrim(@prtnum))
+    and scanned_qty = rtrim(ltrim(@check_adjqty))
+    and wh_id = @wh_id
+    and prt_client_id = @client_id]

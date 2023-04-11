@@ -1,0 +1,17 @@
+Playlist: 
+
+Resources: ../..
+
+Working Directory: 
+
+Namespaces: 
+
+FailFast: NONE
+
+Items:
+Feature: ../../Test Cases/Base/Outbound/BASE-LDG-0010 Terminal Outbound Loading LTL Directed.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-LDG-0020 Terminal Outbound Loading LTL Undirected.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-LDG-0030 Terminal Outbound Loading TL Directed.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-LDG-0040 Terminal Outbound Loading TL Undirected.feature
+Feature: ../../Test Cases/Base/Yard/BASE-LDG-1010 Web Outbound Trailer Load.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-LDG-5000 Flow Outbound Audit.feature

@@ -1,0 +1,15 @@
+/*
+MSQL File: validate_audit_work_generated.msql
+Description: This MSQL validates that audit work is created 
+*/
+
+publish data
+ where srcloc = $srcloc
+   and wh_id = $wh_id
+|
+[select 'x'
+   from cntwrk
+  where stoloc = ltrim(rtrim(@srcloc))
+    and cnttyp = 'A'
+    and cntsts = 'R'
+    and wh_id = @wh_id]

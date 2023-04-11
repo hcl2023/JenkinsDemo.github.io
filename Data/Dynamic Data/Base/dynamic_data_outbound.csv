@@ -1,0 +1,2 @@
+value,instruction_type,instruction,where_clause,order_by_clause,return_fields,retry_value,comment
+?ordnum:ORD_datetime,MSQL,dynamic data/publish_data.msql,"ordnum = 'ORD_' || to_char( sysdate,'YYYYMMDDHH24MISS')",ordnum,ordnum,,Returns an order number with format ORD_datetime

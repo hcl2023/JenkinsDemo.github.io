@@ -1,0 +1,4 @@
+trntyp,transaction_file_name,field_to_validate_change,table_to_validate_change
+A,SUPP_INB_IFD_Add.xml,,
+C,SUPP_INB_IFD_Update.xml,adrnam,adrmst
+D,SUPP_INB_IFD_Delete.xml,,

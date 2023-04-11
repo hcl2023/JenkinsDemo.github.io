@@ -1,0 +1,33 @@
+/*
+Dataset Name: Create_Ship_and_Trailer
+Description: This dataset will be used to Create Shipment and Transport Equipment
+*/
+publish data
+ where wh_id = $wh_id
+   and client_id = $client_id
+   and prt_client_id = $prt_client_id
+   and devcod = $devcod
+   and trknum = $trknum
+   and exp_arecod = $exp_arecod
+   and trlr_num = $trlr_num
+   and trlr_cod = $trlr_cod
+   and trlr_typ = $trlr_typ
+   and trlrcnt = $trlrcnt
+|
+{
+    process host receipt trailer
+     where trntyp = decode(@trlrcnt, 0, 'A', 'R')
+       and trlr_num = @trlr_num
+       and trlr_cod = @trlr_cod
+       and trlr_typ = @trlr_typ
+       and stoloc_wh_id = @wh_id;
+	   
+    create receive truck
+     where trknum = @trknum
+       and wh_id = @wh_id
+       and stoloc = null
+       and trlr_num = ''
+       and shpdte = null
+       and rec_loc = ''
+       and exp_arecod = @exp_arecod
+}

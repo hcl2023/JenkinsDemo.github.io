@@ -1,0 +1,13 @@
+Playlist: 
+
+Resources: ..
+
+Working Directory: 
+
+Namespaces: 
+
+FailFast: ALL_TESTS
+
+Items:
+Feature: Custom\BASE-API-8020 API Purchase Order.feature
+Feature: Custom\BASE-RCV-1070 Web Inbound Create Inbound Shipment.feature

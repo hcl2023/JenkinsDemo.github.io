@@ -1,0 +1,15 @@
+/*
+MSQL File: get_schbat_for_shipment.msql
+Description: This MSQL gets the schbat for a shipment
+*/
+
+publish data
+ where ordnum = $ordnum
+   and wh_id = $wh_id
+   and client_id = $client_id
+|
+[select distinct schbat schbat1
+   from shipment_line
+  where ordnum = @ordnum
+    and wh_id = @wh_id
+    and client_id = @client_id]

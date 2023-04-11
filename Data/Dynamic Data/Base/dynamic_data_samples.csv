@@ -1,0 +1,3 @@
+value,instruction_type,instruction,where_clause,order_by_clause,return_fields,retry_value,comment
+?sample_value,Scenario,Use Value from Where Clause,,,value, ,Returns the value found in a matching cycle variable (used if a test case input data value starts with ?)
+?ordnum:sample_csv,Scenario,Get Value from CSV for Dynamic Data,data/Samples/sequence_from_file.csv,,next_csv_value, ,Returns the next value from the sequence_from_file.csv file

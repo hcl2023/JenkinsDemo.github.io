@@ -1,0 +1,42 @@
+/*
+MSQL File: get_cycle_count_next_location_in_count_batch.msql
+Description: This MSQL script is used by cycle count scenarios to get the next count location in a count batch.
+   The query considers the test user ID and ensures configuration requiring different users to perform 1st and 2nd counts is honored.
+   MOCA environment variables for wh_id, cntbat, and username need to be provided for this query to return results
+*/
+
+publish data
+ where cntbat = $cntbat
+   and username = $username
+   and wh_id = $wh_id
+|
+[select locmst.stoloc
+   from cntwrk
+   join locmst
+     on cntwrk.stoloc = locmst.stoloc
+    and cntwrk.wh_id = locmst.wh_id
+   join cnttyp
+     on cntwrk.cnttyp = cnttyp.cnttyp
+   left
+   join cntzon
+     on cntzon.cnt_zone_id = locmst.cnt_zone_id
+  where cntwrk.cntsts = 'R'
+    and cntwrk.wh_id = @wh_id
+    and cntwrk.cntbat = @cntbat
+    and cntwrk.stoloc not in (select stoloc
+                            from cntwrk c2
+                            join cnttyp ct1
+                              on ct1.cnttyp = c2.cnttyp
+                            join cnttyp ct2
+                              on ct2.cnttyp = cntwrk.cnttyp
+                           where c2.cnt_usr_id = @username 
+                                 and c2.cntbat = cntwrk.cntbat
+                                 and c2.wh_id = cntwrk.wh_id
+                                 and (c2.cnttyp = cntwrk.cnttyp or (ct2.diff_usr_flg = 1 and cntwrk.cnttyp = ct1.nxt_cnttyp)))
+    and cnttyp.oprcod in (select oprcod
+                        from usropr
+                       where usr_id = @username
+                         and wh_id = @wh_id) 
+    and rownum = 1
+  order by to_number(nvl(locmst.cntseq, 0)),
+         nvl(locmst.trvseq, '0')]

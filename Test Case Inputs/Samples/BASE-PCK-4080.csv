@@ -1,0 +1,3 @@
+ordnum,ship_id,adr_id,cstnum,carcod,srvlvl,ordtyp,prtnum,untqty,invsts_prg,wave_num,move_id,trlr_id,dock,pck_dstloc,pck_lodnum,unpick_to_lodnum,unpick_partial,unpick_qty,cancod,putaway_method,dep_loc,validate_loc
+OR_PCK4080,SH_PCK4080,AD_PCK4080,CT_PCK4080,CYCCAR1,TL,C,C_DR_PRT12,2,A,WV_PCK4080,MV_PCK4080,TR_PCK4080,CYC_SDCK_016,LBSRDT,PL_PCK4080,UL_PCK4080,N,1,C-RA,3,QA_HOLD,,
+OR_PCK4080,SH_PCK4080,AD_PCK4080,CT_PCK4080,CYCCAR1,TL,C,C_DR_PRT12,2,A,WV_PCK4080,MV_PCK4080,TR_PCK4080,CYC_SDCK_016,LBSRDT,PL_PCK4080,UL_PCK4080,Y,1,C-RA,3,QA_HOLD,,

@@ -1,0 +1,12 @@
+/*
+   MSQL File: validate_wave_unplan.msql
+   Description: This MSQL validates wave unplan is successful.
+ */
+publish data
+ where wh_id = $wh_id
+   and schbat = $schbat
+|
+[select 'x'
+   from pckbat
+  where schbat = @schbat
+    and wh_id = @wh_id]

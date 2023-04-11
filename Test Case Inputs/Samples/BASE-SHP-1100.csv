@@ -1,0 +1,2 @@
+ordnum,ship_id,adr_id,ui_move_id,cstnum,carcod,srvlvl,ordtyp,prtnum,untqty,invsts_prg
+CYC_OBORD1110,CYC_OBSHP1110,CYC_OBADR1110,CYCOBMOV11,CYC_OBCST1110,CYCCAR1,TL,C,C_DR_PRT12,1,A

@@ -1,0 +1,18 @@
+/* 
+MSQL File: check_count_audit_generated.msql
+Description: This MSQL checks for a audit count relative to cntbat, stoloc and prtnum
+*/
+
+publish data
+ where prtnum = $prtnum
+   and wh_id = $wh_id
+   and cntbat = $cntbat
+   and stoloc = $stoloc
+|
+[select distinct 1
+   from cntwrk
+  where prtnum = @prtnum
+	and stoloc = @stoloc
+    and wh_id = @wh_id
+    and cntbat = @cntbat
+	and cnttyp = 'A'];

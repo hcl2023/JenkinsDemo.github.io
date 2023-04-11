@@ -1,0 +1,2 @@
+ordnum,ship_id,adr_id,cstnum,carcod,srvlvl,ordtyp,prtnum,untqty,invsts_prg,wave_num,move_id,trlr_id,dock_door,seal_num1,seal_num2,seal_num3,seal_num4
+SHPORD4010,SHPSHP4010,AS_4010_ADR04,AS_4010_CST04,CYCCAR1,TL,C,SOAP-55,10,A,SHPWAV4010,SHPCMV4010,SHPTRL4010,CYC_SDCK_076,SEAL-A,SEAL-B,SEAL-C,SEAL-D

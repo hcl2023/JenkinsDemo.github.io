@@ -1,0 +1,15 @@
+/*
+MSQL File: validate_triggered_replenishment_generated.msql
+Description: This MSQL will check for triggered replenishment relative to location and prtnum
+*/
+
+publish data
+ where wh_id = $wh_id
+   and stoloc = $stoloc
+   and prtnum = $prtnum
+|
+[select 'x'
+   from pckwrk_view
+  where wrktyp = 'G'
+    and prtnum = @prtnum
+    and dstloc = @stoloc]

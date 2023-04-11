@@ -1,0 +1,32 @@
+/*
+MSQL File: check_integrator_supplier_download.msql
+Description: This MSQL checks supplier download records for all trntyps
+*/
+
+publish data
+ where trntyp = $trntyp
+   and supnum = $supnum
+   and query_str = $table_to_validate_change || '.' || $field_to_validate_change
+   and client_id = $client_id
+|
+if (@trntyp and (@trntyp = 'A' or @trntyp = 'D'))
+{
+    [select distinct 'x'
+       from supmst
+      where supnum = @supnum
+        and client_id = @client_id]
+}
+else if (@trntyp and @trntyp = 'C')
+{
+    [select @query_str:raw
+       from supmst,
+            adrmst
+      where adrmst.host_ext_id = @supnum
+        and adrmst.client_id = @client_id
+        and supmst.supnum = adrmst.host_ext_id]
+}
+else
+{
+    set return status
+     where status = 510
+}

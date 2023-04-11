@@ -1,0 +1,33 @@
+variable,value,
+wh_id,<WAREHOUSE ID>,
+src_wh_id,<WAREHOUSE ID>,
+client_id,<CLIENT ID>,
+devcod,<TERMINAL DEVICE CODE>,
+start_loc,<TERMINAL STARTING LOCATION>,
+mobile_devcod,<MOBILE DEVICE CODE>,
+mobile_start_loc,<MOBILE STARTING LOCATION>,
+vehtyp,<VEHICLE TYPE>,
+recovery_deploc,<RECOVERY DEPOSIT LOCATION>,
+moca_server_connection,<MOCA SERVER INSTANCE CONNECTION - SETUP IN CYCLE'S "Project Settings/Connections”>,
+moca_credentials,<MOCA USERNAME and PASSWORD CREDENTIAL - SETUP IN CYCLE'S "Project Settings/Credentials”>,
+terminal_credentials,<TERMINAL USERNAME and PASSWORD CREDENTIAL - SETUP IN CYCLE'S "Project Settings/Credentials”>,
+username,<USER ID FOR WEB>,
+web_credentials,<WEB USERNAME and PASSWORD CREDENTIAL - SETUP IN CYCLE'S "Project Settings/Credentials”>,
+mobile_credentials,<MOBILE USERNAME and PASSWORD CREDENTIAL - SETUP IN CYCLE'S "Project Settings/Credentials”>,
+ui_credentials,<NATIVE UI USERNAME and PASSWORD CREDENTIAL - SETUP IN CYCLE'S "Project Settings/Credentials”>,
+browser,<BROWSER TO USE>,
+server,<WMS MOCA SERVICE CONNECTION STRING>,
+terminal_server,<WMS TERMINAL SERVICE ADDRESS - <SERVER NAME>:<PORT>,
+terminal_protocol,<WMS TERMINAL PROTOCOL>,
+ssh_username,<SSH USERNAME>,
+ssh_password,<SSH PASSWORD>,
+web_ui,<URL FOR WMS WEB PORTAL>,
+mobile_ui,<URL FOR WMS MOBILE PORTAL>,
+ui_path,<WMS_CLIENT_UI_PATH>,
+wms_inbound_directory,$LESDIR/files/hostin,
+api_base_url,<BASE URL FOR WEB API - Usually the same host and port as SERVER but without the /service suffix>
+api_username,<USER ID FOR API>
+api_password,<PASSWORD FOR API>
+api_preference,<PUBLIC OR PRIVATE API PREFERENCE - Only if the same operation can be achieved using both public and private APIs - we can use this parameter to determine which implementation to use>
+api_version,<API VERSION - Default is v1beta>
+api_tracing,<ENABLE SERVER-SIDE TRACING FOR BLUE YONDER API REQUESTS - true OR false>

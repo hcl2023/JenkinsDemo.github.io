@@ -1,0 +1,4 @@
+trntyp,transaction_file_name,field_to_validate_change
+A,RCPT_INB_IFD_ASN_ADD.xml,
+C,RCPT_INB_IFD_ASN_CHANGE.xml,sadnum
+D,RCPT_INB_IFD_ASN_DELETE.xml,

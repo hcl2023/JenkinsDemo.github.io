@@ -1,0 +1,15 @@
+/*
+MSQL File: check_count_history_after_count.msql
+Description: This MSQL checks count history after a count relative to cntbat)
+*/
+
+publish data
+ where stoloc = $stoloc
+   and wh_id = $wh_id
+   and uc_cnt_id = $cnt_id
+|
+[select distinct 1
+   from cnthst
+  where stoloc = @stoloc
+    and wh_id = @wh_id
+    and cntbat = @uc_cnt_id]

@@ -1,0 +1,4 @@
+trlr_num,inv_num,yard_loc,invtyp,prtnum,rcvsts,expqty,supnum,rec_loc,uomcod,ftpcod,untqty,lodnum,invsts,dep_loc,allocate,override,over_code,over_dep_loc,actcod,trlr_option,turnaround_carrier,turnaround_location,carcod
+TRLR_1140,INV_1140,RDCK-017,P,SOAP-10,A,1,DEFSUP,RCVSTG-001,CS,50-10,1,CYC-PUT-1140,A,CYC_EA_LOC04,FALSE,FALSE,,CYC_EA_LOC04,PUT_DRCT,leave_at_door,CYCCAR1,YARD-001,CYCCAR1
+TRLR_1140,INV_1140,RDCK-017,P,SOAP-10,A,1,DEFSUP,RCVSTG-001,CS,50-10,1,CYC-PUT-1140,A,CYC_EA_LOC04,FALSE,FALSE,,CYC_EA_LOC04,PUT_DRCT,dispatch,CYCCAR1,YARD-001,CYCCAR1
+TRLR_1140,INV_1140,RDCK-017,P,SOAP-10,A,1,DEFSUP,RCVSTG-001,CS,50-10,1,CYC-PUT-1140,A,CYC_EA_LOC04,FALSE,FALSE,,CYC_EA_LOC04,PUT_DRCT,turnaround,CYCCAR1,YARD-001,CYCCAR1

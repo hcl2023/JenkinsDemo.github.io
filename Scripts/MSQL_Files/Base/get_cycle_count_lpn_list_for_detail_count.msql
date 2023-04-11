@@ -1,0 +1,52 @@
+/*
+MSQL File: get_cycle_count_lpn_list_for_detail_count.msql
+Descriptions: This MSQL script gets the list of LPNS with part numbers and quantities to count for detail 
+   cycle counting based on location, warehouse, and count batch. This query returns the lpns to be counted
+   in the location for a successful cycle count where the counted inventory matches what is expected to be counted.
+   MOCA environment variables for cntbat, stoloc, and wh_id are required for the query to return result
+*/
+
+publish data
+ where cntbat = $cntbat
+   and stoloc = $stoloc
+   and wh_id = $wh_id
+|
+[select distinct invlod.lodnum
+   from cntwrk
+   join invlod
+     on cntwrk.stoloc = invlod.stoloc 
+    and cntwrk.wh_id = invlod.wh_id
+  where cntwrk.cntbat = @cntbat
+    and cntwrk.stoloc = @stoloc
+    and cntwrk.wh_id = @wh_id]
+|
+
+[select invdtl.prtnum,
+         invdtl.prt_client_id,
+         invdtl.ftpcod,
+         sum(invdtl.untqty) untqty 
+   from invlod 
+   join invsub 
+     on invsub.lodnum = invlod.lodnum
+   join invdtl
+     on invdtl.subnum = invsub.subnum 
+  where invlod.stoloc = @stoloc
+    and invlod.lodnum = @lodnum
+    and invlod.wh_id = @wh_id 
+  group by invdtl.prtnum,invdtl.prt_client_id,
+         invdtl.ftpcod]
+|
+
+[select count(*) numUOMs
+   from prtftp_dtl
+  where wh_id = @wh_id
+    and prtnum = @prtnum
+    and prt_client_id = @prt_client_id 
+    and ftpcod = @ftpcod] 
+|
+publish data
+ where lodnum = @lodnum
+   and prtnum = @prtnum
+   and prt_client_id = @prt_client_id
+   and untqty = @untqty
+   and numUOMs = @numUOMs 

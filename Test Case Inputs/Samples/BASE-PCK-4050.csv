@@ -1,0 +1,2 @@
+ordnum,ship_id,adr_id,cstnum,carcod,srvlvl,ordtyp,prtnum,untqty,invsts_prg,wave_num,move_id,trlr_id,dock,oprcod,cancel_pick_flag,cancel_code,bckflg
+OR_PCK4050,SH_PCK4050,AD_PCK4050,CT_PCK4050,CYCCAR1,TL,C,C_DR_PRT12,100,A,WV_PCK4050,MV_PCK4050,TR_PCK4050,CYC_SDCK_048,LPCK,TRUE,C-RA,0

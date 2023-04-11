@@ -1,0 +1,17 @@
+/*
+MSQL File: get_pick_totals_for_order.msql
+Description: This MSQL will get the number of picks
+             and the total unit quantity of picks for an order
+*/
+ 
+publish data
+ where wh_id = $wh_id
+   and client_id = nvl($client_id, '----')
+   and ordnum = $ordnum
+|
+[select count('x') pick_count,
+        sum(pckqty) pick_unit_count
+   from pckwrk_view
+  where wh_id = @wh_id
+    and client_id = @client_id 
+    and ordnum = @ordnum]

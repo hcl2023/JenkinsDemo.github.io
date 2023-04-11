@@ -1,0 +1,95 @@
+/*
+MSQL File: get_inventory_details_for_manual_count.msql
+Description: This MSQL is used to get the inventory details for a location to perform manual counts. 
+   This script requires MOCA environment variables to be set for wh_id, stoloc, man_cnt_mode.
+*/
+
+publish data
+ where stoloc = $stoloc
+   and wh_id = $wh_id
+   and man_cnt_mode = $man_cnt_mode
+|
+if (@man_cnt_mode = 'LOAD')
+{
+    [select count(distinct lodnum) inv_count
+       from inventory_view
+      where stoloc = @stoloc
+        and wh_id = @wh_id]
+    |
+    [select lodnum invtid,
+            sum(untqty) untqty,
+            prtnum,
+            prt_client_id,
+            ftpcod
+       from inventory_view
+      where stoloc = @stoloc
+        and wh_id = @wh_id
+      group by lodnum,
+            prtnum,
+            prt_client_id,
+            ftpcod]
+    |
+    publish data
+     where inv_count = @inv_count
+       and invtid = @invtid
+       and prtnum = @prtnum
+       and untqty = @untqty
+       and prt_client_id = @prt_client_id
+       and ftpcod = @ftpcod
+}
+else if (@man_cnt_mode = 'SUB')
+{
+    [select count(distinct subnum) inv_count
+       from inventory_view
+      where stoloc = @stoloc
+        and wh_id = @wh_id]
+    |
+    [select subnum invtid,
+            sum(untqty) untqty,
+            prtnum,
+            prt_client_id,
+            ftpcod
+       from inventory_view
+      where stoloc = @stoloc
+        and wh_id = @wh_id
+      group by subnum,
+            prtnum,
+            prt_client_id,
+            ftpcod]
+    |
+    publish data
+     where inv_count = @inv_count
+       and invtid = @invtid
+       and prtnum = @prtnum
+       and untqty = @untqty
+       and prt_client_id = @prt_client_id
+       and ftpcod = @ftpcod
+}
+else if (@man_cnt_mode = 'DETAIL')
+{
+    [select count(distinct dtlnum) inv_count
+       from inventory_view
+      where stoloc = @stoloc
+        and wh_id = @wh_id]
+    |
+    [select dtlnum invtid,
+            sum(untqty) untqty,
+            prtnum,
+            prt_client_id,
+            ftpcod
+       from inventory_view
+      where stoloc = @stoloc
+        and wh_id = @wh_id
+      group by dtlnum,
+            prtnum,
+            prt_client_id,
+            ftpcod]
+    |
+    publish data
+     where inv_count = @inv_count
+       and invtid = @invtid
+       and prtnum = @prtnum
+       and untqty = @untqty
+       and prt_client_id = @prt_client_id
+       and ftpcod = @ftpcod
+}

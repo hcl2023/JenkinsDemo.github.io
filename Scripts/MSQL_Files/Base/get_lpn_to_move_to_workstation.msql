@@ -1,0 +1,31 @@
+/*
+MSQL File: get_lpn_to_move_to_workstation.msql
+Description: This MOCA script gets the source lpn to move to a workstation process a work order.
+   MOCA environment variables for wkonum, wkorev, client_id, and wh_id must be provided for this query to return results 
+*/
+
+publish data
+ where wkonum = $wkonum
+   and wkorev = $wkorev
+   and client_id = $client_id
+   and wh_id = $wh_id
+|
+get work order processing location
+|
+list inventory for work order unpick
+ where
+[locmst.stoloc != @prcloc]
+|
+hide stack variable
+ where name = 'mov_zone_id'
+|
+list inventory
+ where dtlnum = @dtlnum
+|
+publish data
+ where srcloc = @stoloc
+   and dstloc = @prcloc
+   and lodnum = @lodnum
+   and prtnum = @prtnum
+   and client_id = @client_id
+   and ftpcod = @ftpcod 

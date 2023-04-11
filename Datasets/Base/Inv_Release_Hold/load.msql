@@ -1,0 +1,64 @@
+/*
+ * This dataset will be to create inventory and a hold record
+ */
+publish data
+  where wh_id = $wh_id
+    and client_id = $client_id
+    and prt_client_id = $prt_client_id
+    and devcod = $devcod
+    and lodnum = $lodnum
+    and reacod = $reacod
+    and prtnum = $prtnum
+    and actcod = $actcod
+    and invsts = $invsts
+    and ftpcod = $ftpcod
+    and stoloc = $stoloc
+    and untqty = $untqty
+    and lotnum = $lotnum
+    and catch_qty = $catch_qty
+    and hldnum = $hldnum
+    and username = $username
+|
+if (@lodnum is null or @lodnum = '')
+{
+    generate next number
+     where numcod = 'lodnum'
+    |
+    publish data
+     where lodnum = @nxtnum
+}
+else
+{
+    publish data
+     where lodnum = @lodnum
+}
+|
+create inventory
+ where srcloc = 'PERM-ADJ-LOC'
+   and asset_typ = ''
+   and wh_id = @wh_id
+   and devcod = @devcod
+   and reacod = @reacod
+   and adj_ref2 = ''
+   and adj_ref1 = ''
+   and prtnum = @prtnum
+   and prt_client_id = @prt_client_id
+   and client_id = @client_id
+   and untcas = '1'
+   and untpak = '1'
+   and actcod = @actcod
+   and invsts = @invsts
+   and ftpcod = @ftpcod
+   and lodnum = @lodnum
+   and dstloc = @stoloc
+   and untqty = @untqty
+   and lotnum = nvl(@lotnum, '----')
+   and catch_qty = @catch_qty
+|
+[insert
+   into invhld(hldpfx, hldnum, wh_id, dtlnum, reacod, hlddte, hld_usr_id)
+ values (@wh_id, @hldnum, @wh_id, @dtlnum, '', sysdate, @username)]
+|
+[update invdtl
+    set hld_flg = 1
+  where dtlnum = @dtlnum];

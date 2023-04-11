@@ -1,0 +1,40 @@
+/* 
+MSQL File: get_replen_directed_work_by_work_reference_and_operation.msql
+Description: This MSQL script is used by the replenishment picking scenarios to look for pending picks 
+   that are either not assigned to a user or assigned to the current user by using work reference and 
+   operation code.
+   This script assigns the work to the testing user and ensures no other work is assigned to the user.
+   MOCA environment variables for oprcod, username, wh_id, and wrkref are required for this script to function
+*/
+
+publish data
+ where oprcod = $oprcod
+   and username = $username
+   and wh_id = $wh_id
+   and wrkref = $wrkref
+|
+[select w.reqnum,
+        w.wrkref,
+        w.wh_id
+   from wrkque w
+   join pckwrk_view pv
+     on pv.wh_id = w.wh_id
+    and pv.wrkref = w.wrkref
+  where w.oprcod = @oprcod
+    and (w.ack_usr_id is null or w.ack_usr_id = @username)
+    and (w.asg_usr_id is null or w.asg_usr_id = @username)
+    and (wrksts = 'PEND' or wrksts = 'WAIT')
+    and pv.wrkref = @wrkref
+    and rownum < 2]
+|
+[update wrkque
+    set asg_usr_id = @username
+  where reqnum = @reqnum
+    and wh_id = @wh_id]
+|
+/*Now we make sure there are no other work assignments for the user*/
+[update wrkque
+    set asg_usr_id = ''
+  where asg_usr_id = @username
+    and reqnum != @reqnum
+    and wh_id = @wh_id] catch(-1403)

@@ -1,0 +1,3 @@
+ordnum,ship_id,adr_id,cstnum,carcod,srvlvl,ordtyp,prtnum,untqty,audqty,invsts_prg,wave_num,move_id,trlr_id,dock_door,discrepancy_action,reacod,invsts
+LDG_ORD_4050,LDG_SHP_4050,LDG_ADR_4050,LDG_CST_4050,CYCCAR1,TL,C,SOAP-55,10,10,A,LDG_WAV_4050,LDMV4050,LDG_TRL_4050,CYC_SDCK_072,fail,,,
+LDG_ORD_4050,LDG_SHP_4050,LDG_ADR_4050,LDG_CST_4050,CYCCAR1,TL,C,SOAP-55,10,11,A,LDG_WAV_4050,LDMV4050,LDG_TRL_4050,CYC_SDCK_072,recount,Cycle Hold,Available

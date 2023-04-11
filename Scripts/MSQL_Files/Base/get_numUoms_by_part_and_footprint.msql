@@ -1,0 +1,18 @@
+/*
+MSQL File: get_numUOMs_by_part_and_footprint.msql
+Description: This MSQL is used to determine the number of UOMs configured for the part. 
+   This script requires MOCA environment variables to be set for wh_id, prtnum, prt_client_id and ftpcod
+*/
+
+publish data
+  where wh_id = $wh_id
+    and prtnum = $prtnum
+    and prt_client_id = $prt_client_id
+    and ftpcod = $ftpcod
+|
+[select count(*) numUOMs
+   from prtftp_dtl
+  where wh_id = @wh_id
+    and prtnum = @prtnum
+    and prt_client_id = @prt_client_id
+    and ftpcod = @ftpcod];

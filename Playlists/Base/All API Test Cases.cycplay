@@ -1,0 +1,15 @@
+Playlist: 
+
+Resources: ../..
+
+Working Directory: 
+
+Namespaces: 
+
+FailFast: NONE
+
+Items:
+Feature: ../../Test Cases/Base/API/BASE-API-8010 API Alternate Item Lookups.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-8010 API Create Inbound Shipment.feature
+Feature: ../../Test Cases/Base/Yard/BASE-YRD-8010 API List Transport Equipment.feature
+Feature: ../../Test Cases/Base/Yard/BASE-YRD-8020 API Close Transport Equipment.feature

@@ -1,0 +1,21 @@
+/*
+MSQL File: get_emergency_relen_work_reference_by_part_location_operation.msql
+Description: This MSQL script gets the pick work reference for an emergency replenishment allocated to be picked 
+   for a specific part number from a specific location
+   MOCA environment variables for srcloc, prtnum, wh_id, and oprcod need to be provided for the query to function
+*/
+
+publish data
+ where srcloc = $t_storage_location
+   and prtnum = $prtnum
+   and oprcod = $oprcod
+   and wh_id = $wh_id
+|
+[select wrkref,
+        wh_id
+   from pckwrk_view
+  where srcloc = @srcloc
+    and wrktyp = 'E'
+    and prtnum = @prtnum
+    and oprcod = @oprcod
+    and wh_id = @wh_id ]

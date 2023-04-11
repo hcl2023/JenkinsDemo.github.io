@@ -1,0 +1,24 @@
+/*  
+MSQL File: get_empty_receive_dock_door.msql
+Description: 
+Get an empty receive dock door.  Built for use with Dynamic Data logic.
+*/
+publish data
+ where wh_id = $wh_id
+   and dynamic_where = nvl($where_clause, "1 = 1")
+   and dynamic_order_by = nvl($order_by_clause, "1")
+   and dynamic_rownum = nvl($rownum, 1)
+|
+[select lm.*
+   from locmst lm,
+        loc_typ lt
+  where lm.wh_id = @wh_id
+    and @dynamic_where:RAW
+    and lm.wh_id = lt.wh_id
+    and lm.loc_typ_id = lt.loc_typ_id
+    and (lt.rcv_dck_flg = 1)
+    and lm.rcv_rescod is null
+    and lm.rescod is null
+    and lm.useflg = 1
+    and rownum = @dynamic_rownum
+  order by @dynamic_order_by:RAW]

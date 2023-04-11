@@ -1,0 +1,40 @@
+/*
+MSQL File: get_list_picking_directed_work_by_order_and_operation_code.msql
+Description: This MSQL script looks for any pending list pick work for a specific order and operation code that is 
+   either not assigned or assigned to the current user.
+   If work is found, the work is assigned to the user and any other work currently assigned to the user is deassigned.
+   This script requires MOCA environment variables to be set for oprcod, username, and wh_id
+*/
+
+publish data
+ where oprcod = $oprcod
+   and ordnum = $ordnum						   
+   and username = $username
+   and wh_id = $wh_id  
+|
+/*First, we look for pending work that has not been assigned or has been assigned to the user*/
+[select w.reqnum,
+        w.list_id,
+        w.wh_id
+   from wrkque w
+   join pckwrk_view pv
+     on pv.wh_id = w.wh_id
+    and pv.list_id = w.list_id
+  where w.oprcod = @oprcod
+    and (w.asg_usr_id is null or w.asg_usr_id = @username)
+    and wrksts in( 'PEND','WAIT')
+    and pv.ordnum = @ordnum
+    and rownum < 2]
+|
+/*Then we assign the pick to the testing user*/
+[update wrkque
+    set asg_usr_id = @username
+  where reqnum = @reqnum
+    and wh_id = @wh_id];
+
+/*Now we make sure there are no other work assignments for the user*/
+[update wrkque
+    set asg_usr_id = ''
+  where asg_usr_id = @username
+    and oprcod != @oprcod
+    and wh_id = @wh_id] catch(-1403)

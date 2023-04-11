@@ -1,0 +1,17 @@
+/*  
+MSQL File: get_any_location_unrestricted.msql
+Description: 
+Get a location.  Built for use with Dynamic Data logic.
+*/
+Publish data 
+where wh_id = $wh_id
+  and dynamic_where = nvl($where_clause, "1 = 1")
+  and dynamic_order_by = nvl($order_by_clause, "1")
+  and dynamic_rownum = nvl($rownum, 1)
+|
+[select *
+   from locmst
+  where wh_id = @wh_id 
+    and @dynamic_where:RAW
+	and rownum = @dynamic_rownum
+order by @dynamic_order_by:RAW]

@@ -1,0 +1,2 @@
+prtnum,rec_quantity,putaway_method,lodnum,status,reason,deposit_loc,rec_loc,storage_loc
+CYC_PRT2,2,3,RCV-WO-050,A,UNXP_RCPT,rec_loc,CYC_RSTG_002,CYCCSLOC24

@@ -1,0 +1,13 @@
+/*
+MSQL File: check_loc_error_sts.msql
+Description: This MSQL check for current status of the location and validates location not in inventory error status
+*/
+publish data
+ where wh_id = $wh_id
+   and stoloc = $stoloc
+|
+[select locsts
+   from locmst
+  where stoloc = @stoloc
+    and wh_id = @wh_id
+    and locsts not in ('I', 'N', 'L')]

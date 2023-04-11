@@ -1,0 +1,7 @@
+type,instruction_type,instruction,parameter_1,parameter_2,parameter_3,parameter_4
+POST,Scenario,Validate Transaction was Created,INV-ADJ,$prtnum,,
+POST,Scenario,Validate Transaction was Sent,INV-ADJ,$prtnum,,
+POST,Scenario,Validate Transaction was Created,INV-ADJ,$prtnum,HOST,
+POST,Scenario,Validate Transaction Field Value in XML,STKUOM,EA,,
+POST,Scenario,Validate Transaction Field Value in XML,HLD_FLG,0,,
+POST,Scenario,Validate Transaction Field Value List in XML,STKUOM,EA,HLD_FLG,0

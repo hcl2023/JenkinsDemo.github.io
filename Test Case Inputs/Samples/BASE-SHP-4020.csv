@@ -1,0 +1,2 @@
+ordnum,ship_id,adr_id,cstnum,carcod,srvlvl,ordtyp,prtnum,untqty,invsts_prg,wave_num,move_id,trlr_id,dock,pck_dstloc,load_stop,close_trailer
+OB_ORD_4020,OB_SHP_4020,OB_ADR_4020,OB_CST_4020,CYCCAR1,TL,C,SOAP-55,1,A,OB_WAV_4020,OBMOV_4020,OB_TRL_4020,CYC_SDCK_014,RDT001,YES,YES

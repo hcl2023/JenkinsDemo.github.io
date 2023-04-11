@@ -1,0 +1,16 @@
+/*
+MSQL File: check_aging.msql
+Description: This MSQL determines if part has aging profile
+*/
+
+publish data
+ where wh_id = $wh_id
+   and prtnum = $prtnum
+   and prt_client_id = $client_id
+|
+[select distinct 'x' as age_profile
+   from prtmst_view
+  where wh_id = @wh_id
+    and prt_client_id = @prt_client_id
+    and prtnum = @prtnum
+    and age_pflnam is not NULL]

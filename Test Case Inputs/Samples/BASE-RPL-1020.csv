@@ -1,0 +1,2 @@
+oprcod,vehtyp,ordnum,ship_id,adr_id,cstnum,carcod,srvlvl,ordtyp,prtnum,untqty,invsts_prg,wave_num,move_id,trlr_id,dock,pallod,palqty,palloc,adjrea,adjact,cancel_code
+PRP,PALRPL,O_CYC_PR1020,S_CYC_PR1020,A_CYC_PR1020,C_CYC_PR1020,CYCCAR1,TL,C,C_PR_PRT12,1,A,W_CYC_PR1020,M_CYC1020,T_CYC_PR1020,CYC_SDCK_083,CYC_PR_LPN1020,100,CYC_PR_PAL2,ADJ-ACCEPT,INVADJ-CYC,Cancel No Reallocation

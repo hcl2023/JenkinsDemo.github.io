@@ -1,0 +1,2 @@
+ordnum,ship_id,adr_id,cstnum,carcod,srvlvl,ordtyp,prtnum,untqty,invsts_prg,wave_num,move_id,trlr_id,dock,pck_dstloc,load_stop,close_trailer,shpstg_loc,ok_to_unpick,unpick_partial,cancod,putaway_method,dep_loc
+OB_ORD_4030,OB_SHP_4030,OB_ADR_4030,OB_CST_4030,CYCCAR1,TL,C,SOAP-55,1,A,OB_WAV_4030,OBMOV_4030,OB_TRL_4030,CYC_SDCK_015,RDT008,YES,NO,CYCSTG09,Y,N,C-N-R,3,CYC_EA_LOC05

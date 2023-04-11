@@ -1,0 +1,16 @@
+/*
+MSQL File: ASN_serial_find_detail_from_lodnum.msql
+Description: This MSQL script looks at the already generated data in inventory view (from ASN receive) realtive to lodnum/prtnum. 
+   This script requires MOCA environment variables to be set for lodnum (ASN), prtnum, and wh_id
+*/
+
+publish data
+ where lodnum = $lodnum
+   and wh_id = $wh_id
+   and prtnum = $prtnum
+|
+[select *
+   from inventory_view
+  where lodnum = @lodnum
+    and prtnum = @prtnum
+    and wh_id = @wh_id]

@@ -1,0 +1,15 @@
+/*
+MSQL File: check_shipment_created.msql
+Description: This MSQL checks if the shipment was created
+*/
+
+publish data
+ where ordnum = $ordnum
+   and wh_id = $wh_id
+   and client_id = $client_id
+|
+[select distinct ship_id
+   from shipment_line
+  where ordnum = @ordnum
+    and client_id = @client_id
+    and wh_id = @wh_id]

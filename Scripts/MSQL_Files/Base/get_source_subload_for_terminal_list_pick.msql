@@ -1,0 +1,25 @@
+/* 
+MSQL File: get_source_subload_for_terminal_list_pick.msql
+Description: This MSQL script queries the inventory_view to get the source subnum from a source pick location to complete terminal list picking.
+   The query returns the subnum and prtnum which is used by the scenario to complete the pick.
+   MOCA environment variables for srcloc, prtnum, and list_id need to be set for this query to function
+*/
+
+publish data
+ where srcloc = $srcloc
+   and prtnum = $prtnum
+   and list_id = $list_id
+|
+[select iv.subnum,
+        iv.prtnum
+   from inventory_view iv
+   join pckwrk_view pv
+     on pv.srcloc = iv.stoloc
+    and pv.prtnum = iv.prtnum 
+    and pv.prt_client_id = iv.prt_client_id
+    and pv.wh_id = iv.wh_id 
+  where iv.stoloc = rtrim(ltrim(@srcloc))
+    and iv.prtnum = rtrim(ltrim(@prtnum))
+    and pv.list_id = rtrim(ltrim(@list_id))
+    and (iv.wrkref is null or iv.ship_line_id is null)
+    and rownum < 2]

@@ -1,0 +1,22 @@
+/*
+MSQL File: create_part.msql
+Description: This MSQL creates a part for the partfoot trans
+*/
+
+publish data
+ where wh_id = $wh_id
+   and client_id = $client_id
+   and prt_client_id = $prt_client_id
+   and devcod = $devcod
+   and prtnum = $prtnum
+   and lngdsc = $lngdsc
+   and short_dsc = $short_dsc
+|
+create part
+ where prtnum = @prtnum
+   and prt_client_id = @client_id
+   and lngdsc = @lngdsc
+   and short_dsc = @short_dsc
+   and prtfam = 'FULPAL'
+   and stkuom = 'CS'
+   and rcvsts = 'A'

@@ -1,0 +1,53 @@
+/* 
+MSQL File: validate_door_is_available.msql
+Description: This script confirms that a staing lane location is available  
+This MSQL is designed to be used with validation logic.
+Sites that share staging lanes will need to customize this logic.
+Inputs:
+	Required:
+		wh_id - Warehouse Id 
+		parameter_1 - staging lange (parameter_1)
+	Optional:
+		None
+Outputs:
+	validation_status - TRUE or FALSE 
+	error_message - Error Message set when validation fails
+*/
+publish data
+ where wh_id = $wh_id
+   and stoloc = $parameter_1
+|
+[select locsts, useflg, rescod, rcv_rescod
+   from locmst
+  where wh_id = @wh_id
+    and stoloc = @stoloc] catch(@?)
+|
+if (@? != 0)
+{
+    publish data
+     where validation_status = 'FALSE'
+       and error_message = "Staging Lane " || @stoloc || " is invalid"
+}
+else if (@rescod != '' or @rcv_rescod != '')
+{
+    publish data
+     where validation_status = 'FALSE'
+       and error_message = "Staging Lane " || @stoloc || " is reserved (" || @rescod || ' / '|| @rcv_rescod || ")"
+}
+else if (@locsts != 'E')
+{
+    publish data
+     where validation_status = 'FALSE'
+       and error_message = "Staging Lane " || @stoloc || " is not in Empty status (" || @locsts || ")"
+}
+else if (@useflg = 0)
+{
+    publish data
+     where validation_status = 'FALSE'
+       and error_message = "Staging Lane " || @stoloc || " is not usable"
+}
+else
+{
+    publish data
+     where validation_status = 'TRUE'
+}

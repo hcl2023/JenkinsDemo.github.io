@@ -1,0 +1,12 @@
+/*
+MSQL File: cancel_cycle_count.msql
+Description: This MSQL script looks cancel a cycle count based on stoloc and wh_id
+*/
+
+publish data
+ where stoloc = $count_location
+   and wh_id = $wh_id
+|
+cancel counts
+ where stoloc = @stoloc
+   and wh_id = @wh_id catch(-1403);

@@ -1,0 +1,21 @@
+Playlist: 
+
+Resources: ../..
+
+Working Directory: 
+
+Namespaces: 
+
+FailFast: NONE
+
+Items:
+Feature: ../../Test Cases/Base/Integration/BASE-INT-2010 Integrator Download ASN Inbound.feature
+Feature: ../../Test Cases/Base/Integration/BASE-INT-2020 Integrator Download Customer Inbound.feature
+Feature: ../../Test Cases/Base/Integration/BASE-INT-2030 Integrator Download Supplier Inbound.feature
+Feature: ../../Test Cases/Base/Integration/BASE-INT-2040 Integrator Download Order Inbound.feature
+Feature: ../../Test Cases/Base/Integration/BASE-INT-2050 Integrator Download PartFootprint Inbound.feature
+Feature: ../../Test Cases/Base/Integration/BASE-INT-2060 Integrator Download BOM Inbound.feature
+Feature: ../../Test Cases/Base/Integration/BASE-INT-2070 Integrator Download Work Order Inbound.feature
+Feature: ../../Test Cases/Base/Integration/BASE-INT-2080 Integrator Download Part Inbound.feature
+Feature: ../../Test Cases/Base/Integration/BASE-INT-2090 Integrator Download PO Inbound.feature
+Feature: ../../Test Cases/Base/Integration/BASE-INT-2100 Integrator Download Shipment Order Inbound.feature

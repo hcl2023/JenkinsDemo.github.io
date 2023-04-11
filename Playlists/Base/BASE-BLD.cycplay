@@ -1,0 +1,12 @@
+Playlist: 
+
+Resources: ../..
+
+Working Directory: 
+
+Namespaces: 
+
+FailFast: NONE
+
+Items:
+Feature: ../../Test Cases/Base/Outbound/BASE-BLD-0010 Terminal Outbound Pallet Building Undirected.feature

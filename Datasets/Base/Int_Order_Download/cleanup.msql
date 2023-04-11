@@ -1,0 +1,87 @@
+publish data
+ where ordnum = $ordnum
+   and wh_id = $wh_id
+   and client_id = $client_id
+   and prt_client_id = $prt_client_id
+   and devcod = $devcod
+|
+[delete
+   from ord_line
+  where ordnum = @ordnum
+    and client_id = @client_id
+    and wh_id = @wh_id] catch(@?)
+|
+[delete
+   from ord
+  where ordnum = @ordnum
+    and wh_id = @wh_id
+    and client_id = @client_id] catch(@?)
+|
+[select distinct ship_id,
+        schbat
+   from shipment_line
+  where ordnum = @ordnum
+    and client_id = @client_id
+    and wh_id = @wh_id] catch(@?)
+|
+if (@? = 0)
+{
+    [delete
+       from shipment
+      where ship_id = @ship_id
+        and wh_id = @wh_id
+        and host_client_id = @client_id] catch(@?)
+    |
+    [delete
+       from shipment_line
+      where ship_id = @ship_id
+        and wh_id = @wh_id
+        and client_id = @client_id] catch(@?)
+    |
+    [delete
+       from pckbat
+      where schbat = @schbat
+        and wh_id = @wh_id] catch(@?)
+    |
+    [delete
+       from rplwrk
+      where schbat = @schbat
+        and client_id = @client_id] catch(@?)
+    |
+    [select distinct cmbcod
+       from pckwrk_view
+      where schbat = @schbat
+        and wh_id = @wh_id
+        and client_id = @client_id] catch(@?)
+    |
+    if (@? = 0)
+    {
+        [delete
+           from pckmov
+          where cmbcod = @cmbcod] catch(@?)
+    }
+    |
+    [delete
+       from pckwrk_hdr
+      where schbat = @schbat
+        and wh_id = @wh_id
+        and client_id = @client_id] catch(@?)
+    |
+    [delete
+       from pckwrk_dtl
+      where ship_id = @ship_id
+        and wh_id = @wh_id
+        and client_id = @client_id ] catch(@?)
+}
+|
+[delete
+   from ord_note
+  where ordnum = @ordnum
+    and wh_id = @wh_id
+    and client_id = @client_id] catch(@?)
+|
+[delete
+   from ord_line_note
+  where ordnum = @ordnum
+    and wh_id = @wh_id
+    and client_id = @client_id] catch(@?)

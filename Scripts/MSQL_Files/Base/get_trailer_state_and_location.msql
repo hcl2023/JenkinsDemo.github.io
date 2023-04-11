@@ -1,0 +1,12 @@
+/* 
+MSQL File: get_trailer_state_and_location.msql
+Description: This MSQL script gets the trailer state and location based on input trlr_num
+*/
+
+publish data
+ where trlr_num = $trlr_num
+|
+[select yard_loc,
+        trlr_stat
+   from trlr
+  where trlr_num = @trlr_num];

@@ -1,0 +1,35 @@
+publish data
+  where wh_id = $wh_id
+    and client_id = $client_id
+    and prt_client_id = $prt_client_id
+    and devcod = $devcod
+    and prtnum = $prtnum
+    and ftpcod = $ftpcod
+    and invsts = $invsts
+    and lodnum = $lodnum
+    and dstloc = $dstloc
+    and invqty = $invqty
+|
+generate next number
+ where numcod = 'sesnum'
+|
+create inventory
+ where movref = @nxtnum
+   and srcloc = 'PERM-ADJ-LOC'
+   and asset_typ = ''
+   and wh_id = @wh_id
+   and devcod = ''
+   and reacod = ''
+   and adj_ref2 = ''
+   and adj_ref1 = ''
+   and prtnum = @prtnum
+   and prt_client_id = @prt_client_id
+   and untcas = 1
+   and untpak = 1
+   and ftpcod = @ftpcod
+   and actcod = 'IDNTFY_AJ'
+   and invsts = @invsts
+   and lodnum = @lodnum
+   and dstloc = @dstloc
+   and untqty = @invqty
+   and catch_qty = '0'

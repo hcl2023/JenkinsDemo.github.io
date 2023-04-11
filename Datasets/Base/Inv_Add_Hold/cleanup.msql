@@ -1,0 +1,50 @@
+/* 
+Dataset Name: Inv_Add_Hold
+Description: Cleans up data created as part of inventory add hold test case
+*/
+publish data
+ where wh_id = $wh_id
+   and client_id = $client_id
+   and prt_client_id = $prt_client_id
+   and devcod = $devcod
+   and prtnum = $prtnum
+   and stoloc = $stoloc
+   and lodnum = $lodnum
+   and subnum = $subnum
+   and dtlnum = $dtlnum
+   and reacod = $reacod
+|
+if (@subnum = '')
+	hide stack variable
+	 where name = 'subnum'
+|
+if (@dtlnum = '')
+	hide stack variable
+	 where name = 'dtlnum'
+|
+[select *
+   from inventory_view
+  where lodnum = @lodnum
+    and stoloc = @stoloc
+    and prtnum = @prtnum
+    and prt_client_id = @prt_client_id
+    and wh_id = @wh_id
+    and @+dtlnum
+    and @+subnum] catch(-1403)
+|
+/*Clean up Holds*/
+[select *
+   from invhld
+  where dtlnum = @dtlnum] catch(-1403)
+|
+[delete
+   from invhld
+  where dtlnum = @dtlnum] catch(@?)
+|
+move inventory
+ where dstloc = 'PERM-ADJ-LOC'
+   and reacod = @reacod
+   and adj_ref2 = ''
+   and adj_ref1 = ''
+   and actcod = 'IDNTFY_AJ'
+   and reacod = @reacod catch(@?)

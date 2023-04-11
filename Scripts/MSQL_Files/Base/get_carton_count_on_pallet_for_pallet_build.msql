@@ -1,0 +1,14 @@
+/*
+MSQL File: get_carton_count_on_pallet_for_pallet_build.msql
+Description: This MSQL script is used to find the number of cartons that have been added to a 
+   pallet build pallet. This allows pallet build scenarios to track the number of cartons on a pallet 
+   and close the pallet once the maximum number of cartons per pallet as defined by the feature variables is reached.
+   MOCA environment variable for pallet (lodnum) is required.
+*/
+
+publish data
+ where pallet = $pallet
+|
+[select count('x') carton_count
+   from invsub
+  where lodnum = @pallet ]

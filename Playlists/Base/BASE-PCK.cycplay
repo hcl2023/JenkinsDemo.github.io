@@ -1,0 +1,23 @@
+Playlist: 
+
+Resources: ../..
+
+Working Directory: 
+
+Namespaces: 
+
+FailFast: NONE
+
+Items:
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-0010 Terminal Outbound Carton Picking Undirected.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-0020 Terminal Outbound Carton Picking Undirected Cancel and Reallocate.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-0030 Terminal Outbound Pallet Picking Directed.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-0040 Terminal Outbound Pallet Picking Cancel Directed.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-0050 Terminal Outbound List Pick Case To Pallet Directed Cancel and Reallocate.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-0060 Terminal Outbound List Pick Case To Pallet Directed.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-0070 Terminal Outbound Pallet Picking Undirected.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-0080 Terminal Outbound Unpicking.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-0090 Terminal Outbound List Pick Case To Pallet Undirected.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-0100 Terminal Outbound List Pick Short Ship With Reship Directed.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-0110 Terminal Count Near Zero.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-0120 Terminal List Pick Equipment Full Set Down Resume.feature

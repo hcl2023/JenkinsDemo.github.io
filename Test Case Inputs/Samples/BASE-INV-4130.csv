@@ -1,0 +1,2 @@
+trlr_id,carcod,trlr_cod,yard_loc,srcloc,dstloc,valid_dstloc,lodnum,prtnum,untqty
+TRLR-INV-4130,CYCCAR1,SHIP,YARD-001,CYCCSLOC01,TRLR-INV-4130,QA_HOLD,CYC-LOAD-XFER,COMB,500

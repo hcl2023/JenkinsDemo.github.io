@@ -1,0 +1,59 @@
+/* 
+Dataset Name: Rcv_No_Trailer
+Description: Receive setup/cleanup without creating and assigning a trailer
+*/
+
+publish data
+ where wh_id = $wh_id
+   and client_id = $client_id
+   and prt_client_id = $prt_client_id
+   and devcod = $devcod
+   and trknum = $ship_id
+   and host_wh_id = $wh_id
+   and trntyp = 'A'
+   and carcod = ''
+   and invnum = $invnum
+   and supnum = $supnum
+   and invtyp = nvl($invtyp, 'P')
+   and locale_id = 'US_ENGLISH'
+   and rec_loc = $rec_loc
+   and expqty = $expqty
+   and prtnum = $prtnum
+   and rcvsts = $rcvsts
+|
+{
+    [select dscmst.short_dsc,
+            dscmst.lngdsc,
+            aremst.*
+       from dscmst,
+            aremst,
+            loc_typ
+      where aremst.arecod || '|' || aremst.wh_id = dscmst.colval
+        and dscmst.colnam = 'arecod|wh_id'
+        and dscmst.locale_id = nvl(NULL, @locale_id)
+        and aremst.wh_id = loc_typ.wh_id
+        and aremst.wh_id = nvl(NULL, @host_wh_id)
+        and aremst.arecod = loc_typ.loc_typ
+        and expflg = 1
+        and wip_expflg = 0
+      order by nvl(dscmst.lngdsc, aremst.arecod)]
+    |
+    Process Host Receipt Truck
+     where wh_id = @host_wh_id
+    |
+    Process Host Receipt Invoice
+     where dummyWhere = 1
+    |
+    {
+        Process Host Receipt Line
+         where supnum = @supnum
+           and invnum_lin = '0001'
+           and invlin = '0001'
+           and invsln = '0001'
+           and expqty = @expqty
+           and prtnum = @prtnum
+           and rcvsts = @rcvsts
+           and invsts = @rcvsts;
+    }
+}
+ 

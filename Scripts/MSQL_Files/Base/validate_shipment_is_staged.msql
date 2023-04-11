@@ -1,0 +1,126 @@
+/*
+MSQL File: validate_shipment_is_staged.msql
+Description:
+*/
+
+publish data
+ where dstloc = $dep_loc
+   and wh_id = $wh_id
+   and dep_lpn = $dep_lpn
+|
+/*Get the ship_id and ordnum for the inventory on lpn*/
+[select pwv.ship_id,
+        pwv.ordnum
+   from inventory_view iv,
+        pckwrk_view pwv
+  where iv.lodnum = @dep_lpn
+    and iv.wh_id = @wh_id
+    and iv.wrkref = pwv.wrkref
+    and iv.wh_id = pwv.wh_id] catch(-1403)
+|
+if ((@ship_id is null or @ship_id = '') and (@ordnum is null or @ordnum = ''))
+{
+    /* Dont have ship_id or ordnum variables to check if we should stage, so we assume it works as planned */
+    publish data
+     where followed_staging_procedure = 1
+}
+else
+{
+    /* If we're moving to a truck or a staging movement zone, see if we can autostage */
+    [select loc_typ.shpflg,
+            loc_typ.stgflg,
+            loc_typ.prod_flg,
+            locmst.mov_zone_id dst_mov_zone_id
+       from locmst,
+            loc_typ
+      where loc_typ.loc_typ_id = locmst.loc_typ_id
+        and locmst.stoloc = @dstloc
+        and locmst.wh_id = @wh_id]
+    |
+    if (@shpflg = 1 or @stgflg = 1 or @prod_flg = 1)
+    {
+        get cached policy
+         where polcod = 'SHIPPING'
+           and polvar = 'MISCELLANEOUS'
+           and polval = 'ALLOW-AUTO-STAGING'
+           and colnam = 'rtnum1'
+           and colval = @dst_mov_zone_id catch(-1403)
+        |
+        if (@? = 0)
+        {
+            publish data
+             where autstg = 1
+        }
+        else
+        {
+            publish data
+             where autstg = 0
+        }
+        |
+        publish data
+         where autstg = @autstg
+        |
+        if (@ship_id is null and @ordnum is not null and @ordnum != '')
+        {
+            [select distinct s.ship_id
+               from shipment_line sl,
+                    shipment s
+              where sl.ordnum = @ordnum
+                and sl.wh_id = @wh_id
+                and sl.ship_id = s.ship_id
+                and sl.wh_id = s.wh_id
+                and s.shpsts != 'B'
+                and rownum = 1] catch(-1403)
+        }
+        |
+        if (@ship_id is not null and @ship_id != '' and @autstg = 1)
+        {
+            [select distinct 1 as picks_remain
+               from pckwrk_view
+              where ship_id = @ship_id
+                and wh_id = @wh_id
+                and appqty != pckqty] catch(-1403)
+            |
+            publish data
+             where picks_remain = nvl(@picks_remain, 0)
+            |
+            [select distinct 1 as shipment_is_staged
+               from shipment
+              where ship_id = @ship_id
+                and wh_id = @wh_id
+                and stgdte is not null] catch(-1403)
+            |
+            publish data
+             where shipment_is_staged = @shipment_is_staged
+               and picks_remain = @picks_remain
+               and autstg = @autstg
+        }
+        |
+        publish data
+         where shipment_is_staged = @shipment_is_staged
+           and picks_remain = @picks_remain
+           and autstg = @autstg
+        |
+        if (nvl(@shipment_is_staged, 0) = 0 and @picks_remain = 0 and @autstg = 1)
+        {
+            /* Using simple logic here:  If we have all picks complete, and auto stage, and the shipment has not been staged yet, then something is wrong */
+            publish data
+             where followed_staging_procedure = 0
+            |
+            set return status
+             where status = '99990001'
+        }
+        else
+        {
+            /* If we do not match the 1 case where something went wrong, then we assume things went right */
+            publish data
+             where followed_staging_procedure = 1
+        }
+    }
+    else
+    {
+        /* Not being sent to a staging lane or truck, therefore should not be staged */
+        publish data
+         where followed_staging_procedure = 1
+    }
+}

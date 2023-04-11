@@ -1,0 +1,38 @@
+/* 
+MSQL File: validate_location_contains_inventory_id.msql
+Description: This script confirms that a location contains an inventory id
+This MSQL is designed to be used with the validation logic.
+Inputs:
+	Required:
+		wh_id - Warehouse Id 
+		parameter_1 - Location (parameter_1)		
+		parameter_2 - Inventory Id - load, subload, detail, part, lot, or footprint (parameter_2) 
+	Optional:
+		None
+Outputs:
+	validation_status - TRUE or FALSE 
+	error_message - Error Message set when validation fails
+*/
+publish data
+ where wh_id = $wh_id
+   and stoloc = $parameter_1
+   and id = $parameter_2
+|
+[select count('x') inv_check
+   from inventory_view
+  where wh_id = @wh_id
+    and stoloc = @stoloc
+	and @id in (lodnum, subnum, dtlnum, prtnum, lotnum, ftpcod) ]
+|
+if (@inv_check > 0)
+{
+    publish data
+     where validation_status = 'TRUE'
+}
+else 
+{
+    publish data
+     where validation_status = 'FALSE'
+       and error_message = "Location " || @stoloc || " does not contain inventory matching " || @id
+}
+ 

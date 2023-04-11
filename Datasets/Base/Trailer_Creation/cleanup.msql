@@ -1,0 +1,70 @@
+publish data
+ where wh_id = $wh_id
+    and client_id = $client_id
+    and prt_client_id = $prt_client_id
+    and devcod = $devcod
+    and trlr_num = $trlr_num
+    and check_in_dock_loc = $check_in_dock_loc
+    and move_to_dock_loc = $move_to_dock_loc
+|
+[select distinct trlr_id
+   from trlr
+  where trlr_num = @trlr_num
+    and yard_loc_wh_id = @wh_id] catch(-1403)
+|
+if (@? = 0)
+{
+    remove trailer
+     where trlr_id = @trlr_id catch(@?)
+    |
+    [delete
+       from wrkque
+      where refloc = @trlr_num
+        and wh_id = @wh_id] catch(@?)
+}
+|
+{
+    [select distinct 1
+       from inventory_view
+      where stoloc = @check_in_dock_loc
+        and wh_id = @wh_id] catch(@?)
+    |
+    if (@? = -1403)
+    {
+        [select distinct 1
+           from trlr
+          where yard_loc = @check_in_dock_loc
+            and wh_id = @wh_id] catch(@?)
+        |
+        if (@? = -1403)
+        {
+            [update locmst
+                set locsts = 'E'
+              where stoloc = @check_in_dock_loc
+                and wh_id = @wh_id] catch(@?)
+        }
+    }
+} >> res
+|
+{
+    [select distinct 1
+       from inventory_view
+      where stoloc = @move_to_dock_loc
+        and wh_id = @wh_id] catch(@?)
+    |
+    if (@? = -1403)
+    {
+        [select distinct 1
+           from trlr
+          where yard_loc = @move_to_dock_loc
+            and wh_id = @wh_id] catch(@?)
+        |
+        if (@? = -1403)
+        {
+            [update locmst
+                set locsts = 'E'
+              where stoloc = @move_to_dock_loc
+                and wh_id = @wh_id] catch(@?)
+        }
+    }
+} >> res

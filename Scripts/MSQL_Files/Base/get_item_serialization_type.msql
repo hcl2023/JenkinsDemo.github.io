@@ -1,0 +1,17 @@
+/*
+MSQL File: get_item_serialization_type.msql
+Description: This query is used to find the serialization type configured for a prtnum based on wh_id and client_id 
+   to support serialization scenarios in various feature files
+   MOCA environment variables for prtnum, wh_id, and client_id need to be set in order for this query to work properly
+*/
+
+publish data
+ where prtnum = $prtnum
+   and wh_id = $wh_id
+   and client_id = $client_id
+|
+[select nvl(ser_typ, 'NONE') ser_typ
+   from prtmst
+  where prtnum = @prtnum
+    and wh_id_tmpl = @wh_id
+    and prt_client_id = @client_id]

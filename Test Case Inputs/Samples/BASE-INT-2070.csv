@@ -1,0 +1,2 @@
+wkonum,wkorev,wkolin,system,tran_name,pre_validation,post_validation,detail_file_name
+CYC-WKO-001,REV-001,0001,HOST,WO_INB_IFD,Check Integrator Work Order Download,Check Integrator Work Order Download,BASE-INT-2070-01.csv

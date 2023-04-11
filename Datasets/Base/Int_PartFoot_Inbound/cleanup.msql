@@ -1,0 +1,22 @@
+publish data
+ where wh_id = $wh_id
+    and client_id = $client_id
+    and prt_client_id = $prt_client_id
+    and devcod = $devcod
+    and add_part = $add_part
+    and prtnum = $prtnum
+    and ftpcod = $ftpcod
+|
+if (UPPER(@add_part) = UPPER('yes'))
+{
+    remove part
+     where prtnum = @prtnum
+       and prt_client_id = @prt_client_id catch(@?)
+}
+else
+{
+    remove part footprint
+     where prtnum = @prtnum
+       and prt_client_id = @prt_client_id
+       and ftpcod = @ftpcod catch(@?)
+}

@@ -1,0 +1,13 @@
+/*
+MSQL File: get_code_value_from_code_description.msql
+Description: This MSQL gets the code value from description
+*/
+
+publish data
+ where code_name = $code_name
+   and code_description = $code_description
+|
+[select colval
+   from dscmst
+  where colnam = rtrim(ltrim(@code_name))
+    and lngdsc = rtrim(ltrim(@code_description))]

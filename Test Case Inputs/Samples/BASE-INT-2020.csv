@@ -1,0 +1,2 @@
+host_ext_id,cstnum,system,tran_name,pre_validation,post_validation,detail_file_name
+CYC-HOST-ID,CYC-001,HOST,CUST_INB_IFD,Check Integrator Customer Download,Check Integrator Customer Download,BASE-INT-2020-01.csv

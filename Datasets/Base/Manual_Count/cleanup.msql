@@ -1,0 +1,24 @@
+/*
+   Dataset: Manual_Count
+   Description: This MSQL cleans up the audit work is created as part of this test 
+*/
+publish data
+ where wh_id = $wh_id
+   and client_id = $client_id
+   and prt_client_id = $prt_client_id
+   and devcod = $devcod
+   and srcloc = $srcloc
+|
+[select cntbat
+   from cntwrk
+  where stoloc = ltrim(rtrim(@srcloc))
+    and cnttyp = 'A'
+    and cntsts = 'R'
+    and wh_id = @wh_id] catch(-1403)
+|
+if (@? = 0)
+{
+    cancel counts
+     where cntbat = @cntbat
+       and wh_id = @wh_id
+}

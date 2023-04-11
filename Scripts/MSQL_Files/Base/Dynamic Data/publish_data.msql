@@ -1,0 +1,10 @@
+/*  
+MSQL File: publish_data.msql
+Description: 
+Publish back anything in the where clause.  Built for use with Dynamic Data logic.
+*/
+publish data
+ where cmd = "publish data where " || nvl($where_clause, "x = 1")
+|
+execute server command
+ where cmd = @cmd

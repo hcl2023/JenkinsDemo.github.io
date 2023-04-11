@@ -1,0 +1,61 @@
+The following Test Case Input files differ between the 3.0.x release and the 
+3.1.0 release of the Cycle Bundle. Presented is the difference in the first
+line of the file (the input's header line) and not each example row.
+
+Please make sure when you are upgrading the Cycle Bundle to 3.1.0 and you have
+a Custom Test Case associated to any of the Test Case Inputs listed below that 
+you update the associated Custom Test Case Input file with these changes (after
+merging in 3.0.1 Base functionality to your Custom Test Case and/or Utilities).
+
+Please consult with your Tryon Representative for any questions.
+
+#########################################################
+List of changes in Test Case Input Files in 3.1.0 release
+#########################################################
+
+#### BASE-INV-1100.csv ####
+1c1
+< stoloc,lodnum,prtnum,ftpcod,untqty,adjref1,adjref2,reacod,invsts,lotnum,actcod,srcloc,adj_untqty,web_credentials,username,adjust_approval_reason
+---
+> stoloc,lodnum,prtnum,ftpcod,untqty,adjref1,adjref2,reacod,invsts,lotnum,actcod,srcloc,adj_untqty,web_credentials,username,adjust_approval_reason,approval_needed
+###########################
+
+
+#### BASE-PCK-0100.csv ####
+1c1
+< ordnum,ship_id,adr_id,cstnum,carcod,srvlvl,ordtyp,prtnum,untqty,invsts_prg,wave_num,move_id,car_move_id,trlr_id,trlr_num,dock,dock_door,oprcod,cancel_code,bckflg,short_pick_flag,create_order,short_pick_qty,detail_file_name,pck_dstloc
+---
+> ordnum,ship_id,adr_id,cstnum,carcod,srvlvl,ordtyp,prtnum,untqty,invsts_prg,wave_num,move_id,car_move_id,trlr_id,trlr_num,dock,dock_door,oprcod,cancel_code,bckflg,short_pick_flag,create_order,short_pick_qty,detail_file_name,pck_dstloc,trac_ref,driver_lic,driver_nam
+###########################
+
+
+#### BASE-RCV-0010.csv ####
+1c1
+< trlr_num,inv_num,yard_loc,invtyp,prtnum,lotnum,rcvsts,ap_sts,qa_sts,expqty,supnum,rec_loc,dep_loc,rcv_qty,putaway_method,asn_flg,validate_loc,actcod,rcv_prtnum,lpn,expect_discrepancies
+---
+> trlr_num,inv_num,yard_loc,invtyp,prtnum,lotnum,rcvsts,ap_sts,qa_sts,expqty,supnum,rec_loc,dep_loc,rcv_qty,putaway_method,asn_flg,validate_loc,actcod,rcv_prtnum,lpn,expect_discrepancies,revlvl
+###########################
+
+
+#### BASE-RCV-1010.csv ####
+1c1
+< trlr_num,invnum,yard_loc,invtyp,prtnum,rcvsts,expqty,rcvqty,supnum,rec_loc,workstation
+---
+> trlr_num,invnum,yard_loc,invtyp,prtnum,rcvsts,expqty,rcvqty,supnum,rec_loc,workstation,lotnum,revlvl
+###########################
+
+
+#### BASE-RCV-1110.csv ####
+1c1
+< trlr_num,invnum,yard_loc,invtyp,prtnum,rcvsts,expqty,rcvqty,supnum,rec_loc,asn_flag,workstation
+---
+> trlr_num,invnum,yard_loc,invtyp,prtnum,rcvsts,expqty,rcvqty,supnum,rec_loc,asn_flag,workstation,lotnum,revlvl
+###########################
+
+
+#### BASE-WAV-1010.csv ####
+1c1
+< adrnam,adrtyp,adrln1,adrcty,adrstc,adrpsz,ctry_name,first_name,locale_id,ordnum,cstnum,cponum,ordtyp,untqty,prtnum,carcod,srvlvl,lodnum,dstloc,invqty,invsts,alc_destination_zone,alc_staging_lane,alc_imr_uoms
+---
+> adrnam,adrtyp,adrln1,adrcty,adrstc,adrpsz,ctry_name,first_name,locale_id,ordnum,cstnum,cponum,ordtyp,untqty,prtnum,carcod,srvlvl,lodnum,dstloc,invqty,invsts,alc_destination_zone,alc_staging_lane,alc_imr_uoms,alc_wave_priority
+###########################

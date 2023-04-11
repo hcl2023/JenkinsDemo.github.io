@@ -1,0 +1,50 @@
+/*
+Dataset Name: RCV_Copy_Order_to_Shipment/load
+Description: Creates an inbound shipment and inbound order to copy into the shipment.
+*/
+publish data
+ where wh_id = $wh_id
+   and client_id = $client_id
+   and prt_client_id = $prt_client_id
+   and devcod = $devcod
+   and trknum = $trknum
+   and invnum = $invnum
+   and supnum = $supnum
+   and invtyp = $invtyp
+   and expqty = $expqty
+   and prtnum = $prtnum
+   and rcvsts = $rcvsts
+   and invlin = $invlin
+   and invsln = $invsln
+|
+create receive truck
+ where wh_id = @wh_id
+   and trknum = @trknum
+   and client_id = @client_id
+   and invnum = @invnum
+   and supnum = @supnum
+   and invtyp = @invtyp
+   and expqty = @expqty
+   and prtnum = @prtnum
+   and rcvsts = @rcvsts
+   and invlin = @invlin
+   and invsln = @invsln
+|
+create receive invoice master
+ where client_id = @client_id
+   and invnum = @invnum
+   and supnum = @supnum
+   and wh_id = @wh_id
+   and invtyp = @invtyp
+|
+create receive invoice master line
+ where client_id = @client_id
+   and invnum = @invnum
+   and supnum = @supnum
+   and wh_id = @wh_id
+   and expqty = @expqty
+   and prtnum = @prtnum
+   and rcvsts = @rcvsts
+   and prt_client_id = @prt_client_id
+   and invlin = '01'
+   and invsln = '00'

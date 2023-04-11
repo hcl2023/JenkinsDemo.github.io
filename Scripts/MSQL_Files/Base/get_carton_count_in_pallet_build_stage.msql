@@ -1,0 +1,16 @@
+/*
+MSQL File: get_carton_count_in_pallet_build_stage.msql
+Description: This MSQL script gets the number of distinct cartons that are available
+   for pallet build in a pallet build staging location.
+   This query requires a MOCA environment variables for wh_id and pb_stage_loc to be provided
+   in order to return results
+*/
+
+publish data
+ where pb_stage_loc = $pb_stage_loc
+   and wh_id = $wh_id
+|
+[select count(distinct subnum) staged_carton_count
+   from inventory_view
+  where stoloc = @pb_stage_loc
+    and wh_id = @wh_id]

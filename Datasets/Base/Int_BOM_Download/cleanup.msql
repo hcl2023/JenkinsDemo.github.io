@@ -1,0 +1,78 @@
+publish data
+ where bomnum = $bomnum
+   and wh_id = $wh_id
+   and client_id = $client_id
+   and prt_client_id = $prt_client_id
+   and devcod = $devcod
+|
+[delete
+   from bomdtl
+  where bomnum = @bomnum
+    and client_id = @client_id
+    and wh_id = @wh_id] catch(@?)
+|
+[delete
+   from bomhdr
+  where bomnum = @bomnum
+    and wh_id = @wh_id
+    and client_id = @client_id] catch(@?)
+|
+[select 'x'
+   from bomdtl_ins
+  where bomnum = @bomnum
+    and client_id = @client_id
+    and wh_id = @wh_id] catch(@?)
+|
+if (@? = 0)
+{
+    [delete
+       from bomdtl_ins
+      where bomnum = @bomnum
+        and client_id = @client_id
+        and wh_id = @wh_id] catch(@?)
+}
+|
+[select 'x'
+   from bomhdr_ins
+  where bomnum = @bomnum
+    and client_id = @client_id
+    and wh_id = @wh_id] catch(@?)
+|
+if (@? = 0)
+{
+    [delete
+       from bomhdr_ins
+      where bomnum = @bomnum
+        and client_id = @client_id
+        and wh_id = @wh_id] catch(@?)
+}
+|
+[select 'x'
+   from bomdtl_prc
+  where bomnum = @bomnum
+    and client_id = @client_id
+    and wh_id = @wh_id] catch(@?)
+|
+if (@? = 0)
+{
+    [delete
+       from bomdtl_prc
+      where bomnum = @bomnum
+        and client_id = @client_id
+        and wh_id = @wh_id] catch(@?)
+}
+|
+[select 'x'
+   from bomhdr_prc
+  where bomnum = @bomnum
+    and client_id = @client_id
+    and wh_id = @wh_id] catch(@?)
+|
+if (@? = 0)
+{
+    [delete
+       from bomhdr_prc
+      where bomnum = @bomnum
+        and client_id = @client_id
+        and wh_id = @wh_id] catch(@?)
+}

@@ -1,0 +1,50 @@
+{
+  "projectMetaData" : {
+    "name" : "CycleBy23",
+    "compatibilityVersion" : "2.12.0"
+  },
+  "settings" : {
+    "LocalReportOutputFormat" : "HTML",
+    "FeatureFailureStrategy" : "FEATURE",
+    "StepDelay" : 100,
+    "DefaultTerminalConnectWithin" : 90000,
+    "NonActionStepDelay" : 0,
+    "CaptureImageWidth" : 40,
+    "CaptureImageHeight" : 40,
+    "CloudGrpcHost" : "",
+    "DefaultWithinGui" : 10000,
+    "KeystrokeDelay" : 0,
+    "CloudProjectName" : "",
+    "SSLValidation" : "Default",
+    "KeyMappingFile" : null,
+    "LocalReportCustomPath" : null,
+    "VariableBlackListEnabled" : false,
+    "GroupTestFailureStrategy" : "ALL_TESTS",
+    "ControlVisPaste" : true,
+    "DefaultWithinTerminal" : 100,
+    "OnceWaitTime" : 120000,
+    "TruststorePath" : null,
+    "ImageMatchCorrelation" : 99,
+    "ImageMatchAllDisplays" : true,
+    "TerminalSendSingleLF" : false,
+    "CloudProjectId" : "",
+    "StoredConnections" : [ {
+      "connectionName" : "http://4.193.179.220:6100/service",
+      "connectionType" : "MOCA",
+      "url" : "http://4.193.179.220:6100/service"
+    } ],
+    "RemoteWebDriverHeadlessKey" : true,
+    "WaitDurationBeforeRestart" : 5000,
+    "MinimizeCycleDuringTest" : false,
+    "LocalReport" : "Detailed",
+    "TerminalSteadyStateDuration" : 1000,
+    "SkipMocaCertValidation" : false,
+    "PlaylistFailureStrategy" : "ALL_TESTS",
+    "CloudTenantName" : "",
+    "CloudGrpcPort" : "",
+    "VariableBlackList" : [ ],
+    "CloudClientId" : "",
+    "VariableBlackListMask" : "********",
+    "SaveMatchedImages" : false
+  }
+}

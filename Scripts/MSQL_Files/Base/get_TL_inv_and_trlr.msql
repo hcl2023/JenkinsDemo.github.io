@@ -1,0 +1,47 @@
+/*
+MSQL File: get_TL_inv_and_trlr.msql
+Description: This MSQL gets inventory and trailers to process for loading and closing Features
+*/
+
+publish data
+ where trlr_num = $trlr_num
+   and trlr_id = $trlr_id
+   and dock_door = $dock_door
+   and ship_id = $ship_id
+   and car_move_id = $car_move_id
+   and wh_id = $wh_id
+|
+[select distinct inventory_view.lodnum,
+        trlr.yard_loc
+   from trlr,
+        car_move,
+        stop,
+        shipment,
+        shipment_line,
+        inventory_view,
+        loc_typ,
+        locmst,
+        cardtl
+  where car_move.trlr_id = trlr.trlr_id
+    and trlr.trlr_stat in ('O', 'LDG')
+    and trlr.trlr_id != inventory_view.stoloc
+    and car_move.car_move_id = stop.car_move_id
+    and car_move.wh_id = shipment.wh_id
+    and shipment.wh_id = shipment_line.wh_id
+    and shipment.wh_id = inventory_view.wh_id
+    and inventory_view.wh_id = @wh_id
+    and trlr.trlr_num = nvl(@trlr_num, trlr.trlr_num)
+    and trlr.trlr_id = nvl(@trlr_id, trlr.trlr_id)
+    and trlr.yard_loc = nvl(@dock_door, trlr.yard_loc)
+    and shipment.ship_id = nvl(@ship_id, shipment.ship_id)
+    and car_move.car_move_id = nvl(@car_move_id, car_move.car_move_id)
+    and shipment.stop_id = stop.stop_id
+    and shipment.ship_id = shipment_line.ship_id
+    and shipment_line.ship_line_id = inventory_view.ship_line_id
+    and inventory_view.stoloc = locmst.stoloc
+    and inventory_view.wh_id = locmst.wh_id
+    and locmst.loc_typ_id = loc_typ.loc_typ_id
+    and locmst.wh_id = loc_typ.wh_id
+    and cardtl.carcod = shipment.carcod
+    and cardtl.srvlvl = 'TL'
+    and loc_typ.stgflg = 1]

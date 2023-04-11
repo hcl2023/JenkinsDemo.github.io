@@ -1,0 +1,30 @@
+/*
+ * This dataset will be used to create an audit count at a certain location
+ */
+ publish data 
+  where wh_id = $wh_id
+    and cnt_id = $cnt_id
+    and stoloc = $stoloc
+    and uc_sysdate = $uc_sysdate
+|
+{
+[select *
+   from cntwrk
+  where stoloc = @stoloc 
+     and wh_id = @wh_id] catch(@?)
+|
+cancel counts
+ where cntbat = @cntbat
+   and wh_id = @wh_id catch(@?)
+} >> res
+|
+schedule counts
+ where release_flag = 1
+   and reqtyp = 'U'
+   and wh_id = @wh_id
+   and cnt_id = @cnt_id
+   and begloc = @stoloc
+   and seqnum = 1
+   and request_cnt_by_opt = 'PART_LOC'
+   and cnttyp = 'A'
+   and schdte = @uc_sysdate

@@ -1,0 +1,3 @@
+client_id,prtnum,untqty,invsts_prg,caslod,srcloc,adjrea,adjact,repl_loc,validate_sucess,retry_replenishment
+CLIENT A,SHAMPOO-98,1000,A,TPOFLOD,CYC_PR_CS2,ADJ-ACCEPT,INVADJ-CYC,CYC_EA_LOC21,YES,,
+CLIENT A,SHAMPOO-98,1000,A,TPOFLOD,CYC_PR_CS2,ADJ-ACCEPT,INVADJ-CYC,CYC_EA_LOC21,YES,YES

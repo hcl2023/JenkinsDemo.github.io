@@ -1,0 +1,172 @@
+/* cleanup script for work order script */
+publish data
+ where wh_id = $wh_id
+   and client_id = $client_id
+   and prt_client_id = $prt_client_id
+   and devcod = $devcod
+   and wkonum = $wkonum
+   and wkorev = $wkorev
+|
+/* Purge work order production inventory */
+{
+    [select distinct iv.lodnum,
+            iv.stoloc
+       from inventory_view iv,
+            cmphdr ch
+      where ch.wkonum = @wkonum
+        and ch.wh_id = @wh_id
+        and ch.client_id = @client_id
+        and ch.cmpkey = iv.cmpkey] catch(-1403)
+    |
+    if (@lodnum != '')
+    {
+        purge load
+         where lodnum = @lodnum
+           and wh_id = @wh_id
+           and prt_client_id = @prt_client_id
+        |
+        create deferred execution
+         where exec_typ = 'CYCT'
+           and deferred_dte = sysdate + 1
+           and command = 'fix validation errors for location where stoloc = ''' || @stoloc || '''
+   and wh_id = ''' || @wh_id || ''''
+           and exec_kv1 = 'TRYONCLEANUP'
+           and exec_kv2 = 'WORKORDERS'
+        |
+        hide stack variable
+         where name = 'exec_id'
+    }
+}
+|
+/*purge picked component inventory if found*/
+{
+    [select distinct iv.lodnum,
+            iv.stoloc
+       from pckwrk_view pwv,
+            inventory_view iv
+      where pwv.wkonum = @wkonum
+        and pwv.wkorev = @wkorev
+        and pwv.wh_id = @wh_id
+        and pwv.client_id = @client_id
+        and iv.wrkref = pwv.wrkref] catch(-1403)
+    |
+    if (@lodnum != '')
+    {
+        purge load
+         where lodnum = @lodnum
+           and wh_id = @wh_id
+           and prt_client_id = @prt_client_id
+        |
+        create deferred execution
+         where exec_typ = 'CYCT'
+           and deferred_dte = sysdate + 1
+           and command = 'fix validation errors for location where stoloc = ''' || @stoloc || '''
+   and wh_id = ''' || @wh_id || ''''
+           and exec_kv1 = 'TRYONCLEANUP'
+           and exec_kv2 = 'WORKORDERS'
+        |
+        hide stack variable
+         where name = 'exec_id'
+    }
+}
+|
+/* Create deferred executions to fix validation errors for pckwrk source and destination locations after purging work order data*/
+{
+    [select distinct srcloc
+       from pckwrk_view
+      where wkonum = @wkonum
+        and wkorev = @wkorev
+        and wh_id = @wh_id
+        and client_id = @client_id] catch(-1403)
+    |
+    if (@srcloc != '')
+    {
+        create deferred execution
+         where exec_typ = 'CYCT'
+           and deferred_dte = sysdate + 1
+           and command = 'fix validation errors for location where stoloc = ''' || @srcloc || '''
+   and wh_id = ''' || @wh_id || ''''
+           and exec_kv1 = 'TRYONCLEANUP'
+           and exec_kv2 = 'WORKORDERS'
+        |
+        hide stack variable
+         where name = 'exec_id'
+    };
+	
+    [select distinct stoloc
+       from pckwrk_view pwv,
+            pckmov pm
+      where pwv.wkonum = @wkonum
+        and pwv.wkorev = @wkorev
+        and pwv.wh_id = @wh_id
+        and pwv.client_id = @client_id
+        and pwv.cmbcod = pm.cmbcod] catch(-1403)
+    |
+    if (@stoloc != "")
+    {
+        create deferred execution
+         where exec_typ = 'CYCT'
+           and deferred_dte = sysdate + 1
+           and command = 'fix validation errors for location where stoloc = ''' || @stoloc || '''
+   and wh_id = ''' || @wh_id || ''''
+           and exec_kv1 = 'TRYONCLEANUP'
+           and exec_kv2 = 'WORKORDERS'
+        |
+        hide stack variable
+         where name = 'exec_id'
+    };
+}
+|
+/* update the work order header status to Complete for purging*/
+{
+    [select wkosts
+       from wkohdr
+      where wkonum = @wkonum
+        and wkorev = @wkorev
+        and wh_id = @wh_id
+        and client_id = @client_id] catch(-1403)
+    |
+    if (@wkosts != '' and @wkosts != 'C')
+    {
+        [update wkohdr
+            set wkosts = 'C'
+          where wkonum = @wkonum
+            and wkorev = @wkorev
+            and wh_id = @wh_id
+            and client_id = @client_id];
+        [update wkodtl
+            set linsts = 'K'
+          where wkonum = @wkonum
+            and wkorev = @wkorev
+            and wh_id = @wh_id
+            and client_id = @client_id];
+    }
+}
+|
+{
+    /* this one command takes care of all work order related tables, including pick work associated to the work order */
+    purge work order
+}
+|
+/* Need to commit here to clear locks on locations so we can fix location validation errors */
+commit
+|
+/*execute deferred commands to fix validation errors on pick source and destination locations */
+{
+    [select exec_id
+       from deferred_exec
+      where exec_typ = 'CYCT'
+        and exec_kv1 = 'TRYONCLEANUP'
+        and exec_kv2 = 'WORKORDERS'
+        and exec_sts is null] catch(-1403)
+    |
+    if (@exec_id != '')
+    {
+        [update deferred_exec
+            set deferred_dte = ''
+          where exec_id = @exec_id]
+        |
+        execute deferred commands
+         where exec_id = @exec_id catch(-1403)
+    }
+}

@@ -1,0 +1,2 @@
+trlr_num,inv_num,yard_loc,invtyp,prtnum,lotnum,rcvsts,ap_sts,qa_sts,expqty,supnum,rec_loc,dep_loc,rcv_qty,putaway_method,asn_flg,validate_loc,actcod,rcv_prtnum
+TSTRK01,TSINV001,RDCK-002,P,SOAP-10,LOT001,A,A,,50,DEFSUP,RCVSTG-002,RCVSTG-002,1,1,FALSE,,INVRCV,SHAMPOO-01

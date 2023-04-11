@@ -1,0 +1,43 @@
+/*
+    Dataset Name: Triggered_Replen/load1
+    Description: This dataset will be used to create the load that will be allocated as a replenishment from srcloc
+*/
+
+publish data
+ where wh_id = $wh_id
+   and client_id = $client_id
+   and prt_client_id = $prt_client_id
+   and devcod = $devcod
+   and prtnum = $prtnum
+   and untqty = $untqty
+   and invsts_prg = $invsts_prg
+   and caslod = $caslod
+   and to_srcloc = $srcloc						   
+   and adjrea = $adjrea
+   and adjact = $adjact
+   and lotnum = nvl($lotnum, '----')							   
+|
+/*create the pallet that will be allocated as a replen from srcloc*/
+{
+    create inventory
+     where srcloc = 'PERM-ADJ-LOC'
+       and asset_typ = ''
+       and wh_id = @wh_id
+       and devcod = @devcod
+       and reacod = @adjrea
+       and adj_ref2 = ''
+       and adj_ref1 = ''
+       and prtnum = @prtnum
+       and prt_client_id = @prt_client_id
+       and client_id = @client_id
+       and untcas = '1'
+       and untpak = '1'
+       and actcod = @adjact
+       and invsts = @invsts_prg
+       and lodnum = @caslod				   
+       and dstloc = @to_srcloc
+       and untqty = @untqty					
+       and lotnum = @lotnum
+    |
+    commit
+}

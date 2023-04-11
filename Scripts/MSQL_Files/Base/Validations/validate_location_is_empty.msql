@@ -1,0 +1,48 @@
+/* 
+MSQL File: validate_location_is_empty.msql
+Description: This script confirms that a location is empty and there is no pending inventory.
+This MSQL is designed to be used with the validation logic.
+Inputs:
+	Required:
+		wh_id - Warehouse Id 
+		parameter_1 - Location (parameter_1)
+	Optional:
+		None
+Outputs:
+	validation_status - TRUE or FALSE 
+	error_message - Error Message set when validation fails
+*/
+publish data
+ where wh_id = $wh_id
+   and stoloc = $parameter_1
+|
+[select nvl(sum(untqty), 0) untqty
+   from inventory_view
+  where wh_id = @wh_id
+    and stoloc = @stoloc]
+|
+if (@untqty = 0)
+{
+    [select nvl(sum(i.pndqty), 0) pndqty
+       from invsum i
+      where i.wh_id = @wh_id
+        and i.stoloc = @stoloc]
+}
+|
+if (@pndqty = 0 and @untqty = 0)
+{
+    publish data
+     where validation_status = 'TRUE'
+}
+else if (@untqty > 0 )
+{
+    publish data
+     where validation_status = 'FALSE'
+       and error_message = "Location " || @stoloc || " is not empty"
+}
+else if (@pndqty > 0)
+{
+    publish data
+     where validation_status = 'FALSE'
+       and error_message = "Location " || @stoloc || " has pending quantity"
+}

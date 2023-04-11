@@ -1,0 +1,39 @@
+Playlist: 
+
+Resources: ../..
+
+Working Directory: 
+
+Namespaces: 
+
+FailFast: NONE
+
+Items:
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-0010 Terminal Inbound Receiving.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-0020 Terminal Inbound Putaway.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-0030 Terminal Inbound Reverse Receiving.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-0040 Terminal Inbound ASN Receiving.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-0050 Terminal Inbound Receiving Without Order.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-0060 Terminal Inbound ASN Receiving Non Trusted Supplier.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-0070 Terminal Inbound Unload All.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-0080 Terminal Inbound Directed Putaway from Receiving Override.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-0090 Terminal Inbound Over Receiving Authorized.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-0100 Terminal Inbound Directed Putaway Directed Work.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-0110 Terminal Inbound Blind Receiving.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1010 Web Inbound Close Receipt.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1020 Web Inbound Reverse Receiving.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1030 Web Inbound Create Order.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1040 Web Inbound Create Quality Issue.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1050 Web Inbound Complete OSD Receipt.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1060 Web Inbound Validate Inbound Shipments.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1070 Web Inbound Create Inbound Shipment.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1080 Web Inbound Copy Inbound Order to Inbound Shipment.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1090 Web Inbound Unload All Without Receiving.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1100 Web Inbound Putaway.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1110 Web Inbound Non ASN Receiving.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1111 Web Inbound ASN Receiving.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1120 Web Inbound Receiving Without Trailer.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1130 Web Inbound Assign Shipment.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1140 Web Inbound Complete Shipment.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1150 Web Inbound Capture Quality Incident.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-5010 Flow Reverse Receive LPN.feature

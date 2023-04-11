@@ -1,0 +1,50 @@
+/*
+MSQL File: get_cycle_count_next_location_for_lpn_count.msql
+Description: This MSQL script gets the next location to count when running LPN cycle count scenarios. 
+   The script will get the next elegible location to count based on the count batch and wh_id. The script also accounts for 
+   cycle counting rules requiring different users to complete the first and second counts if the warehouse is configured with that restriction.
+   MOCA environment variables for cntbat, wh_id, and username are required for this query to return results.
+*/
+
+publish data
+ where cntbat = $cntbat
+   and wh_id = $wh_id
+   and username = $username
+|
+[select locmst.stoloc
+   from cntwrk
+   join locmst
+     on cntwrk.stoloc = locmst.stoloc
+    and cntwrk.wh_id = locmst.wh_id
+   join cnttyp
+     on cntwrk.cnttyp = cnttyp.cnttyp
+   join cntzon
+     on cntzon.cnt_zone_id = locmst.cnt_zone_id
+    and cntzon.lpncntflg = 1
+   join poldat_view
+     on poldat_view.polcod = 'CYCLE-COUNTING'
+    and poldat_view.polvar = 'LPN-COUNT'
+    and poldat_view.polval = 'CNTTYP'
+    and poldat_view.wh_id = locmst.wh_id
+    and poldat_view.rtstr1 = cntwrk.cnttyp
+  where cntwrk.cntbat = @cntbat
+    and cntwrk.cntsts = 'R'
+    and cntwrk.wh_id = @wh_id
+ /* exclude locations for counts that are supposed to be done by a different user */
+     and cntwrk.stoloc not in (select stoloc
+                            from cntwrk c2
+                            join cnttyp ct1
+                              on ct1.cnttyp = c2.cnttyp
+                            join cnttyp ct2
+                              on ct2.cnttyp = cntwrk.cnttyp
+                           where c2.cnt_usr_id = @username
+                                 and c2.cntbat = cntwrk.cntbat
+                                 and c2.wh_id = cntwrk.wh_id
+                                 and (c2.cnttyp = cntwrk.cnttyp or (ct2.diff_usr_flg = 1 and cntwrk.cnttyp = ct1.nxt_cnttyp)))
+    and cnttyp.oprcod in (select oprcod
+                        from usropr
+                       where usr_id = @username
+                         and wh_id = @wh_id )
+    and rownum = 1
+  order by to_number(nvl(locmst.cntseq, 0)),
+        nvl(locmst.trvseq, '0')]

@@ -1,0 +1,14 @@
+/*
+MSQL File: validate_location_in_error.msql
+Description: This MSQL will check for a location in inventory error status
+*/
+
+publish data
+ where wh_id = $wh_id
+   and stoloc = $stoloc
+|
+[select locsts
+   from locmst
+  where stoloc = @stoloc
+    and wh_id = @wh_id
+    and locsts = 'I']

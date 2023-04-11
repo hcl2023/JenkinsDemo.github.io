@@ -1,0 +1,77 @@
+Playlist: 
+
+Resources: ../..
+
+Working Directory: 
+
+Namespaces: 
+
+FailFast: NONE
+
+Items:
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-4010 Mobile Inbound Receiving.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-4020 Mobile Inbound Putaway.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-4030 Mobile Inbound Reverse Receiving.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-4040 Mobile Inbound ASN Receiving.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-4050 Mobile Inbound Receiving Without Order.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-4060 Mobile Inbound ASN Receiving Non Trusted Supplier.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-4070 Mobile Inbound Unload All.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-4080 Mobile Inbound Directed Putaway from Receiving Override.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-4090 Mobile Inbound Over Receiving Authorized.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-4100 Mobile Inbound Directed Putaway Directed Work.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-4110 Mobile Inbound Blind Receiving.feature
+
+Feature: ../../Test Cases/Base/Inventory/BASE-CNT-4010 Mobile Inventory Count LPN Undirected.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-CNT-4011 Mobile Inventory Count LPN Directed.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-CNT-4021 Mobile Inventory Count Summary Directed.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-CNT-4030 Mobile Inventory Count Detail Undirected.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-CNT-4031 Mobile Inventory Count Detail Directed.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-CNT-4040 Mobile Inventory Audit Count Undirected.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-CNT-4041 Mobile Inventory Audit Count Directed.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-CNT-4042 Mobile Inventory Audit Count Add LPN Directed.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-CNT-4050 Mobile Inventory Count Manual Undirected.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-4010 Mobile Inventory Adjustment Add.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-4020 Mobile Inventory Adjustment Delete.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-4030 Mobile Inventory Adjustment Increase.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-4040 Mobile Inventory Adjustment Decrease.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-4050 Mobile Inventory Transfer Directed.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-4060 Mobile Inventory Transfer Undirected.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-4070 Mobile Inventory Status Change.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-4080 Mobile Inbound Directed Putaway from Inventory Override.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-4090 Mobile Inventory Location Display.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-4100 Mobile Inventory Display.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-4120 Mobile Inventory Partial Move.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-4130 Mobile Inventory Transfer Invalid.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-4140 Mobile Inventory Transfer Multiple LPNs Undirected.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-4150 Mobile Inventory Partial Move Multiple LPNs.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-6000 Flow Mobile Inventory Move.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-6010 Flow Mobile Inventory Adjust With Approval Limits.feature
+
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-4010 Mobile Outbound Carton Picking Undirected.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-4020 Mobile Outbound Carton Picking Undirected Cancel and Reallocate.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-4030 Mobile Outbound Pallet Picking Directed.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-4040 Mobile Outbound Pallet Picking Cancel and Reallocate Directed.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-4050 Mobile Outbound List Pick Case To Pallet Directed Cancel and Reallocate.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-4060 Mobile Outbound List Pick Case To Pallet Directed.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-4070 Mobile Outbound Pallet Picking Undirected.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-4080 Mobile Outbound Unpicking.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-4090 Mobile Outbound List Pick Case To Pallet Undirected.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-4100 Mobile Outbound List Pick Short Ship With Reship Directed.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-4110 Mobile Outbound Count Near Zero.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-4120 Mobile Outbound List Pick Equipment Full Set Down Resume.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-BLD-4010 Mobile Outbound Pallet Building Undirected.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-4010 Mobile Outbound Trailer Close.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-4020 Mobile Outbound Reopen Closed Transport Equipment.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-4030 Mobile Unload and Unpick Shipment.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-LDG-4010 Mobile Outbound Loading LTL Directed.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-LDG-4020 Mobile Outbound Loading LTL Undirected.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-LDG-4030 Mobile Outbound Loading TL Directed.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-LDG-4040 Mobile Outbound Loading TL Undirected.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-LDG-6000 Flow Mobile Outbound Audit.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-RPL-4010 Mobile Outbound Pallet Replenishment.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-RPL-4020 Mobile Outbound Case Replenishment.feature
+
+Feature: ../../Test Cases/Base/Production/BASE-PRD-6010 Flow Mobile Work Order.feature
+
+Feature: ../../Test Cases/Base/Yard/BASE-YRD-4010 Mobile Trailer Move.feature
+Feature: ../../Test Cases/Base/Yard/BASE-YRD-6000 Flow Mobile Yard Audit.feature

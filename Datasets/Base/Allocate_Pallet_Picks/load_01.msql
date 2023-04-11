@@ -1,0 +1,217 @@
+/*
+   Dataset Name: Allocate_Pallet_Picks
+   Description:  This creates a wave to be allocated by first creating an address, customer, shipment, order, order line, and trailer.
+   It then assigned the order to the shipment, checks in the trailer, etc. before processing the wave.  The next load_02.msql allocates said wave.
+ */
+/* Populate the data assigned in Cycle */
+publish data
+ where wh_id = $wh_id
+   and client_id = $client_id
+   and prt_client_id = $prt_client_id
+   and devcod = $devcod
+   and ordnum = $ordnum
+   and ship_id = $ship_id
+   and adr_id = $adr_id
+   and cstnum = $cstnum
+   and carcod = $carcod
+   and srvlvl = $srvlvl
+   and ordtyp = $ordtyp
+   and prtnum = $prtnum
+   and untqty = $untqty
+   and invsts_prg = $invsts_prg
+   and wave_num = $wave_num
+   and move_id = $move_id
+   and trlr_id = $trlr_id
+   and dock = $dock
+|
+{
+    publish data
+     where st_adr_id = @adr_id
+    |
+    /* Creates an address with default Cycle values.  Specifies the client_id and adr_id assigned in Cycle */
+    create address
+     where client_id = @client_id
+       and adr_id = @st_adr_id
+       and adrnam = 'Cycle Outbound Address'
+       and adrtyp = 'CST'
+       and adrln1 = '9973 W Jackson'
+       and adrln2 = ''
+       and adrln3 = ''
+       and adrcty = 'CHICAGO'
+       and adrstc = 'IL'
+       and adrpsz = '60631'
+       and ctry_name = 'USA'
+       and phnnum = ''
+       and faxnum = ''
+       and rsaflg = ''
+       and temp_flg = '0'
+       and po_box_flg = '0'
+       and last_name = 'Test-Address'
+       and first_name = 'Cycle Outbound'
+       and email_adr = ''
+       and locale_id = 'US_ENGLISH'
+       and pool_flg = '0'
+       and ship_phnnum = ''
+       and ship_email_adr = ''
+       and ship_attn_name = ''
+       and tim_zon_cd = ''
+       and host_ext_id = @st_adr_id
+    |
+    /* Create a new customer  */
+    create customer
+     where client_id = @client_id
+       and cstnum = @cstnum
+       and adr_id = @adr_id
+       and host_ext_id = @cstnum
+       and pltbld_consby = 'STAGINGLANE'
+    |
+    /* Create a new shipment for the order.  Dates are hard-coded */
+    create shipment
+     where wh_id = @wh_id
+       and ship_id = @ship_id
+       and host_client_id = @client_id
+       and adr_client_id = @client_id
+       and host_ext_id = @ordnum
+       and rt_host_adr_id = @st_adr_id
+       and carcod = nvl(@carcod, 'CYCCAR1')
+       and srvlvl = nvl(@srvlvl, 'TL')
+       and sddflg = '0'
+       and early_shpdte = '20161222163434'
+       and late_shpdte = '20181222163434'
+       and early_dlvdte = '20161222163434'
+       and late_dlvdte = '20181222163434'
+    |
+    /* Creates an order for this pick using the values assigned in Cycle */
+    create order
+     where client_id = @client_id
+       and ordnum = @ordnum
+       and wh_id = @wh_id
+       and btcust = @cstnum
+       and stcust = @cstnum
+       and rtcust = @cstnum
+       and bt_adr_id = decode(@bt_adr_id, '', @st_adr_id, @bt_adr_id)
+       and st_adr_id = @st_adr_id
+       and rt_adr_id = decode(@rt_adr_id, '', @st_adr_id, @rt_adr_id)
+       and ordtyp = nvl(@ordtyp, 'C')
+       and entdte = '20170722163434'
+       and cponum = '449093622'
+       and cpodte = ''
+       and carflg = 1
+       and rrlflg = 0
+       and rmanum = ''
+       and payment_type = ''
+       and cod_payment_type = ''
+    |
+    /* Create an order line for the above order with the prtnum and untqty assigned in Cycle. 
+       We'll then attatch the order to the shipment */
+    create order line
+     where client_id = @client_id
+       and prt_client_id = @prt_client_id
+       and ordnum = @ordnum
+       and ordlin = '0001'
+       and ordsln = '0000'
+       and wh_id = @wh_id
+       and prtnum = @prtnum
+       and host_ordqty = @untqty
+       and lotnum = ''
+       and ovramt = 0
+       and parflg = 0
+       and rpqflg = 0
+       and splflg = 1
+       and bckflg = 0
+       and prcpri = ''
+       and entdte = '20170122163434'
+       and sales_ordnum = ''
+       and sales_ordlin = ''
+       and cstprt = ''
+       and prjnum = ''
+       and untcas = 0
+       and untpak = 0
+       and untpal = 0
+       and edtflg = 1
+       and xdkflg = 0
+       and ordqty = @untqty
+       and rsvqty = 0
+       and pckqty = 0
+       and mode = 'MQSI'
+       and frsflg = 0
+       and invsts_prg = nvl(@invsts_prg, 'A')
+       and host_invsts = '0001-U'
+       and non_alc_flg = 0
+       and vc_codflg = '0'
+       and early_shpdte = '20181222163434'
+       and late_shpdte = '20181222163434'
+       and early_dlvdte = '20181222163434'
+       and late_dlvdte = '20181222163434'
+       and uc_cponum = '0003374914'
+       and sddflg = '0'
+       and carcod = nvl(@carcod, 'BAD')
+       and srvlvl = nvl(@srvlvl, '01')
+       and pool_cod = ''
+    |
+    assign order to shipment
+     where ordnum = @ordnum
+       and client_id = @client_id
+       and ordlin = '0001'
+       and ordsln = '0000'
+       and host_ext_id = @ordnum
+       and wh_id = @wh_id
+       and pckqty = @untqty
+    |
+    /* Create a new trailer and check it in */
+    create trailer
+     where trlr_id = @trlr_id
+       and carcod = @carcod
+       and trlr_num = @trlr_id
+       and yard_loc_wh_id = @wh_id
+       and stoloc_wh_id = @wh_id
+       and trlr_cod = 'SHIP'
+    |
+    check in trailer
+     where yard_loc = @dock
+       and trlr_id = @trlr_id
+       and yard_loc_wh_id = @wh_id
+    |
+    /* Create a carrier move for the shipment */
+    create move plan
+     where move_plan_id = @move_id
+       and move_typ = 'DG'
+    |
+    create carrier move
+     where car_move_id = @move_id
+       and move_plan_id = @move_id
+       and client_id = @client_id
+       and carcod = @carcod
+       and attn_cod = 'NORMAL'
+       and trlr_id = @trlr_id
+       and trans_mode = 'T'
+    |
+    /* Create a new stop and assign the shipment to it */
+    create stop
+     where car_move_id = @move_id
+       and adr_id = @adr_id
+    |
+    assign shipment to stop
+     where ship_id = @ship_id
+       and wh_id = @wh_id
+} >> res
+|
+/* Find where the material can be staged */
+[select min(l.mov_zone_id) cyc_mov_zone
+   from locmst l,
+        loc_typ t
+  where l.wh_id = t.wh_id
+    and l.wh_id = @wh_id
+    and t.loc_typ_id = l.loc_typ_id
+    and t.stgflg = 1
+    and t.loc_typ = 'SSTG'
+    and l.stoloc not in (select dstloc
+                           from shp_dst_loc)]
+|
+/* Create a new wave */
+process wave rules
+ where wh_id = @wh_id
+   and rule_nam = 'STD-SHIPSELECTION'
+   and schbat = @wave_num
+   and dst_mov_zone_id = @cyc_mov_zone
+   and stcust = @cstnum

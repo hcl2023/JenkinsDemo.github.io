@@ -1,0 +1,13 @@
+/*
+MSQL File: validate_inbound_order_in_shipment.msql
+Description: This MSQL will check that the inbound order was copied into the inbound shipment.
+*/
+
+publish data
+ where wh_id = $wh_id
+   and trknum = $trknum
+|
+[select distinct 1
+  from rcvlin
+  where trknum = @trknum
+  and wh_id = @wh_id]

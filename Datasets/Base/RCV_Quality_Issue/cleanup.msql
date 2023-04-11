@@ -1,0 +1,18 @@
+/*
+Dataset Name: RCV_Quality_Issue/cleanup
+Description: Cleans up the data from creating a Inbound Quality Issue in the Web.
+*/
+publish data
+  where supnum = $supnum
+    and ib_issue = $ib_issue
+    and carcod = $carcod
+|
+[delete
+   from inbqlt
+  where supnum = @supnum
+    and ib_issue = @ib_issue] catch(@?)
+|
+[delete
+   from inbqlt
+  where carcod = @carcod
+    and ib_issue = @ib_issue] catch(@?)

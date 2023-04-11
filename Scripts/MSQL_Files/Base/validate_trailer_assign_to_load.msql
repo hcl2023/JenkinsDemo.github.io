@@ -1,0 +1,14 @@
+/*
+MSQL File: validate_trailer_assign_to_load.msql
+Description: This MSQL check whether the Trailer has been assign to load or not
+*/
+
+/* This will Verify trlr_id is assigned to load. */
+publish data
+ where car_move_id = $move_id
+   and wh_id = $wh_id
+|
+[select *
+   from car_move
+  where car_move_id = @car_move_id
+    and wh_id = @wh_id]

@@ -1,0 +1,18 @@
+/*
+MSQL File: get_released_count_batch_by_wh_id_and_count_type.msql
+Description: This MSQL script is used by cycle count scenarios to get the next count batch of a 
+   certain count type the is released.
+   MOCA environment variables for wh_id and cnttyp need to be provided for this query to return results
+*/
+
+publish data
+ where cnttyp = $cnttyp
+   and wh_id = $wh_id
+|
+[select cntwrk.cntbat
+   from cntwrk
+  where cntwrk.wh_id = @wh_id
+    and cntwrk.cntsts = 'R'
+    and cntwrk.cnttyp = @cnttyp 
+    and rownum = 1
+  order by cntwrk.cntbat]

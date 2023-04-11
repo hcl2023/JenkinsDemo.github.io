@@ -1,0 +1,15 @@
+/*
+MSQL File: validate_inbound_shipment.msql
+Description: This MSQL will check for a inbound shipment.
+*/
+
+publish data
+ where wh_id = $wh_id
+   and trknum = $trknum
+   and rcvtrk_stat = $rcvtrk_stat
+|
+[select distinct 1
+  from rcvtrk
+  where trknum = @trknum
+  and rcvtrk_stat = @rcvtrk_stat
+  and wh_id = @wh_id]

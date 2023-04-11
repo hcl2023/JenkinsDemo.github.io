@@ -1,0 +1,24 @@
+publish data
+ where wh_id = $wh_id
+   and client_id = $client_id
+   and prt_client_id = $prt_client_id
+   and devcod = $devcod
+   and wkonum = $wkonum
+   and wkorev = $wkorev
+|
+{
+    [select *
+       from wkodtl
+      where wkonum = @wkonum
+        and wkorev = @wkorev
+        and client_id = @client_id
+        and wh_id = @wh_id] catch(@?)
+    |
+    remove work order detail
+     where @* catch(@?);
+    remove work order
+     where wkonum = @wkonum
+       and wkorev = @wkorev
+       and client_id = @client_id
+       and wh_id = @wh_id catch(@?)
+}

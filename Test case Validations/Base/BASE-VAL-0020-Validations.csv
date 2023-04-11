@@ -1,0 +1,8 @@
+type,instruction_type,instruction,parameter_1,parameter_2,parameter_3,parameter_4,parameter_5,parameter_6
+PRE,MSQL,Validations/validate_amount_of_part_in_location.msql,$stoloc,$prtnum,700, , , 
+PRE,MSQL,Validations/validate_amount_of_part_in_location.msql,$stoloc,$prtnum,$init_qty, , , 
+PRE,MSQL,Validations/validate_location_contains_inventory_id.msql,$stoloc,CYC_EA_LOD5,,,,
+POST,MSQL,Validations/validate_location_contains_inventory_id.msql,$stoloc,$prtnum,,,,
+POST ,Scenario,Validate Number Variable Value,$qty20,20,,,,
+POST,Scenario,Validate Number is Less than Value,$qty20,25,,,,
+POST ,Scenario,Validate Number is Greater than Value,$qty20,15,,,,

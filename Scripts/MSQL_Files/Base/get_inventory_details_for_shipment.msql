@@ -1,0 +1,19 @@
+/*
+MSQL File: get_inventory_details_for_shipment.msql
+Description: This MSQL looks up the details of picked inventory for a shipment.
+*/
+
+publish data
+ where ship_id = $ship_id
+   and wh_id = $wh_id
+|
+list inventory for shipments
+ where ship_id = @ship_id
+   and wh_id = @wh_id >> res
+|
+publish data
+ where number_loads = rowcount(@res)
+|
+publish data combination
+ where number_loads = @number_loads
+   and res = @res

@@ -1,0 +1,77 @@
+/* 
+MSQL File: list_outbound_event_data.msql
+Description: 	This script returns data for an outbound integrator event    
+				An event can selected by evt_id & evt_arg_val or evt_data_seq  
+Inputs:
+	Required:
+		None
+	Optional:
+       	evt_id - Integrator Event
+		evt_arg_val - Integrator Event Argument Value
+		evt_data_seq - Integrator Event Data Sequence Value
+		evt_dest_sys_id - Integrator system that an event is sent to
+Outputs:
+	xml - XML of the event 
+    evt_data_seq - Event Data Sequence
+    evt_stat_cd - Event Status Code
+    ifd_data_seq - Interface Document Sequence number
+    src_sys_id - Source System Id
+	dest_sys_id - Destination System Id
+    ifd_id - ID of IFD
+    ifd_ver - Version of IFD
+    evt_id = Event Id 
+    evt_user_id = User how logged the event
+*/
+
+publish data
+ where evt_id = $evt_id
+   and evt_arg_val = $evt_arg_val
+   and evt_data_seq = $evt_data_seq
+   and evt_dest_sys_id = $evt_dest_sys_id
+|
+if (@evt_dest_sys_id != '') publish data where dest_sys_id = @evt_dest_sys_id
+|
+[select e.sys_id src_sys_id,
+        h.sys_id dest_sys_id,
+		e.*,
+        h.*
+   from sl_evt_data e
+   left outer
+   join sl_ifd_data_hdr h
+     on e.evt_data_seq = h.evt_data_seq
+  where (e.evt_data_seq = (select max(e2.evt_data_seq)
+                             from sl_evt_data e2,
+                                  sl_evt_arg_data a
+                            where e2.evt_data_seq = a.evt_data_seq
+                              and e2.evt_id = @evt_id
+                              and a.evt_arg_val = @evt_arg_val) or e.evt_data_seq = @evt_data_seq)
+    and h.dwnld_seq is null
+	and @+h.sys_id^dest_sys_id
+	order by e.evt_data_seq desc]  
+|
+if (@? = 0)
+{
+    if (@ifd_data_seq != '')
+    {
+        sl_get ifd_data_as_xml
+         where ifd_data_seq = @ifd_data_seq
+           and convert_data = 'F'
+           and show_ifd_tag = 'T'
+        |
+        get xml
+        |
+        publish data
+         where mxml_xml = @mxml_xml
+    }
+    |
+    publish data
+     where xml = @mxml_xml
+       and evt_data_seq = to_char(@evt_data_seq)
+       and evt_stat_cd = @evt_stat_cd
+       and ifd_data_seq = to_char(@ifd_data_seq)
+       and sys_id = @sys_id
+       and ifd_id = @ifd_id
+       and ifd_ver = @ifd_ver
+       and evt_id = @evt_id
+       and evt_user_id = @evt_user_id
+}

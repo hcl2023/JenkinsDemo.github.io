@@ -1,0 +1,13 @@
+/*
+MSQL File: check_wave_status.msql
+Description: This MSQL checks the status of a wave
+*/
+
+publish data
+ where schbat = $wave_num
+   and wh_id = $wh_id
+|
+[select batsts 
+	from pckbat
+   where schbat = @schbat
+   	 and wh_id = @wh_id];

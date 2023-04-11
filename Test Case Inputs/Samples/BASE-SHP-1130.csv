@@ -1,0 +1,2 @@
+ordnum,ship_id,adr_id,cstnum,carcod,srvlvl,ordtyp,prtnum,untqty,invsts_prg,wave_num,move_id,trlr_id,dock,pck_dstloc,load_stop,operation,seal
+CYC_OBORD1130,CYC_OBSHP1130,CYC_OBADR1130,CYC_OBCST1130,CYCCAR1,TL,C,C_DR_PRT12,1,A,CYC_OBWAV1130,CYC_OBMOV3,CYC_OBTRL1130,CYC_SDCK_015,RDT001,YES,CLOSEONLY,Seal 6

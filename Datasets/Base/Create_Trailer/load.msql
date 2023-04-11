@@ -1,0 +1,28 @@
+/*
+Dataset Name: Create_Trailer/load
+Description: This dataset will Create a new trailer and check it in.
+*/
+
+/* Create a new trailer and check it in */
+publish data
+ where wh_id = $wh_id
+   and client_id = $client_id
+   and prt_client_id = $prt_client_id
+   and devcod = $devcod
+   and trlr_id = $trlr_id
+   and carcod = $carcod
+   and trlr_cod = $trlr_cod
+   and yard_loc = $yard_loc
+|   
+create trailer
+ where trlr_id = @trlr_id
+   and carcod = @carcod
+   and trlr_num = @trlr_id
+   and yard_loc_wh_id = @wh_id
+   and stoloc_wh_id = @wh_id
+   and trlr_cod = @trlr_cod
+|
+check in trailer
+ where yard_loc = @yard_loc
+   and trlr_id = @trlr_id
+   and yard_loc_wh_id = @wh_id;

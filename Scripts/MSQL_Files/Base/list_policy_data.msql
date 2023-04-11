@@ -1,0 +1,26 @@
+/*
+MSQL File: list_policy_data.msql
+Description: This MSQL gets policy data
+Inputs:
+  Required:
+	wh_id - Warehouse
+	polcod - policy code
+	polvar - policy variable
+	polval - policy value
+  Optional:
+	None
+Output:
+	Policy Data values
+*/
+
+publish data
+ where wh_id = $wh_id
+   and polcod = $polcod
+   and polvar = $polvar
+   and polval = $polval
+|
+list policy data
+where wh_id = @wh_id
+  and polcod = @polcod
+  and polvar = @polvar
+  and polval = @polval

@@ -1,0 +1,85 @@
+/* 
+   Dataset Name: Create_INV_Hold_Release
+   Description: This dataset creates in accordance to the number of loads defined and applies holds as necessary,If hold_mode = 0 will hold the Inventory. Variables in the publish block of the script are mandatory.
+ */
+publish data
+ where wh_id = $wh_id
+   and client_id = $client_id
+   and prt_client_id = $prt_client_id
+   and devcod = $devcod
+   and count = $num_loads
+   and lodnum_1 = $lodnum_1
+   and lodnum_2 = $lodnum_2
+   and lodnum_3 = $lodnum_3
+   and devcod = $devcod
+   and reacod = $reacod
+   and prtnum = $prtnum
+   and lotnum = $lotnum
+   and actcod = $actcod
+   and invsts = $invsts
+   and ftpcod = $ftpcod
+   and stoloc = $stoloc
+   and untqty = $untqty
+   and catch_qty = $catch_qty
+   and hold_mode = $hold_mode
+   and hldnum = $hldnum
+|
+do loop
+ where count = @count
+|
+publish data
+ where cmd = 'publish data where lodnum = @lodnum_' || (@i + 1)
+|
+execute server command
+ where cmd = @cmd
+|
+if (@lodnum is null)
+{
+    generate next number
+     where numcod = 'lodnum'
+    |
+    publish data
+     where lodnum = @nxtnum
+}
+|
+publish data
+ where lodnum = @lodnum
+|
+create inventory
+ where srcloc = 'PERM-ADJ-LOC'
+   and asset_typ = ''
+   and wh_id = @wh_id
+   and devcod = @devcod
+   and reacod = @reacod
+   and adj_ref2 = ''
+   and adj_ref1 = ''
+   and prtnum = @prtnum
+   and prt_client_id = @prt_client_id
+   and client_id = @client_id
+   and untcas = '1'
+   and untpak = '1'
+   and actcod = @actcod
+   and invsts = @invsts
+   and ftpcod = @ftpcod
+   and lodnum = @lodnum
+   and dstloc = @stoloc
+   and untqty = @untqty
+   and lotnum = nvl(@lotnum, '----')
+   and catch_qty = @catch_qty
+|
+if (@hold_mode = 0)
+{
+    [select dtlnum as hld_dtlnum
+       from inventory_view
+      where lodnum = @dstlod
+        and wh_id = @wh_id]
+    |
+    process inventory hold change
+     where dtlnum_list = @hld_dtlnum
+       and prc_hldpfx = @wh_id
+       and prc_hldnum = @hldnum
+       and prc_reacod = @reacod
+       and acttyp = 'A'
+       and to_invsts_list = @invsts
+       and wh_id = @wh_id
+}

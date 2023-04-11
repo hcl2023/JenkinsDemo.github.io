@@ -1,0 +1,16 @@
+/*
+Dataset Name: RCV_Inbound_Shipment/cleanup
+Description: Cleans up the data from creating a Inbound Shipment in the Web.
+*/
+publish data
+   where trknum = $trknum
+     and rcvtrk_stat = $rcvtrk_stat
+|
+[delete
+   from rcvtrk
+  where trknum = @trknum
+    and rcvtrk_stat = @rcvtrk_stat] catch(@?)
+|
+[delete
+   from locmst
+  where stoloc = @trknum] catch(@?)

@@ -1,0 +1,33 @@
+value,variable
+automationId:LoginDialog,wms_login_dialog_window
+automationId:1001,wms_login_service_url_field
+AutomationId:btnGo,wms_login_go_button
+AutomationId:txtUsername,wms_login_username_field
+AutomationId:txtPassword,wms_login_password_field
+AutomationId:lblStatus,wms_login_status_label
+controlType:'Dialog',wms_login_dialog
+name:This device does not have a device code defined.  Define one now?,wms_post_login_prompt
+AutomationId:lblCurAppTitle,wms_current_screen_title
+AutomationId:tbLocate,wms_post_login_verification_object
+automationId:cbWhId,wms_login_wh_combo_box
+automationId:frmDLx,wms_dlx_window
+Name:Regeneration of the warehouse is needed!,wms_logout_regen_wh_msg
+Name:Are you done for the day?,wms_logout_done_for_day_msg
+AutomationId:lblCurAppTitle,wms_current_screen_title
+Name:Exit,wms_exit_button
+Name:Home,wms_home_button
+Name:Next Form,wms_next_form_button
+Name:Clear,wms_clear_button
+Name:Find,wms_find_button
+Name:New,wms_new_button
+Name:Save,wms_save_button
+Name:Delete,wms_delete_button
+Name:Copy,wms_copy_button
+Name:Prev Rec,wms_prev_rec_button
+Name:Next Rec,wms_next_rec_button
+Name:Yes,wms_yes_button
+Name:No,wms_no_button
+Name:OK,wms_ok_button
+name:Are you sure you want to save this record?,wms_are_you_sure_you_want_to_save_msg
+Name:Maximize,wms_maximize_button
+Name:Minimize,wms_minimize_button

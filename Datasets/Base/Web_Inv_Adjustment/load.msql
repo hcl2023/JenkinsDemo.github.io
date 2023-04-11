@@ -1,0 +1,41 @@
+/*
+ * This dataset will be used to load data for Web UI Inventory
+ * Adjustment features for increasing, decreasing and deleting inventory.
+ */
+publish data
+ where wh_id = $wh_id
+    and client_id = $client_id
+    and prt_client_id = $prt_client_id
+    and devcod = $devcod
+    and reacod = $reacod
+    and prtnum = $prtnum
+    and actcod = $actcod
+    and invsts = $invsts
+    and ftpcod = $ftpcod
+    and lodnum = $lodnum
+    and stoloc = $stoloc
+    and untqty = $untqty
+    and catch_qty = $catch_qty
+    and lotnum = $lotnum
+|
+create inventory
+ where srcloc = 'PERM-ADJ-LOC'
+   and asset_typ = ''
+   and wh_id = @wh_id
+   and devcod = @devcod
+   and reacod = @reacod
+   and adj_ref2 = ''
+   and adj_ref1 = ''
+   and prtnum = @prtnum
+   and prt_client_id = @prt_client_id
+   and client_id = @client_id
+   and untcas = '1'
+   and untpak = '1'
+   and actcod = @actcod
+   and invsts = @invsts
+   and ftpcod = @ftpcod
+   and lodnum = @lodnum
+   and dstloc = @stoloc
+   and untqty = @untqty
+   and catch_qty = @catch_qty
+   and lotnum = @lotnum;

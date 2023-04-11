@@ -1,0 +1,87 @@
+/*
+Dataset Name: Web_Inv_Adjustment/cleanup
+Description: Cleans up the data created during Web Inventory test cases.
+*/
+
+publish data
+    where wh_id = $wh_id
+      and client_id = $client_id
+      and prt_client_id = $prt_client_id
+      and devcod = $devcod
+      and prtnum = $prtnum
+      and stoloc = $stoloc
+	  and lodnum = $lodnum
+      and subnum = $subnum
+      and dtlnum = $dtlnum
+      and reacod = $reacod
+|
+if (@subnum = '')
+	hide stack variable
+	 where name = 'subnum'
+|
+if (@dtlnum = '')
+	hide stack variable
+	 where name = 'dtlnum'
+|
+[select *
+   from inventory_view
+  where lodnum = @lodnum
+    and stoloc = @stoloc
+    and prtnum = @prtnum
+	and prt_client_id = @prt_client_id
+	and wh_id = @wh_id
+    and @+dtlnum
+    and @+subnum] catch(-1403)
+|
+if (@? = 0)
+{
+    move inventory
+     where dstloc = 'PERM-ADJ-LOC'
+       and reacod = @reacod
+       and adj_ref2 = ''
+       and adj_ref1 = ''
+       and actcod = 'IDNTFY_AJ'
+       and reacod = @reacod
+}
+|
+/*Clean up any pending inv adjustments if approval required*/
+[select wh_id,
+        devcod,
+        stoloc,
+        oprcod,
+        nvl(lodnum, '----') lodnum,
+        nvl(subnum, '----') subnum,
+        nvl(dtlnum, '----') dtlnum,
+        prtnum,
+        prt_client_id,
+        scanned_qty,
+        nvl(orgcod, '----') orgcod,
+        nvl(revlvl, '----') revlvl,
+        nvl(lotnum, '----') lotnum
+   from rf_invadj
+  where wh_id = @wh_id
+    and prt_client_id = @prt_client_id
+    and stoloc = @stoloc
+    and prtnum = @prtnum
+    and lodnum = @lodnum
+    and oprcod = 'INVADJ'] catch(-1403)
+|
+if (@? = 0)
+{
+    reject inventory adjustment
+     where stoloc = @stoloc
+       and wh_id = @wh_id
+       and devcod = @devcod
+       and oprcod = @oprcod
+       and lodnum = @lodnum
+       and subnum = @subnum
+       and dtlnum = @dtlnum
+       and prtnum = @prtnum
+       and prt_client_id = @prt_client_id
+       and tostol = @stoloc
+       and frstol = 'PERM-ADJ-LOC'
+       and actcod = 'ADJREJ'
+       and reacod = 'REJ-APPROVAL'
+       and adjcmt = ''
+       and adjqty = @scanned_qty
+}

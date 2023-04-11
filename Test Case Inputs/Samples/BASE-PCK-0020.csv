@@ -1,0 +1,2 @@
+ordnum,ship_id,adr_id,cstnum,carcod,srvlvl,ordtyp,prtnum,untqty,invsts_prg,wave_num,move_id,trlr_id,dock,cancel_pick_flag,cancel_code
+OR_PCK0020,SH_PCK0020,AD_PCK0020,CT_PCK0020,CYCCAR1,TL,C,CYC_EA_PRT3,20,A,WV_PCK0020,MV_PCK0020,TR_PCK0020A,CYC_SDCK_010,TRUE,C-RA

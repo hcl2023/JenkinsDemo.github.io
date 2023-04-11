@@ -1,0 +1,39 @@
+/*
+MSQL File: check_integrator_order_download.msql
+Description: This MSQL checks order download records for all trntyps
+*/
+
+publish data
+ where trntyp = $trntyp
+   and ordnum = $ordnum
+   and query_str = $table_to_validate_change || '.' || $field_to_validate_change
+   and client_id = $client_id
+   and wh_id = $wh_id
+   and clause = $clause
+|
+if (@trntyp and (@trntyp = 'A' or @trntyp = 'D'))
+{
+    [select distinct 'x'
+       from ord
+      where ordnum = @ordnum
+        and client_id = @client_id
+        and wh_id = @wh_id]
+}
+else if (@trntyp and @trntyp = 'C')
+{
+    [select @query_str:raw
+       from ord,
+            ord_line
+      where ord.ordnum = ord_line.ordnum
+        and ord.wh_id = ord_line.wh_id
+        and ord.client_id = ord_line.client_id
+        and ord.ordnum = @ordnum
+        and ord.client_id = @client_id
+        and ord.wh_id = @wh_id 
+        @clause:raw]
+}
+else
+{
+    set return status
+     where status = 510
+}

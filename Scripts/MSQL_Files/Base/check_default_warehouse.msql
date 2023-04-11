@@ -1,0 +1,12 @@
+/*
+MSQL File: check_default_warehouse.msql
+Description: This MSQL will evaluate if the Cycle environment variable for wh_id matches the default wh (def_wh_flg)
+*/
+
+publish data
+ where wh_id = $wh_id
+|
+[select 'x'
+   from wh
+  where wh_id = @wh_id
+    and def_wh_flg = 1]

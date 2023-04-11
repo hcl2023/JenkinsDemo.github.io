@@ -1,0 +1,3 @@
+trlr_num,carcod,check_in_dock_loc,move_to_dock_loc,work_queue_or_immediate
+AAA_CYCTRLR-4010,CYCCAR1,RDCK-024,RDCK-025,work_queue
+AAA_CYCTRLR-4010,CYCCAR1,RDCK-024,RDCK-025,immediate

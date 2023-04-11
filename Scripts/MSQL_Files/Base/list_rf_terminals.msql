@@ -1,0 +1,12 @@
+/*
+MSQL File: list_rf_terminals.msql
+Description: This MSQL lists device information
+*/
+
+publish data
+ where devcod = $devcod
+   and wh_id = $wh_id
+|
+list rf terminals
+ where devcod = @devcod
+   and wh_id = @wh_id

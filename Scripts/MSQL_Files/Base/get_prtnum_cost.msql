@@ -1,0 +1,16 @@
+/* 
+MSQL File: get_prtnum_cost.msql
+Description: This MOCA script gets untcst from prtnum 
+*/
+
+publish data
+  where wh_id = $wh_id
+    and prtnum = $prtnum
+|
+[select untcst
+   from prtmst
+  where prtnum = @prtnum
+    and wh_id_tmpl = @wh_id]
+|
+publish data
+  where untcst = @untcst

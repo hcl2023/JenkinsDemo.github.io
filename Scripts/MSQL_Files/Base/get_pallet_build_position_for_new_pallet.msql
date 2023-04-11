@@ -1,0 +1,22 @@
+/*
+MSQL File: get_pallet_build_postion_for_new_pallet.msql
+Description: This MSQL script is used to find an open pallet position to start a new pallet during pallet building.
+   MOCA environment variables for wh_id and pallet_loc (pallet build location) must be provided for the script to function properly.
+*/
+
+publish data
+ where pallet_loc = $pallet_loc
+   and wh_id = $wh_id
+|
+[select wh_id
+   from wh
+  where wh_id = @wh_id
+  for update]
+|
+[select nvl(min(palpos), 'NONE') palpos
+   from pltbld p
+  where p.stoloc = @pallet_loc
+    and wh_id = @wh_id]
+|
+publish data
+ where palpos = @palpos

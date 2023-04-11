@@ -1,0 +1,19 @@
+/* 
+MSQL File: get_undirected_case_pick_list_id_by_order.msql
+Description: This MSQL script gets the pick list id for undirected picking scenarios using order number.
+   MOCA environment variables for ordnum, and wh_id need to be provided for this script to return results
+*/
+
+publish data
+ where wh_id = $wh_id
+   and ordnum = $ordnum
+|
+[select distinct list_id,
+        wh_id
+   from pckwrk_view
+  where ordnum = @ordnum
+    and pcksts = 'R'
+    and appqty = 0
+    and lodlvl = 'S'
+    and list_id is NOT NULL
+    and rownum < 2]

@@ -1,0 +1,16 @@
+Playlist: 
+
+Resources: ../..
+
+Working Directory: 
+
+Namespaces: 
+
+FailFast: NONE
+
+Items:
+Feature: ../../Test Cases/Base/Outbound/BASE-RPL-0010 Terminal Outbound Pallet Replenishment.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-RPL-0020 Terminal Outbound Case Replenishment.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-RPL-1020 Web Outbound Cancel Replenishment Task.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-RPL-1010 Web Inventory Generate Triggered Replenishment.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-RPL-1030 Web Inventory Generate Top-Off Replenishment.feature

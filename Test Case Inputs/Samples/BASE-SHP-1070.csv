@@ -1,0 +1,2 @@
+ordnum,ship_id,adr_id,cstnum,carcod,srvlvl,ordtyp,prtnum,untqty,invsts_prg,wave_num,move_id,trlr_id,dock_door
+ORD_SHP1070,SHP_SHP1070,ADR_SHP1070,CST_SHP1070,CYCCAR1,TL,C,C_DR_PRT12,1,A,WAVE1070,MOVE1070,TRLR_SHP1070,YARD-002

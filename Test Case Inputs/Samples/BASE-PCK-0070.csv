@@ -1,0 +1,2 @@
+ordnum,ship_id,adr_id,cstnum,carcod,srvlvl,ordtyp,prtnum,untqty,invsts_prg,wave_num,move_id,trlr_id,dock,oprcod
+OR_PCK0070,SH_PCK0070,AD_PCK0070,CT_PCK0070,CYCCAR1,TL,C,COMB,500,A,WV_PCK0070,MV_PCK0070,TR_PCK0070,CYC_SDCK_070,UNDIRPCK

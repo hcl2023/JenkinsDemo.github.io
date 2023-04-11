@@ -1,0 +1,28 @@
+/* 
+MSQL File: get_source_id_for_carton_pick.msql
+Description: 
+    This MSQL script queries the inventory_view to get the source subnum from a source pick location to 
+	complete terminal carton pick.
+    The query returns the src_id and prtnum which is used by the scenario to complete the pick.
+    MOCA environment variables for srcloc, ctnnum, and devcod need to be set for this query to function
+*/
+publish data
+ where srcloc = $srcloc 
+   and ctnnum = $ctnnum 
+   and devcod = $devcod 
+   and order_by_clause = nvl($order_by, 'i.untqty DESC')
+|
+[select i.subnum src_id,
+        p.prtnum 
+   from pckwrk_view p,
+        inventory_view i 
+  where p.srcloc = ltrim(rtrim(@srcloc))
+    and p.ctnnum = @ctnnum
+    and p.ackdevcod = @devcod
+    and p.appqty < p.pckqty
+    and p.wh_id = i.wh_id
+    and p.srcloc = i.stoloc
+    and p.prtnum = i.prtnum
+    and p.prt_client_id = i.prt_client_id
+  order by @order_by_clause:RAW 
+]

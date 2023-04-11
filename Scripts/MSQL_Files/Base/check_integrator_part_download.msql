@@ -1,0 +1,33 @@
+/*
+MSQL File: check_integrator_part_download.msql
+Description: This MSQL checks part download records for all trntyps
+*/
+
+publish data
+ where trntyp = $trntyp
+   and prtnum = $prtnum
+   and field_to_validate_change = $field_to_validate_change
+   and client_id = $client_id
+   and wh_id = $wh_id
+|
+if (@trntyp and (@trntyp = 'A' or @trntyp = 'D'))
+{
+    [select distinct 'x'
+       from prtmst_view
+      where prtnum = @prtnum
+        and prt_client_id = @client_id
+        and wh_id = @wh_id]
+}
+else if (@trntyp and @trntyp = 'C')
+{
+    [select @field_to_validate_change:raw
+       from prtmst_view
+      where prtnum = @prtnum
+        and prt_client_id = @client_id
+        and wh_id = @wh_id]
+}
+else
+{
+    set return status
+     where status = 510
+}

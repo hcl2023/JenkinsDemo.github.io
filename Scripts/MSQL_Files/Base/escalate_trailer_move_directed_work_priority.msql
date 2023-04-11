@@ -1,0 +1,22 @@
+/*
+MSQL File: escalate_trailer_move_directed_work_priority.msql
+Description: This MSQL script is used to set the effective priority on a piece of trailer 
+   move directed work to 1 so the work is at the top of the testing user's queue during directed trailer move scenarios.
+   MOCA environment variables for check_in_dock_loc, move_to_dock_loc, trlr_num, car_cod, and username are required.
+*/
+
+publish data
+ where srcloc = $check_in_dock_loc
+   and dstloc = $move_to_dock_loc
+   and refloc = $trlr_num
+   and wrkref = $carcod
+   and asg_usr_id = $username
+|
+[update wrkque
+    set effpri = 1
+  where oprcod = 'TRL'
+    and srcloc = @srcloc
+    and dstloc = @dstloc
+    and refloc = @refloc
+    and wrkref = @wrkref
+    and asg_usr_id = @asg_usr_id ]

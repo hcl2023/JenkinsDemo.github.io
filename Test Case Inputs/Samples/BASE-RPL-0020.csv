@@ -1,0 +1,2 @@
+oprcod,vehtyp,ordnum,ship_id,adr_id,cstnum,carcod,srvlvl,ordtyp,prtnum,untqty,invsts_prg,wave_num,move_id,trlr_id,dock,caslod,casqty,cassub,casloc,adjrea,adjact
+CRP,CSRPL,O_CYC_CR_RPL0020,S_CYC_CR_RPL0020,A_CYC_CR_RPL0020,C_CYC_CR_RPL0020,CYCCAR1,TL,C,CYC_PRT_003,1,A,W_CYC_CR_RPL0020,M_CR_0020,T_CYC_CR_RPL0020,CYC_SDCK_014,CYC_CR_LPN_0020,10,CYC_CR_CAS02,CYCCSLOC05,ADJ-ACCEPT,INVADJ-CYC

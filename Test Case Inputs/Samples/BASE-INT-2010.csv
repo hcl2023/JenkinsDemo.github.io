@@ -1,0 +1,2 @@
+trlr_num,invnum,system,tran_name,pre_validation,post_validation,detail_file_name
+CYC_RCV_SR1-001,CYC_INV_SR1-001,HOST,RCPT_INB_IFD,Check Integrator ASN Download,Check Integrator ASN Download,BASE-INT-2010-01.csv

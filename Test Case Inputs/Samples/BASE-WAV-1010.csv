@@ -1,0 +1,3 @@
+adrnam,adrtyp,adrln1,adrcty,adrstc,adrpsz,ctry_name,first_name,locale_id,ordnum,cstnum,cponum,ordtyp,untqty,prtnum,carcod,srvlvl,lodnum,dstloc,invqty,invsts,alc_destination_zone,alc_staging_lane,alc_imr_uoms,alc_wave_priority
+Cycle Test,CST,1 Cycle Test Street,Cycle City,NC,27605,USA,Cycle Name,US_ENGLISH,CYC-WAV-ORD-1010,C-0001,CYC,C,10,SOAP-08,CYCCAR1,TL,CYC-WAV-LPN-1010,CYCCSLOC04,100,A,,,,,
+Cycle Test,CST,1 Cycle Test Street,Cycle City,NC,27605,USA,Cycle Name,US_ENGLISH,CYC-WAV-ORD-1010,C-0001,CYC,C,10,SOAP-08,CYCCAR1,TL,CYC-WAV-LPN-1010,CYCCSLOC04,100,A,Ship Staging,CYCSTG05,"Pallet,Case",1

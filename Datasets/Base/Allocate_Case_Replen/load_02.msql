@@ -1,0 +1,53 @@
+publish data
+ where wh_id = $wh_id
+   and client_id = $client_id
+   and prt_client_id = $prt_client_id
+   and devcod = $devcod
+   and ordnum = $ordnum
+   and ship_id = $ship_id
+   and adr_id = $adr_id
+   and cstnum = $cstnum
+   and carcod = $carcod
+   and srvlvl = $srvlvl
+   and ordtyp = $ordtyp
+   and prtnum = $prtnum
+   and untqty = $untqty
+   and invsts_prg = $invsts_prg
+   and wave_num = $wave_num
+   and move_id = $move_id
+   and trlr_id = $trlr_id
+   and dock = $dock
+   and caslod = $caslod
+   and cassub = $cassub
+   and casloc = $casloc
+   and casqty = $casqty
+   and devcod = $devcod
+   and adjrea = $adjrea
+   and adjact = $adjact
+|
+/* Allocate the wave */
+allocate wave
+ where pcktyp = 'PICK-N-REPLEN-N-SHIP'
+   and bulk_pck_flg = '0'
+   and pricod = ''
+   and schbat = @wave_num
+   and pcksts_uom = 'L,S,D'
+   and fraUomMarked = 'UOMs Marked for Immediate Release'
+   and wh_id = @wh_id
+   and imr_uom_list = 'EA,CS,PA'
+   and consby = 'ordnum'
+|
+process emergency replenishment
+ where wh_id = @wh_id catch(@?)
+|
+process pick release
+ where wh_id = @wh_id catch(@?)
+|
+job pick release manager
+	where wh_id = @wh_id
+|
+process pick list rules
+	where wh_id = @wh_id
+|
+process pick list release
+	where wh_id = @wh_id catch(@?)

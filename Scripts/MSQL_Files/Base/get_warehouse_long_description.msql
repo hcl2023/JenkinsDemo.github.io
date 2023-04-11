@@ -1,0 +1,9 @@
+/*
+MSQL File: get_warehouse_long_description.msql
+Description: This selects and returns warehouse information relative to a wh_id
+*/
+publish data
+  where wh_id = $wh_id
+|
+list warehouses
+ where wh_id = @wh_id

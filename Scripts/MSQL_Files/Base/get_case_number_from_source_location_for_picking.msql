@@ -1,0 +1,28 @@
+/*
+MSQL File: get_case_number_from_source_location_for_picking.msql
+Description: This MSQL gets a subload number from a storage location for a specific
+   part number and client
+   MOCA environment variables fro srcloc, prtnum, wh_id, and client_id need to be 
+   provided for this script to work properly
+*/
+
+publish data
+ where srcloc = $srcloc
+   and prtnum = $prtnum
+   and client_id = $client_id
+   and wh_id = $wh_id
+|
+[select iv.subnum lodnum
+   from inventory_view iv
+   join prtftp_dtl pd
+     on iv.prtnum = pd.prtnum
+    and iv.prt_client_id = pd.prt_client_id
+    and iv.wh_id = pd.wh_id
+    and iv.ftpcod = pd.ftpcod
+  where iv.stoloc = rtrim(ltrim(@srcloc))
+    and iv.prtnum = rtrim(ltrim(@prtnum))
+    and iv.prt_client_id = rtrim(ltrim(@client_id))
+    and iv.wh_id = @wh_id
+    and pd.pal_flg = 1
+    and rownum < 2
+  order by iv.untqty % pd.untqty asc]

@@ -1,0 +1,177 @@
+/*
+   Dataset Name: Receive ASN Non Trusted Supplier Cleanup
+   Description: This dataset cleans up the data loaded and created during the execution of BASE-RCV-0060 Terminal Inbound ASN Receiving Non Trusted Supplier
+ */
+publish data
+ where wh_id = $wh_id
+   and client_id = $client_id
+   and prt_client_id = $prt_client_id
+   and devcod = $devcod 
+   and trknum = $trlr_num
+|
+{
+    {
+        list appointments
+         where trlr_num = @trknum
+           and trlr_cod = 'RCV'
+           and wh_id = @wh_id catch(-1403)
+        |
+        if (@? = 0) remove appointment catch(-1403)
+    };
+    {
+        [select distinct trknum,
+                trlr_id,
+                wh_id
+           from rcvtrk
+          where trknum = @trknum] catch(-1403)
+        |
+        /* Delete workflows for trailer */
+        {
+            [delete
+               from cnfrm_bck_serv
+              where trlr_id = @trlr_id
+                and wh_id = @wh_id] catch(-1403);
+            [delete
+               from cnfrm_noninv_serv
+              where non_invtid = @trlr_id
+                and wh_id = @wh_id] catch(-1403);
+            [delete
+               from cur_trlr_act
+              where trlr_id = @trlr_id
+                and wh_id = @wh_id] catch(-1403);
+            [delete
+               from cnfrm_serv_val
+              where cnfrm_serv_id in (select cnfrm_serv_id
+                                        from cnfrm_inv_serv
+                                       where trknum = @trknum
+                                         and wh_id = @wh_id)] catch(-1403);
+            [delete
+               from cnfrm_inv_serv
+              where trknum = @trknum
+                and wh_id = @wh_id] catch(-1403);
+            [delete
+               from inb_serv_rcvinv
+              where trknum = @trknum
+                and wh_id = @wh_id] catch(-1403);
+            [delete
+               from inb_serv_rcvlin
+              where trknum = @trknum
+                and wh_id = @wh_id] catch(-1403)
+        }
+        |
+        /* Delete integrator receipt transaction*/
+        {
+            [select evt_data_seq
+               from sl_evt_arg_data
+              where evt_id = 'INV-RCV'
+                and evt_arg_id = 'TRKNUM'
+                and evt_arg_val = @trknum] catch(@?)
+            |
+            if (@? = 0)
+                sl_remove evt_data
+                 where evt_data_seq = @evt_data_seq
+        }
+        |
+        {
+            [select trlr_id,
+                    yard_loc
+               from trlr
+              where trlr_id = @trlr_id] catch(-1403)
+            |
+            if (@? = 0)
+            {
+                [delete trlr
+                  where trlr_id = @trlr_id] catch(-1403);
+                [update locmst
+                    set locsts = 'E'
+                  where wh_id = @wh_id
+                    and stoloc = @yard_loc] catch(-1403)
+            };
+			
+            [delete wrkque
+              where wh_id = @wh_id
+                and refloc = @trknum] catch(-1403);
+
+            [select inventory_view.dtlnum,
+                    inventory_view.subnum,
+                    inventory_view.lodnum
+               from inventory_view,
+                    rcvlin
+              where rcvlin.trknum = @trknum
+                and rcvlin.rcvkey = inventory_view.rcvkey
+                and inventory_view.wh_id = @wh_id] catch(-1403)
+            |
+            if (@? = 0)
+            {
+                move inventory
+                 where dstloc = 'PERM-ADJ-LOC'
+                   and reacod = 'ADJ-ACCEPT'
+                   and adj_ref2 = ''
+                   and adj_ref1 = ''
+                   and actcod = 'IDNTFY_AJ'
+            }
+            |
+            {
+                [select distinct stoloc
+                   from invmov
+                  where lodnum = @lodnum
+                 UNION
+                 select distinct stoloc
+                   from invmov
+                  where lodnum = @subnum
+                 UNION
+                 select distinct stoloc
+                   from invmov
+                  where lodnum = @dtlnum] catch(-1403)
+            }
+            |
+            /* Delete inventory move records for load */
+            [delete
+               from invmov
+              where lodnum = @lodnum
+                and wh_id = @wh_id] catch(-1403)
+            |
+            /* Delete inventory move records for subload */
+            [delete
+               from invmov
+              where lodnum = @subnum
+                and wh_id = @wh_id] catch(-1403)
+            |
+            /* Delete inventory move records for details */
+            [delete
+               from invmov
+              where lodnum = @dtlnum
+                and wh_id = @wh_id] catch(-1403)
+            |
+            [delete
+               from inv_ser_num
+              where invtid in (@lodnum, @subnum, @dtlnum)] catch(-1403)
+        }
+        |
+        {
+            /* Delete receive line */
+            [delete
+               from rcvlin
+              where trknum = @trknum
+                and wh_id = @wh_id] catch(-1403)
+            |
+            /* Delete receive truck */
+            [delete
+               from rcvtrk
+              where trknum = @trknum
+                and wh_id = @wh_id] catch(-1403)
+            |
+            /* Delete receive invoice */
+            [delete
+               from rcvinv
+              where trknum = @trknum
+                and wh_id = @wh_id] catch(-1403)
+            |
+            /* Delete trailer location record */
+            [delete
+               from locmst
+              where stoloc = @trknum
+                and wh_id = @wh_id] catch(-1403)
+        }
+    }
+}

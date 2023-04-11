@@ -1,0 +1,3 @@
+ordnum,ship_id,adr_id,cstnum,carcod,srvlvl,ordtyp,prtnum,untqty,prtnum_ln2,untqty_ln2,invsts_prg,wave_num,move_id,trlr_id,dock,oprcod,cancel_and_reallocate,bckflg,lpck_action
+OR_PCK0120,SH_PCK0120,AD_PCK0120,CT_PCK0120,CYCCAR1,TL,C,C_DR_PRT12,10,SHAMPOO-60,10,A,WV_PCK0120,MV_PCK0120,TR_PCK0120,CYC_SDCK_007,LPCK,false,0,VEHICLE_FULL
+OR_PCK0120,SH_PCK0120,AD_PCK0120,CT_PCK0120,CYCCAR1,TL,C,C_DR_PRT12,10,SHAMPOO-60,10,A,WV_PCK0120,MV_PCK0120,TR_PCK0120,CYC_SDCK_007,LPCK,false,0,SET_DOWN

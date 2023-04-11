@@ -1,0 +1,13 @@
+/*
+MSQL File: check_location_status.msql
+Description: This MSQL determines return a locsts relative to a specific location (stored/passed in loc_to_check variable) 
+*/
+
+publish data
+ where wh_id = $wh_id
+   and stoloc = $loc_to_check
+|
+[select distinct locsts
+   from locmst
+  where wh_id = @wh_id
+    and stoloc = @stoloc]

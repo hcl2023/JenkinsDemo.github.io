@@ -1,0 +1,25 @@
+Playlist: 
+
+Resources: ../..
+
+Working Directory: 
+
+Namespaces: 
+
+FailFast: NONE
+
+Items:
+Feature: ../../Test Cases/Base/Integration/BASE-INT-2040 Integrator Download Order Inbound.feature
+Feature: ../../Test Cases/Base/Integration/BASE-INT-2090 Integrator Download PO Inbound.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-0010 Terminal Inventory Adjustment Add.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-0050 Terminal Inventory Transfer Directed.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-LDG-0020 Terminal Outbound Loading LTL Undirected.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-0010 Terminal Outbound Carton Picking Undirected.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-0070 Terminal Inbound Unload All.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1100 Web Inbound Putaway.feature
+Feature: ../../Test Cases/Base/Yard/BASE-SHP-1020 Web Outbound Trailer Dispatch.feature
+Feature: ../../Test Cases/Base/Yard/BASE-YRD-1020 Web Inbound Trailer Check In.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-4080 Mobile Inbound Directed Putaway from Receiving Override.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-4140 Mobile Inventory Transfer Multiple LPNs Undirected.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-4030 Mobile Unload and Unpick Shipment.feature
+Feature: ../../Test Cases/Base/Yard/BASE-YRD-4010 Mobile Trailer Move.feature

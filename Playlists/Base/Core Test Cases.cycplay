@@ -1,0 +1,33 @@
+Playlist: 
+
+Resources: ../..
+
+Working Directory: 
+
+Namespaces: 
+
+FailFast: NONE
+
+Items:
+Feature: ../../Test Cases/Base/Inventory/BASE-CNT-0031 Terminal Inventory Count Detail Directed.feature
+Feature: ../../Test Cases/Base/Integration/BASE-INT-2040 Integrator Download Order Inbound.feature
+Feature: ../../Test Cases/Base/Integration/BASE-INT-2090 Integrator Download PO Inbound.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-0010 Terminal Inventory Adjustment Add.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-0050 Terminal Inventory Transfer Directed.feature
+Feature: ../../Test Cases/Base/Inventory/BASE-INV-1060 Web Inventory Status Change.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-LDG-0020 Terminal Outbound Loading LTL Undirected.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-0010 Terminal Outbound Carton Picking Undirected.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-0030 Terminal Outbound Pallet Picking Directed.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-PCK-0090 Terminal Outbound List Pick Case To Pallet Undirected.feature
+Feature: ../../Test Cases/Base/Production/BASE-PRD-0010 Flow Work Order.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-0010 Terminal Inbound Receiving.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-0020 Terminal Inbound Putaway.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1010 Web Inbound Close Receipt.feature
+Feature: ../../Test Cases/Base/Inbound/BASE-RCV-1140 Web Inbound Complete Shipment.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-RPL-0010 Terminal Outbound Pallet Replenishment.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-SHP-1010 Web Outbound Trailer Close.feature
+Feature: ../../Test Cases/Base/Yard/BASE-SHP-1020 Web Outbound Trailer Dispatch.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-WAV-1010 Web Outbound Allocate Wave.feature
+Feature: ../../Test Cases/Base/Yard/BASE-YRD-0010 Terminal Trailer Move.feature
+Feature: ../../Test Cases/Base/Yard/BASE-YRD-1020 Web Inbound Trailer Check In.feature
+Feature: ../../Test Cases/Base/Yard/BASE-YRD-1040 Web Outbound Trailer Check In.feature

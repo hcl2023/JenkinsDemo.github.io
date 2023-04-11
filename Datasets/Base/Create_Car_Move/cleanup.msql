@@ -1,0 +1,18 @@
+/*
+Dataset Name: Create_Car_move/cleanup
+Description: Dataset to delete carrier move (based on move_id being carrier move)
+*/
+
+publish data
+ where wh_id = $wh_id
+   and client_id = $client_id
+   and prt_client_id = $prt_client_id
+   and devcod = $devcod
+   and carcod = $carcod
+   and move_id = $move_id
+| 
+/* delete the Carrier move id */
+[delete
+   from car_move
+  where car_move_id = @move_id
+    and host_client_id = @client_id] catch(-1403)

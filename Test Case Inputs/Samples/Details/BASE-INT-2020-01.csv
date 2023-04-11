@@ -1,0 +1,4 @@
+trntyp,transaction_file_name,field_to_validate_change
+A,CUST_INB_IFD_ADD.xml,
+C,CUST_INB_IFD_CHANGE.xml,deptno
+D,CUST_INB_IFD_DELETE.xml,

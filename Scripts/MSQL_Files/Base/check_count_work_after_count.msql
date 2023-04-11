@@ -1,0 +1,15 @@
+/* 
+MSQL File: check_count_work_after_count.msql
+Description: his MSQL checks count work after a count (relative to cntbat)
+*/
+
+publish data
+ where stoloc = $stoloc
+   and wh_id = $wh_id
+   and uc_cnt_id = $cnt_id
+|
+[select distinct 1
+   from cntwrk
+  where stoloc = @stoloc
+    and wh_id = @wh_id
+    and cntbat = @uc_cnt_id]

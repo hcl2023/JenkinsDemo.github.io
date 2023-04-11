@@ -1,0 +1,14 @@
+/*
+Dataset Name: RCV_Inbound_Order/cleanup
+Description: Cleans up the data adding an Inbound Order.
+*/
+publish data
+  where invnum = $invnum
+|
+[delete
+  from rimhdr
+  where invnum = @invnum] catch(@?)
+|
+[delete
+   from rimlin
+  where invnum = @invnum] catch(@?)

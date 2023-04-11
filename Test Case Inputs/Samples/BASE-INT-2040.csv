@@ -1,0 +1,2 @@
+ordnum,clause,system,tran_name,pre_validation,post_validation,detail_file_name
+C_OD_ORD01,and ordlin ='1',HOST,ORDER_INB_IFD,Check Integrator Order Download,Check Integrator Order Download,BASE-INT-2040-01.csv

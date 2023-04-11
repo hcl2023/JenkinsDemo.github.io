@@ -1,0 +1,2 @@
+ordnum,ship_id,adr_id,cstnum,carcod,srvlvl,ordtyp,prtnum,untqty,invsts_prg,wave_num,move_id,trlr_id,dock,pck_dstloc,pb_stage_loc,pb_max_carton_count
+OR_BLD4010,SH_BLD4010,AD_BLD4010,CT_BLD4010,CYCCAR1,TL,C,SHAMPOO-55,50,A,WV_BLD4010,MV_BLD4010,TR_BLD4010,CYC_SDCK_051,RDT008,PBSTG01,10

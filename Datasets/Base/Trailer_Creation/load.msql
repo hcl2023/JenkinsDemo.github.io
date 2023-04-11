@@ -1,0 +1,81 @@
+publish data
+  where wh_id = $wh_id
+    and client_id = $client_id
+    and prt_client_id = $prt_client_id
+    and devcod = $devcod 
+    and trlr_num = $trlr_num
+    and check_in_dock_loc = $check_in_dock_loc
+    and move_to_dock_loc = $move_to_dock_loc
+    and carcod = $carcod
+|
+{
+    [select distinct 1
+       from inventory_view
+      where stoloc = @check_in_dock_loc
+        and wh_id = @wh_id] catch(@?)
+    |
+    if (@? = -1403)
+    {
+        [select distinct 1
+           from trlr
+          where yard_loc = @check_in_dock_loc
+            and wh_id = @wh_id] catch(@?)
+        |
+        if (@? = -1403)
+        {
+            [update locmst
+                set locsts = 'E'
+              where stoloc = @check_in_dock_loc
+                and wh_id = @wh_id] catch(@?)
+        }
+    }
+} >> res
+|
+{
+    [select distinct 1
+       from inventory_view
+      where stoloc = @move_to_dock_loc
+        and wh_id = @wh_id] catch(@?)
+    |
+    if (@? = -1403)
+    {
+        [select distinct 1
+           from trlr
+          where yard_loc = @move_to_dock_loc
+            and wh_id = @wh_id] catch(@?)
+        |
+        if (@? = -1403)
+        {
+            [update locmst
+                set locsts = 'E'
+              where stoloc = @move_to_dock_loc
+                and wh_id = @wh_id] catch(@?)
+        }
+    }
+} >> res
+|
+create trailer
+ where dispatch = null
+   and ready_to_close = null
+   and mod_usr_id = ''
+   and trlr_num = @trlr_num
+   and stoloc_wh_id = @wh_id
+   and carcod = @carcod
+   and trlr_cod = 'RCV'
+|
+check in trailer
+ where wh_id = @wh_id
+   and driver_lic_num = ''
+   and doc_num = null
+   and powerunit_id = ''
+   and stoloc = @check_in_dock_loc
+   and trlr_cond = 'U'
+   and live_load_flg = 0
+   and confirm_warning_flg = 0
+   and driver_nam = ''
+   and trlr_id = @trlr_id
+   and trlr_ref = ''
+   and yard_loc_wh_id = @wh_id
+   and stoloc_wh_id = @wh_id
+   and track_num = null
+   and yard_loc = @check_in_dock_loc

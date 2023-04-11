@@ -1,0 +1,15 @@
+/* 
+MSQL File: validate_inventory_location_by_prtnum_untqty.msql
+Description: This MSQL script validates that a given load is found in the expected location.
+*/
+
+publish data
+ where untqty = $move_qty
+   and stoloc = nvl($validate_dstloc, $dstloc)
+   and wh_id = $wh_id
+|
+[select distinct 1
+   from inventory_view
+  where wh_id = @wh_id
+    and untqty = @untqty
+    and stoloc = @stoloc]

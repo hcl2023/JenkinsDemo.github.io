@@ -1,0 +1,4 @@
+trntyp,transaction_file_name,field_to_validate_change,table_to_validate_change
+A,BOM_INB_IFD_ADD.xml,,
+C,BOM_INB_IFD_CHANGE.xml,minqty,bomhdr
+D,BOM_INB_IFD_DELETE.xml,,

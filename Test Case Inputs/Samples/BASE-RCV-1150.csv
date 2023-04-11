@@ -1,0 +1,3 @@
+trlr_num,inv_num,yard_loc,invtyp,prtnum,rcvsts,expqty,supnum,issue_type,issue_rsn,inbqty,carcod,ib_issue,check_report_issue_screen
+TSTRK01,TSINV010,RDCK-016,P,SHAMPOO-51,A,20,DEFSUP,Carrier,Damaged,1,CYCCAR1,DAMG,YES
+TSTRK01,TSINV010,RDCK-016,P,SHAMPOO-51,A,20,DEFSUP,Supplier,Damaged,1,CYCCAR1,DAMG,YES

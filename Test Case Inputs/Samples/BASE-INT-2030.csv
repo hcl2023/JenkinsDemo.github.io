@@ -1,0 +1,2 @@
+supnum,system,tran_name,pre_validation,post_validation,detail_file_name
+CYC_SUP_IX,HOST,SUPP_INB_IFD,Check Integrator Supplier Download,Check Integrator Supplier Download,BASE-INT-2030-01.csv

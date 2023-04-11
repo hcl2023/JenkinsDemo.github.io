@@ -1,0 +1,21 @@
+/*
+MSQL File: get_carton_number_by_order_for_undirected_carton_pick.msql
+Description: 
+This query is used by picking features to get the ctnnum value from pckwrk_view
+to process and undirected carton pick.
+The query searches for and returns one distinct carton number that has not yet been picked for a specific order.
+This query requires an oprcod, ordnum, and wh_id to be assigned as MOCA environment variables
+*/
+
+publish data
+   where wh_id = $wh_id
+   and ordnum = $ordnum
+|
+[select distinct ctnnum,
+        wh_id
+   from pckwrk_view
+  where ordnum = @ordnum
+    and pcksts = 'R'
+    and appqty = 0
+    and ctnnum is not NULL
+    and rownum < 2]

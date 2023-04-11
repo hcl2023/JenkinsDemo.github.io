@@ -1,0 +1,24 @@
+/*  
+MSQL File: get_unreserved_ship_staging_location.msql
+Description: 
+Get an unreserved ship staging location.  Built for use with Dynamic Data logic.
+*/
+publish data
+ where wh_id = $wh_id
+   and dynamic_where = nvl($where_clause, "1 = 1")
+   and dynamic_order_by = nvl($order_by_clause, "1")
+   and dynamic_rownum = nvl($rownum, 1)
+|
+[select *
+   from locmst lm,
+        loc_typ lt
+  where lm.wh_id = @wh_id 
+    and @dynamic_where:RAW
+    and lm.wh_id = lt.wh_id
+    and lm.loc_typ_id = lt.loc_typ_id
+    and (lt.shpflg = 1 or stgflg = 1)
+    and lm.rcv_rescod is null
+    and lm.rescod is null
+    and lm.useflg = 1
+    and rownum = @dynamic_rownum
+  order by @dynamic_order_by:RAW]

@@ -1,0 +1,195 @@
+/*
+    Dataset Name: Receiving_Multiple_loads/load.msql
+    Description: This dataset will be used to create receving trailer, create inbound shipment, create inbound order, create inventory, 
+	             process the inventory move and checkin the receving trailer
+*/
+
+publish data
+ where wh_id = $wh_id
+   and client_id = $client_id
+   and prt_client_id = $prt_client_id
+   and devcod = $devcod 
+   and trknum = $trlr_num
+   and carcod = $carcod
+   and invnum = $inv_num
+   and supnum = $supnum
+   and invtyp = 'P'
+   and locale_id = 'US_ENGLISH'
+   and devcod = $devcod
+   and rec_loc = $rec_loc
+   and yard_loc = $yard_loc
+   and create_trailer = $create_trailer
+   and create_inbshp = $create_inbshp
+   and create_inbord = $create_inbord
+   and checkin_trailer = $checkin_trailer
+   and create_asn = $create_asn
+   and putaway = $putaway
+   and no_of_rcvlins = $no_of_rcvlins
+   and prtnum_1 = nvl($prtnum_1, '')
+   and expqty_1 = nvl($expqty_1, '')
+   and prtnum_2 = nvl($prtnum_2, '')
+   and expqty_2 = nvl($expqty_2, '')
+   and prtnum_3 = nvl($prtnum_3, '')
+   and expqty_3 = nvl($expqty_3, '')
+   and lodnum_1 = nvl($lodnum_1, '')
+   and ftpcod_1 = nvl($ftpcod_1, '')
+   and uomcod_1 = nvl($uomcod_1, '')
+   and lodnum_2 = nvl($lodnum_2, '')
+   and ftpcod_2 = nvl($ftpcod_2, '')
+   and uomcod_2 = nvl($uomcod_2, '')
+   and lodnum_3 = nvl($lodnum_3, '')
+   and ftpcod_3 = nvl($ftpcod_3, '')
+   and uomcod_3 = nvl($uomcod_3, '')
+   and rcvsts = $rcvsts
+|
+{
+{
+    if (@create_trailer = 'Y')
+    {
+        [select dscmst.short_dsc,
+                dscmst.lngdsc,
+                aremst.*
+           from dscmst,
+                aremst,
+                loc_typ
+          where aremst.arecod || '|' || aremst.wh_id = dscmst.colval
+            and dscmst.colnam = 'arecod|wh_id'
+            and dscmst.locale_id = nvl(NULL, @locale_id)
+            and aremst.wh_id = loc_typ.wh_id
+            and aremst.wh_id = nvl(NULL, @wh_id)
+            and aremst.arecod = loc_typ.loc_typ
+            and expflg = 1
+            and wip_expflg = 0
+          order by nvl(dscmst.lngdsc, aremst.arecod)]
+        |
+        create trailer
+         where trlr_num = @trknum
+           and trlr_cod = 'RCV'
+           and carcod = @carcod
+           and stoloc_wh_id = @wh_id
+    }
+    |
+    if (@create_inbshp = 'Y')
+    {
+        create receive truck
+         where trntyp = @trntyp
+           and trlr_num = @trknum
+           and stoloc_wh_id = @wh_id
+           and carcod = @carcod
+    }
+    |
+    if (@create_inbord = 'Y')
+    {
+        create receive invoice
+         where trknum = @trknum
+           and supnum = @supnum
+           and client_id = @client_id
+           and invtyp = @invtyp
+           and wh_id = @wh_id
+        |
+        {
+            save session variable
+             where name = 'loop_index'
+               and value = 0
+            |
+            do loop
+             where count = @no_of_rcvlins
+            |
+            {
+                get session variable
+                 where name = 'loop_index'
+                |
+                publish data
+                 where loop_index = @value + 1
+                |
+                save session variable
+                 where name = 'loop_index'
+                   and value = @loop_index
+                |
+                [select 'prtnum' || '_' || to_char(@loop_index) as itemnumber_key,
+                        'expqty' || '_' || to_char(@loop_index) as quantity_key,
+                        'lodnum' || '_' || to_char(@loop_index) as lodnum_key,
+                        'ftpcod' || '_' || to_char(@loop_index) as ftpcod_key,
+                        'uomcod' || '_' || to_char(@loop_index) as uomcod_key
+                   from dual]
+                |
+                publish data
+                 where cmd = 'publish data where temp_prtnum = nvl(@' || @itemnumber_key || ', '''') and temp_qty = nvl(@' || @quantity_key || ','''') and temp_lodnum = nvl(@' || @lodnum_key || ','''') and temp_ftpcod = nvl(@' || @ftpcod_key || ','''') and temp_uomcod = nvl(@' || @uomcod_key || ','''')'
+                |
+                execute server command
+                 where cmd = @cmd
+                |
+                /* Will check to see if prtnum_loop_index is not NULL before calling create receive invoice line to create rcvlin.*/
+                if (@temp_prtnum is not NULL and @temp_qty is not NULL)
+                {
+                    [select nvl(max(invlin) + 1, 0) as invlin,
+                            0 as invsln
+                       from rcvlin
+                      where trknum = @trknum
+                        and wh_id = @wh_id]
+                    |
+                    create receive invoice line
+                     where prtnum = @temp_prtnum
+                       and expqty = @temp_qty
+                       and wh_id = @wh_id
+                       and supnum = @supnum
+                       and rcvsts = @rcvsts
+                       and trknum = @trknum
+                       and invlin = @invlin
+                    |
+                    if (@create_asn = 'Y')
+                    {
+                        if (@temp_lodnum is not NULL and @temp_uomcod is not NULL and @temp_ftpcod is not NULL)
+                        {
+                            create inventory
+                             where supnum = @supnum
+                               and wh_id = @wh_id
+                               and prtnum = @temp_prtnum
+                               and untqty = @temp_qty
+                               and invsts = @rcvsts
+                               and dstloc = @trknum
+                               and srcloc = 'PERM-CRE-LOC'
+                               and lodnum = @temp_lodnum
+                               and ftpcod = @temp_ftpcod
+                               and uomcod = @temp_uomcod
+                               and client_id = @client_id
+                               and devcod = @devcod
+                               and oprcod = 'UID'
+                               and untcas = 1
+                               and untpak = 1
+                            |
+                            if (@putaway = 'Y')
+                            {
+                                process inventory move
+                                 where srclod = @temp_lodnum
+                                   and srcloc = @trlr_num
+                                   and dstloc = @rec_loc
+                                   and dstlod = ''
+                                   and dstsub = ''
+                                   and oprcod = 'UID'
+                                   and trolley_flag = '0'
+                                   and mergeondep = '1'
+                                   and wh_id = @wh_id
+                                   and distro_resid = 0
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+};
+
+if (@checkin_trailer = 'Y')
+{
+    [select trlr_id
+       from trlr
+      where trlr_num = @trknum]
+    |
+    check in trailer
+     where trlr_id = @trlr_id
+       and wh_id = @wh_id
+       and yard_loc = @yard_loc
+       and yard_loc_wh_id = @wh_id
+}
+}

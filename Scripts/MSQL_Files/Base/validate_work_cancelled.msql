@@ -1,0 +1,14 @@
+/*
+MSQL File: validate_work_cancelled.msql
+Description: This MSQL script is used to validate that the work is cancelled or not.
+    MOCA environment variables for oprcod and srcloc are required
+*/
+ 
+publish data
+ where oprcod = $oprcod
+   and srcloc = $srcloc
+|
+[select 'x'
+   from wrkque
+  where oprcod = @oprcod
+    and srcloc = @srcloc]

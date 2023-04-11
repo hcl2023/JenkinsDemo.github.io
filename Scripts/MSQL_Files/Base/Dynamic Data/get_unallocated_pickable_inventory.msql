@@ -1,0 +1,29 @@
+/*  
+MSQL File: get_unallocated_pickable_inventory.msql
+Description: 
+Get an unallocated pickable inventory record.  Built for use with Dynamic Data logic.
+*/
+publish data
+ where dynamic_where = nvl($where_clause, "1 = 1")
+   and dynamic_order_by = nvl($order_by_clause, "1")
+   and dynamic_rownum = nvl($rownum, 1)
+|
+[select iv.*
+   from inventory_view iv,
+        locmst lm,
+        loc_typ lt
+  where @dynamic_where:RAW
+    and iv.wh_id = lm.wh_id
+    and iv.stoloc = lm.stoloc
+    and lt.wh_id = lm.wh_id
+    and lt.loc_typ_id = lm.loc_typ_id
+    and lm.pckflg = 1
+    and lm.useflg = 1
+    and lm.locsts != 'I'
+    and not exists(select 1
+                 from invsum
+                where invsum.wh_id = lm.wh_id
+                  and invsum.stoloc = lm.stoloc
+                  and invsum.comqty > 0)
+    and rownum = @dynamic_rownum
+  order by @dynamic_order_by:RAW]

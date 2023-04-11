@@ -1,0 +1,365 @@
+/*
+   Dataset Name: Allocate_multi_line_List_Picks
+   Description:  This cleans up the data from previous calls to this dataset.
+   It first deletes all data associated with the trailer specified before removing any traces of the wave, 
+   potential shorts, picks, order lines, stops, etc. from a previous call.
+ */
+publish data
+ where wh_id = $wh_id
+   and client_id = $client_id
+   and prt_client_id = $prt_client_id
+   and devcod = $devcod
+   and ordnum = $ordnum
+   and ship_id = $ship_id
+   and adr_id = $adr_id
+   and wave_num = $wave_num
+   and move_id = $move_id
+   and trlr_id = $trlr_id
+   and ignore_cleanup = nvl($ignore_cleanup, 'No')
+|
+if (@ignore_cleanup = 'Yes')
+{
+    /* Do not cleanup data */
+    publish data
+     where cleanup = 'no'
+}
+else
+{
+    /*Cleanup the data */
+    /*Purge trailer data*/
+    {
+        if (@trlr_id != '')
+        {
+            [select yard_loc
+               from trlr
+              where trlr_id = @trlr_id
+                and yard_loc_wh_id = @wh_id] catch(-1403)
+            |
+            /*delete the trailer location*/
+            [delete
+               from locmst
+              where stoloc = @trlr_id
+                and wh_id = @wh_id] catch(-1403)
+            |
+            /* delete the trailer record*/
+            [delete
+               from trlr
+              where trlr_id = @trlr_id
+                and stoloc_wh_id = @wh_id] catch(-1403)
+            |
+            /*reset dock door status*/
+            if (@yard_loc != '')
+            {
+                reset location status
+                 where stoloc = @yard_loc
+                   and wh_id = @wh_id
+            }
+            |
+            /*Clear trailer safety check workflows*/
+            [delete
+               from cnfrm_bck_serv
+              where trlr_id = @trlr_id] catch(-1403)
+            |
+            [delete
+               from cnfrm_noninv_serv
+              where non_invtid = @trlr_id] catch(-1403)
+            |
+            /*clear any records from cur_trlr_act table*/
+            [delete
+               from cur_trlr_act
+              where trlr_id = @trlr_id] catch(-1403)
+        }
+    }
+    |
+    /*Purge pick, inventory, and shipment data*/
+    {
+        if (@ship_id != '')
+        {
+            /*purge pick data */
+            [select pckwrk_dtl.wrkref,
+                    pckwrk_dtl.cmbcod,
+                    pckwrk_hdr.list_id,
+                    pckwrk_hdr.srcloc
+               from pckwrk_dtl,
+                    pckwrk_hdr
+              where pckwrk_dtl.ship_id = @ship_id
+                and pckwrk_dtl.wh_id = @wh_id
+                and pckwrk_dtl.client_id = @client_id
+                and pckwrk_dtl.wrkref = pckwrk_hdr.wrkref] catch(-1403)
+            |
+            if (@? = 0)
+            {
+                /*delete pckmov record*/
+                [delete
+                   from pckmov
+                  where cmbcod = @cmbcod
+                    and wh_id = @wh_id] catch(-1403)
+                |
+                /*delete pcklst record*/
+                [delete
+                   from pcklst
+                  where list_id = @list_id] catch(-1403)
+                |
+                /*delete pckwrk_hdr record*/
+                [delete
+                   from pckwrk_hdr
+                  where wrkref = @wrkref
+                    and wh_id = @wh_id
+                    and client_id = @client_id] catch(-1403)
+                |
+                /*delete pckwrk_dtl record*/
+                [delete
+                   from pckwrk_dtl
+                  where ship_id = @ship_id
+                    and wrkref = @wrkref
+                    and wh_id = @wh_id
+                    and client_id = @client_id] catch(-1403)
+                |
+                /*run validation on source pick location in case invsum needs to be corrected*/
+                fix validation errors for location
+                 where wh_id = @wh_id
+                   and stoloc = @srcloc catch(-1403)
+                |
+                /*reset location status*/
+                reset location status
+                 where wh_id = @wh_id
+                   and stoloc = @srcloc catch(-1403)
+            }
+            |
+            /*purge cancel pick data */
+            [select distinct srcloc
+               from canpck
+              where ship_id = @ship_id
+                and wh_id = @wh_id
+                and client_id = @client_id] catch(-1403)
+            |
+            if (@? = 0)
+            {
+                /*reset location status*/
+                reset location status
+                 where wh_id = @wh_id
+                   and stoloc = @srcloc catch(-1403)
+                |
+                [delete
+                   from canpck
+                  where ship_id = @ship_id
+                    and wh_id = @wh_id
+                    and client_id = @client_id] catch(-1403)
+            }
+            |
+            /*purge inventory data records*/
+            [select ship_line_id
+               from shipment_line
+              where ship_id = @ship_id
+                and wh_id = @wh_id
+                and client_id = @client_id] catch(-1403)
+            |
+            if (@? = 0)
+            {
+                /*purge shipped inventory data from inv history tables*/
+                [select subnum,
+                        dtlnum,
+                        inv_hist_id
+                   from invdtl_hist
+                  where ship_line_id = @ship_line_id
+                    and prt_client_id = @prt_client_id] catch(-1403)
+                |
+                if (@? = 0)
+                {
+                    /*select lodnum*/
+                    [select lodnum
+                       from invsub_hist
+                      where subnum = @subnum] catch(-1403)
+                    |
+                    /*delete shipped subnum*/
+                    [delete
+                       from invsub_hist
+                      where subnum = @subnum] catch(-1403)
+                    |
+                    /*delete shipped invlod*/
+                    [delete
+                       from invlod_hist
+                      where lodnum = @lodnum
+                        and wh_id = @wh_id] catch(-1403)
+                    |
+                    /*delete inv hist for shipped inv*/
+                    [delete
+                       from inv_hist
+                      where inv_hist_id = @inv_hist_id] catch(-1403)
+                    |
+                    /*delete shipped invdtl*/
+                    [delete
+                       from invdtl_hist
+                      where ship_line_id = @ship_line_id
+                        and prt_client_id = @prt_client_id] catch(-1403)
+                    |
+                    /*delete shipped serial numbers*/
+                    [delete
+                       from inv_ser_num_hist
+                      where invtid = @dtlnum
+                         or invtid = @subnum
+                         or invtid = @lodnum] catch(-1403)
+                }
+                |
+                /*purge picked but not shipped inventory data from inv tables*/
+                [select subnum,
+                        dtlnum
+                   from invdtl
+                  where ship_line_id = @ship_line_id
+                    and prt_client_id = @prt_client_id] catch(-1403)
+                |
+                if (@? = 0)
+                {
+                    /*select the lodnum*/
+                    [select lodnum
+                       from invsub
+                      where subnum = @subnum] catch(-1403)
+                    |
+                    /*delete picked invsub*/
+                    [delete
+                       from invsub
+                      where subnum = @subnum
+                        and prmflg != 1] catch(-1403)
+                    |
+                    /*delete picked invlod*/
+                    [delete
+                       from invlod
+                      where lodnum = @lodnum
+                        and prmflg != 1
+                        and wh_id = @wh_id] catch(-1403)
+                    |
+                    /*delete picked invdtl*/
+                    [delete
+                       from invdtl
+                      where ship_line_id = @ship_line_id
+                        and prt_client_id = @prt_client_id] catch(-1403)
+                    |
+                    /*delete scanned serial numbers*/
+                    [delete
+                       from inv_ser_num
+                      where invtid = @dtlnum
+                         or invtid = @subnum
+                         or invtid = @lodnum] catch(-1403)
+                }
+            }
+        }
+        |
+        /*delete shp_dst_loc record*/
+        [delete
+           from shp_dst_loc
+          where ship_id = @ship_id
+            and wh_id = @wh_id] catch(-1403)
+        |
+        /*delete any short allocations*/
+        [delete
+           from rplwrk
+          where ship_id = @ship_id
+            and wh_id = @wh_id] catch(-1403)
+        |
+        /*delete shipment_line records*/
+        [delete
+           from shipment_line
+          where ship_id = @ship_id
+            and wh_id = @wh_id
+            and client_id = @client_id] catch(-1403)
+        |
+        /*delete shipment record*/
+        [delete
+           from shipment
+          where ship_id = @ship_id
+            and wh_id = @wh_id
+            and host_client_id = @client_id] catch(-1403)
+    }
+    |
+    /*purge order data*/
+    {
+        if (@ordnum != '')
+        {
+            /*delete ord_line records*/
+            [delete
+               from ord_line
+              where ordnum = @ordnum
+                and wh_id = @wh_id
+                and client_id = @client_id] catch(-1403)
+            |
+            /*delete ord record*/
+            [delete
+               from ord
+              where ordnum = @ordnum
+                and wh_id = @wh_id
+                and client_id = @client_id] catch(-1403)
+        }
+    }
+    |
+    /*purge wave data*/
+    {
+        if (@wave_num != '')
+        {
+            /*delete wrkque records*/
+            [delete
+               from wrkque
+              where schbat = @wave_num
+                and wh_id = @wh_id] catch(-1403)
+            |
+            /*delete pckbat record*/
+            [delete
+               from pckbat
+              where schbat = @wave_num
+                and wh_id = @wh_id] catch(-1403)
+        }
+    }
+    |
+    /*purge address and customer*/
+    {
+        if (@adr_id != '')
+        {
+            /*delete address record*/
+            [delete
+               from adrmst
+              where adr_id = @adr_id
+                and client_id = @client_id] catch(-1403)
+            |
+            /*delete customer record*/
+            [delete
+               from cstmst
+              where adr_id = @adr_id
+                and client_id = @client_id] catch(-1403)
+        }
+    }
+    |
+    /*purge move and stop*/
+    {
+        if (@move_id != '')
+        {
+            /*check for pending wrkque to load stop and delete if found*/
+            [select stop_id
+               from stop
+              where car_move_id = @move_id] catch(-1403)
+            |
+            if (@? = 0)
+            {
+                /*delete work*/
+                [delete
+                   from wrkque
+                  where refloc = @stop_id
+                    and wh_id = @wh_id
+                    and client_id = @client_id] catch(-1403)
+            }
+            |
+            /*delete stop record*/
+            [delete
+               from stop
+              where car_move_id = @move_id] catch(-1403)
+            |
+            /*delete move_plan record*/
+            [delete
+               from move_plan
+              where move_plan_id = @move_id] catch(-1403)
+            |
+            /*delete the car_move record*/
+            [delete
+               from car_move
+              where car_move_id = @move_id] catch(-1403)
+        }
+    }
+}

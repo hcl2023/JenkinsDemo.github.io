@@ -1,0 +1,16 @@
+/* 
+MSQL File: validate_carrier_inbound_quality_issue.msql
+Description: This MSQL script gets the Carrier Inbound Quality Issue that was created by the test case to verify it was properly created.
+*/
+publish data
+ where carcod = $carcod
+   and inbqty = $inbqty
+   and ib_issue = $ib_issue
+   and wh_id = $wh_id
+|
+[select distinct 1
+   from inbqlt
+  where carcod = @carcod
+    and inbqty = @inbqty
+    and ib_issue = @ib_issue
+    and wh_id = @wh_id]

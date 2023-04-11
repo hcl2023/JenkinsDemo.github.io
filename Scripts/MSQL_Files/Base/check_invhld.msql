@@ -1,0 +1,16 @@
+/*
+MSQL File: check_invhld.msql
+Description: This MSQL check for a hold record
+*/
+
+publish data
+ where wh_id = $wh_id
+   and lodnum = $lodnum
+|
+[select distinct 1
+   from invhld,
+        inventory_view
+  where inventory_view.wh_id = @wh_id
+    and inventory_view.wh_id = invhld.wh_id
+    and inventory_view.lodnum = @lodnum
+    and inventory_view.dtlnum = invhld.dtlnum]

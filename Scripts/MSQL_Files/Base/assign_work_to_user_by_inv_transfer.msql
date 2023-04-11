@@ -1,0 +1,47 @@
+/*
+   MSQL File: assign_work_to_user_by_inv_transfer.msql
+   Description: This MSQL script looks for any pending inventory transfer work for a specific oprcod and lodnum that is 
+      either not assigned or assigned to the current user. If work is found, the work is assigned to the user and any 
+	  other work currently assigned to the user is deassigned. This script requires MOCA environment variables to be 
+	  set for oprcod, lodnum, username, and wh_id
+ */
+publish data
+ where lodnum = $xfer_lodnum
+   and usr_id = $username
+   and wh_id = $wh_id
+   and client_id = nvl($client_id, '----')
+   and oprcod = $oprcod
+|
+{
+    [select reqnum
+       from wrkque
+      where asg_usr_id = @usr_id] catch(-1403)
+    |
+    if (@? = 0)
+    {
+        change work
+         where wh_id = @wh_id
+           and reqnum = @reqnum
+           and asg_usr_id = ''
+    }
+} >> DEASSIGN
+|
+/* Then we look for pending work that has not been assigned */
+[select wrkque.reqnum,
+        wrkque.wrkref,
+        wrkque.list_id,
+        wrkque.wh_id
+   from wrkque
+  where wrkque.oprcod = @oprcod
+    and wrkque.ack_usr_id is null
+    and (wrkque.asg_usr_id is null or wrkque.asg_usr_id = @usr_id)
+    and wrksts = 'PEND'
+    and wrkque.lodnum = @lodnum
+    and wrkque.wh_id = @wh_id]
+|
+/* Then we assign the pick to the testing user */
+change work
+ where wh_id = @wh_id
+   and reqnum = @reqnum
+   and asg_usr_id = @usr_id
+   and effpri = 1

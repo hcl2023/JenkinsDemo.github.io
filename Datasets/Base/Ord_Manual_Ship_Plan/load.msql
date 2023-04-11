@@ -1,0 +1,134 @@
+publish data
+  where wh_id = $wh_id
+    and client_id = $client_id
+    and prt_client_id = $prt_client_id
+    and devcod = $devcod 
+    and adrnam = $adrnam
+    and adrtyp = $adrtyp
+    and adrln1 = $adrln1
+    and adrcty = $adrcty
+    and adrstc = $adrstc
+    and adrpsz = $adrpsz
+    and ctry_name = $ctry_name
+    and first_name = $first_name
+    and locale_id = $locale_id
+    and ordnum = $ordnum
+    and cstnum = $cstnum
+    and bt_adr_id = $bt_adr_id
+    and rt_adr_id = $rt_adr_id
+    and ordtyp = $ordtyp
+    and cponum = $cponum
+    and prtnum = $prtnum
+    and untqty = $untqty
+    and invsts_prg = $invsts_prg
+    and early_dlvdte = $early_dlvdte
+    and early_shpdte = $early_shpdte
+    and late_dlvdte = $late_dlvdte
+    and late_shpdte = $late_shpdte
+    and carcod = $carcod
+    and srvlvl = $srvlvl
+|
+[select count(*) adrcnt
+   from adrmst
+  where adrnam = @adrnam
+    and client_id = @client_id] catch(-1403, 510)
+|
+if (@adrcnt = 0)
+{
+    generate next number
+     where numcod = 'adr_id'
+    |
+    publish data
+     where st_adr_id = @nxtnum
+    |
+    create address
+     where client_id = @client_id
+       and adr_id = @st_adr_id
+       and adrnam = @adrnam
+       and adrtyp = @adrtyp
+       and adrln1 = @adrln1
+       and adrln2 = ''
+       and adrln3 = ''
+       and adrcty = @adrcty
+       and adrstc = @adrstc
+       and adrpsz = @adrpsz
+       and ctry_name = @ctry_name
+       and phnnum = ''
+       and faxnum = ''
+       and rsaflg = ''
+       and temp_flg = '0'
+       and po_box_flg = '0'
+       and last_name = ''
+       and first_name = @first_name
+       and email_adr = ''
+       and locale_id = @locale_id
+       and pool_flg = '0'
+       and ship_phnnum = ''
+       and ship_email_adr = ''
+       and ship_attn_name = ''
+       and tim_zon_cd = ''
+       and host_ext_id = @st_adr_id
+}
+|
+create order
+ where client_id = @client_id
+   and ordnum = @ordnum
+   and wh_id = @wh_id
+   and btcust = @cstnum
+   and stcust = @cstnum
+   and rtcust = @cstnum
+   and bt_adr_id = decode(@bt_adr_id, '', @st_adr_id, @bt_adr_id)
+   and st_adr_id = @st_adr_id
+   and rt_adr_id = decode(@rt_adr_id, '', @st_adr_id, @rt_adr_id)
+   and ordtyp = @ordtyp
+   and entdte = sysdate
+   and cponum = @cponum
+   and cpodte = ''
+   and carflg = 1
+   and rrlflg = 0
+   and payment_type = ''
+   and rmanum = ''
+   and cod_payment_type = ''
+|
+create order line
+ where client_id = @client_id
+   and ordnum = @ordnum
+   and ordlin = '10'
+   and ordsln = '0000'
+   and wh_id = @wh_id
+   and prt_client_id = @prt_client_id
+   and prtnum = @prtnum
+   and host_ordqty = @untqty
+   and lotnum = ''
+   and ovramt = 0
+   and parflg = 0
+   and rpqflg = 0
+   and splflg = 1
+   and bckflg = 0
+   and prcpri = ''
+   and entdte = sysdate
+   and sales_ordnum = ''
+   and sales_ordlin = ''
+   and cstprt = ''
+   and prjnum = ''
+   and untcas = 0
+   and untpak = 0
+   and untpal = 0
+   and edtflg = 1
+   and xdkflg = 0
+   and ordqty = @untqty
+   and rsvqty = 0
+   and pckqty = 0
+   and mode = 'MQSI'
+   and frsflg = 0
+   and invsts_prg = nvl(@invsts_prg, 'A')
+   and host_invsts = ''
+   and non_alc_flg = 0
+   and early_shpdte = @early_shpdte
+   and late_shpdte = @late_shpdte
+   and early_dlvdte = @early_dlvdte
+   and late_dlvdte = @late_dlvdte
+   and sddflg = '0'
+   and carcod = @carcod
+   and srvlvl = @srvlvl
+   and pool_cod = ''

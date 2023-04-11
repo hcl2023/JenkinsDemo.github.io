@@ -1,0 +1,6 @@
+variable,value
+screen_wait,2.5
+wait_short,1
+wait_med,5
+wait_long,10
+max_response,30

@@ -1,0 +1,2 @@
+ordnum,ship_id,adr_id,cstnum,carcod,srvlvl,ordtyp,prtnum,untqty,invsts_prg,wave_num,move_id,trlr_id,dock_door
+TSORD0010,TSSHP0010,AS_ADR04,AS_CST04,CYCLTLCAR,LTL,C,SOAP-55,10,A,TSWAV0010,TSCMV0010,TSTRL0010,CYC_SDCK_077

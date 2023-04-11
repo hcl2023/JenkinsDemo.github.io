@@ -1,0 +1,16 @@
+/*
+MSQL File: assign_loading_work.msql
+Description: This MSQL assigns trailer loading work and adjusts the priority
+*/
+
+publish data
+ where username = $username
+   and dock_door = $dock_door
+   and wh_id = $wh_id
+|
+[update wrkque
+    set effpri = 1,
+        asg_usr_id = @username
+  where oprcod = 'LOD'
+    and dstloc = @dock_door
+    and wh_id = @wh_id]

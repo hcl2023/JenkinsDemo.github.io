@@ -1,0 +1,15 @@
+/*
+MSQL File: check_confirm_create.msql
+Description: This MSQL checks if the terminal create inventory prompt policy is enabled
+*/
+
+publish data
+ where wh_id = $wh_id
+|
+[select distinct 'x'
+   from poldat_view
+  where polcod = 'RDTALLOPR'
+    and polvar = 'MISCELLANEOUS'
+    and polval = 'CONFIRM-CREATE-INVENTORY'
+    and rtnum1 = 1
+    and wh_id = @wh_id]

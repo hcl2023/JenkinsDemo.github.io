@@ -1,0 +1,2 @@
+invnum,supnum,order_type,prtnum,expqty,rcvsts
+INORD005,DEFSUP,Inbound Order,SOAP-11,200,Available

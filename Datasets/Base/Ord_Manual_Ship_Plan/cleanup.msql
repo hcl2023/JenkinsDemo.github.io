@@ -1,0 +1,215 @@
+publish data
+  where wh_id = $wh_id
+    and client_id = $client_id
+    and prt_client_id = $prt_client_id
+    and devcod = $devcod 
+    and adrnam = $adrnam
+    and ordnum = $ordnum
+    and load = $load
+|
+{
+	[select *
+	from adrmst
+	where adrnam = @adrnam
+		and client_id = @client_id] catch(-1403)
+	|
+	remove address
+	where host_ext_id = @host_ext_id
+	and client_id = @client_id catch(@?);
+	
+	[select ordnum,
+			wh_id,
+			client_id
+	from ord
+	where ordnum = @ordnum
+		and client_id = @client_id
+		and wh_id = @wh_id] catch(-1403)
+	|
+	[select distinct ship_id,
+			ship_line_id
+	from shipment_line
+	where ordnum = @ordnum
+		and wh_id = @wh_id
+		and client_id = @client_id] catch(-1403)
+	|
+	[select ship_id,
+			stop_id
+	from shipment
+	where ship_id = @ship_id
+		and wh_id = @wh_id] catch(-1403)
+	|
+	[select car_move_id
+	from stop
+	where stop_id = @stop_id] catch(-1403)
+	|
+	[select trlr_id
+	from car_move
+	where car_move_id = nvl(@car_move_id, @load)
+		and wh_id = @wh_id] catch(-1403)
+	|
+	[select yard_loc
+	from trlr
+	where trlr_id = @trlr_id] catch(-1403)
+	|
+	[select dtlnum,
+			subnum,
+			lodnum,
+			stoloc
+	from inventory_view
+	where ship_line_id = @ship_line_id] catch(-1403)
+	|
+	[select wrkref,
+			cmbcod,
+			srcloc,
+			list_id,
+			@ordnum ordnum,
+			@ship_id ship_id,
+			@ship_line_id ship_line_id,
+			@stop_id stop_id,
+			nvl(@car_move_id, @load) car_move_id,
+			@trlr_id trlr_id,
+			@wh_id wh_id,
+			@dtlnum dtlnum,
+			@subnum subnum,
+			@lodnum lodnum,
+			@stoloc stoloc,
+			@yardloc yardloc
+	from pckwrk_view
+	where wh_id = @wh_id
+		and ship_id = @ship_id] catch(-1403)
+	|
+	[update locmst
+		set rescod = NULL
+	where wh_id = @wh_id
+		and (rescod = @ship_id or rescod = @ordnum or rescod = nvl(@car_move_id, @load))] catch(-1403, 510)
+	|
+	[delete
+	from invdtl
+	where dtlnum = @dtlnum] catch(-1403)
+	|
+	[delete invmov
+	where lodnum = @dtlnum
+		and lodlvl = 'D'
+		and wh_id = @wh_id] catch(-1403)
+	|
+	[delete
+	from invsub
+	where subnum = @subnum
+		and prmflg != 1] catch(-1403)
+	|
+	[delete invmov
+	where lodnum = @subnum
+		and lodlvl = 'L'
+		and wh_id = @wh_id] catch(-1403)
+	|
+	[delete
+	from invlod
+	where lodnum = @lodnum
+		and prmflg != 1] catch(-1403)
+	|
+	[delete invmov
+	where lodnum = @lodnum
+		and lodlvl = 'L'
+		and wh_id = @wh_id] catch(-1403)
+	|
+	reset location status
+	where stoloc = @stoloc
+	and wh_id = @wh_id catch(@?)
+	|
+	validate location
+	where stoloc = @stoloc
+	and wh_id = @wh_id catch(@?)
+	|
+	execute server command
+	where cmd = @action catch(@?)
+	|
+	[delete
+	from locmst
+	where stoloc = @trlr_id
+		and wh_id = @wh_id] catch(-1403)
+	|
+	[delete
+	from trlr
+	where trlr_id = @trlr_id] catch(-1403)
+	|
+	[delete pcklst
+	where list_id = @list_id] catch(-1403)
+	|
+	[delete
+	from shipment
+	where ship_id = @ship_id
+		and wh_id = @wh_id] catch(-1403)
+	|
+	[delete
+	from shipment_line
+	where ship_id = @ship_id
+		and wh_id = @wh_id] catch(-1403)
+	|
+	[delete
+	from ord
+	where ordnum = @ordnum
+		and wh_id = @wh_id
+		and client_id = @client_id] catch(-1403)
+	|
+	[delete
+	from ord_line
+	where ordnum = @ordnum
+		and wh_id = @wh_id
+		and client_id = @client_id] catch(-1403)
+	|
+	[delete
+	from stop
+	where stop_id = @stop_id] catch(-1403)
+	|
+	[delete
+	from car_move
+	where car_move_id = nvl(@car_move_id, @load)
+		and wh_id = @wh_id] catch(-1403)
+	|
+	[delete
+	from rplwrk
+	where ship_id = @ship_id
+		and wh_id = @wh_id] catch(-1403)
+	|
+	[delete
+	from pckwrk_hdr
+	where wrkref = @wrkref
+		and wh_id = @wh_id] catch(-1403)
+	|
+	[delete
+	from pckwrk_dtl
+	where wrkref = @wrkref
+		and wh_id = @wh_id] catch(-1403)
+	|
+	[delete
+	from wrkque
+	where (wrkref = @wrkref or list_id = @list_id)
+		and wh_id = @wh_id] catch(-1403)
+	|
+	[delete
+	from pckmov
+	where cmbcod = @cmbcod
+		and wh_id = @wh_id] catch(-1403)
+	|
+	reset location status
+	where stoloc = @srcloc
+	and wh_id = @wh_id catch(@?)
+	|
+	validate location
+	where stoloc = @srcloc
+	and wh_id = @wh_id catch(@?)
+	|
+	execute server command
+	where cmd = @action catch(@?)
+	|
+	reset location status
+	where stoloc = @yard_loc
+	and wh_id = @wh_id catch(@?)
+	|
+	validate location
+	where stoloc = @yard_loc
+	and wh_id = @wh_id catch(@?)
+	|
+	execute server command
+	where cmd = @action catch(@?)
+}

@@ -1,0 +1,30 @@
+/*
+MSQL File: get_cycle_count_lpn_for_matching_count.msql
+Description: This MSQL script gets the next LPN for lpn cycle counting based on location, 
+   warehouse, and count batch. This query returns the lpn to be counted in the location 
+   for a successful cycle count where the counted inventory matches what is expected to be counted.
+   MOCA environment variables for cntbat, stoloc, and wh_id are required for the query to return results
+*/
+
+publish data
+ where cntbat = $cntbat
+   and stoloc = $stoloc
+   and wh_id = $wh_id
+|
+[select invlod.lodnum
+   from cntwrk
+   join invlod
+     on cntwrk.stoloc = invlod.stoloc
+    and cntwrk.wh_id = invlod.wh_id
+  where cntwrk.cntbat = @cntbat
+    and cntwrk.stoloc = @stoloc
+    and cntwrk.wh_id = @wh_id
+    and not exists(select 1
+                     from lpncntwrk
+                    where lpncntwrk.cntbat = cntwrk.cntbat
+                      and lpncntwrk.wh_id = cntwrk.wh_id
+                      and lpncntwrk.stoloc = cntwrk.stoloc
+                      and lpncntwrk.cnttyp = cntwrk.cnttyp
+                      and lpncntwrk.inval1 = invlod.lodnum
+                      and lpncntwrk.cntsts = 'C')
+    and rownum = 1]

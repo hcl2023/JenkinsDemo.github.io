@@ -1,0 +1,2 @@
+trlr_num,inv_num,yard_loc,invtyp,prtnum,rcvsts,expqty,supnum,rec_loc,uomcod,ftpcod,untqty,lodnum,invsts,dep_loc,allocate,override,over_code,over_dep_loc,actcod,override_f2,carcod
+TSTRKPUT80,TSINVPUT080,RDCK-018,P,SOAP-10,A,10,DEFSUP,RCVSTG-001,CS,50-10,1,CYC-PUT-080,A,CYC_EA_LOC04,TRUE,TRUE,,CYC_EA_LOC05,PUT_DRCT,TRUE,CYCCAR1

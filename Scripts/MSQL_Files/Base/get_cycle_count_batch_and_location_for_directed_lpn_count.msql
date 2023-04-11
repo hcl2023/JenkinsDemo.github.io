@@ -1,0 +1,35 @@
+/*
+MSQL File: get_cycle_count_batch_and_location_for_directed_lpn_count.msql
+Description: This MSQL script gets the storage location and count batch for an LPN count
+   acknowledged by a user/device during lpn cycle counting scenarios using directed work.
+   MOCA environment variables for username and devcod need to be provided for this query to return results
+*/
+
+publish data
+ where username = $username
+   and devcod = $devcod
+|
+[select cntwrk.stoloc,
+        cntwrk.cntbat
+   from wrkque
+   join cntwrk
+     on cntwrk.cntgrp = wrkque.cntgrp
+    and cntwrk.wh_id = wrkque.wh_id
+    and cntwrk.stoloc = wrkque.srcloc
+   join locmst
+     on cntwrk.stoloc = locmst.stoloc
+    and cntwrk.wh_id = locmst.wh_id
+   join cnttyp
+     on cntwrk.cnttyp = cnttyp.cnttyp
+   join cntzon
+     on cntzon.cnt_zone_id = locmst.cnt_zone_id
+    and cntzon.lpncntflg = 1
+   join poldat_view
+     on poldat_view.polcod = 'CYCLE-COUNTING'
+    and poldat_view.polvar = 'LPN-COUNT'
+    and poldat_view.polval = 'CNTTYP'
+    and poldat_view.wh_id = locmst.wh_id
+    and poldat_view.rtstr1 = cntwrk.cnttyp
+  where wrkque.ack_usr_id = @username
+    and wrkque.ackdevcod = @devcod 
+    and rownum = 1]

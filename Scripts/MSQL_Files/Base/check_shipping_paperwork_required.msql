@@ -1,0 +1,14 @@
+/*
+MSQL File: check_shipping_paperwork_required.msql
+Description: This MSQL checks if shipping paperwork is required
+*/
+
+publish data
+ where wh_id = $wh_id
+|
+[select nvl(rtstr1, '0') pprwrk_req
+   from poldat_view
+  where polcod = 'SHIPPING'
+    and polvar = 'MISCELLANEOUS'
+    and polval = 'PAPERWORK-REQUIRED-FOR-SHIPPING'
+    and wh_id = @wh_id]

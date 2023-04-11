@@ -1,0 +1,55 @@
+/*
+   MSQL File: assign_work_to_user_by_operation_and_cntbat.msql
+   Description: This MSQL script looks for any pending count work for a specific oprcod and cntbat that is either not assigned
+   	  or assigned to the current user and associated with the count type and count batch.
+      If work is found, the work is assigned to the user and any other work currently assigned to the user is deassigned.
+      This script requires MOCA environment variables to be set for cnttyp, cntbat, username, and wh_id
+ */
+publish data
+ where cnttyp = $cnttyp
+   and usr_id = $username
+   and wh_id = $wh_id
+   and client_id = nvl($client_id, '----')
+   and cntbat = $cntbat
+|
+{
+    [select reqnum
+       from wrkque
+      where asg_usr_id = @usr_id] catch(-1403)
+    |
+    if (@? = 0)
+    {
+        change work
+         where wh_id = @wh_id
+           and reqnum = @reqnum
+           and asg_usr_id = ''
+    }
+} >> DEASSIGN
+|
+/* First we get oprcod from the cnttyp */
+[select oprcod
+   from cnttyp
+  where cnttyp = @cnttyp]
+|
+/* Then we look for pending work that has not been assigned */
+[select wrkque.reqnum,
+        wrkque.wrkref,
+        wrkque.list_id,
+        wrkque.wh_id
+   from wrkque
+   join cntwrk
+     on cntwrk.wh_id = wrkque.wh_id
+    and (cntwrk.cntgrp = wrkque.cntgrp)
+  where wrkque.oprcod = @oprcod
+    and wrkque.ack_usr_id is null
+    and (wrkque.asg_usr_id is null or wrkque.asg_usr_id = @usr_id)
+    and wrksts = 'PEND'
+    and cntwrk.cntbat = @cntbat
+    and cntwrk.wh_id = @wh_id]
+|
+/* Then we assign the pick to the testing user */
+change work
+ where wh_id = @wh_id
+   and reqnum = @reqnum
+   and asg_usr_id = @usr_id
+   and effpri = 1

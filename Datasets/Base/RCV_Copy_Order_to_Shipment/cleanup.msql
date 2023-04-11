@@ -1,0 +1,36 @@
+/*
+Dataset Name: RCV_Copy_Order_to_Shipment/cleanup
+Description: Cleans up the data copying an inbound order to a shipment.
+*/
+publish data
+ where trknum = $trknum
+   and invnum = $invnum
+|
+[delete
+  from rimhdr
+  where invnum = @invnum] catch(@?)
+|
+[delete
+   from rimlin
+  where invnum = @invnum] catch(@?)
+|
+[delete
+   from rcvtrk
+  where trknum = @trknum] catch(@?)
+|
+[delete
+   from locmst
+  where stoloc = @trknum] catch(@?)
+|
+[delete
+   from rcvlin
+  where trknum = @trknum] catch(@?)
+|
+[delete
+   from rcvinv
+  where trknum = @trknum] catch(@?)
+|
+[delete
+   from inb_serv_rcvinv
+  where trknum = @trknum ] catch(@?)
+

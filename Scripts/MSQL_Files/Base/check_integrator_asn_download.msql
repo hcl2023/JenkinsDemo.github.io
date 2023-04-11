@@ -1,0 +1,33 @@
+/*
+MSQL File: check_integrator_asn_download.msql
+Description: This MSQL check ASN download records for all trntyps
+*/
+
+publish data
+ where trntyp = $trntyp
+   and invnum = $invnum
+   and field_to_validate_change = $field_to_validate_change
+   and client_id = $client_id
+   and wh_id = $wh_id
+|
+if (@trntyp and (@trntyp = 'A' or @trntyp = 'D'))
+{
+    [select 'x'
+       from rcvinv
+      where invnum = @invnum
+        and client_id = @client_id
+        and wh_id = @wh_id]
+}
+else if (@trntyp and @trntyp = 'C')
+{
+    [select @field_to_validate_change:raw
+       from rcvinv
+      where invnum = @invnum
+        and client_id = @client_id
+        and wh_id = @wh_id]
+}
+else 
+{
+    set return status 
+     where status = 510
+}

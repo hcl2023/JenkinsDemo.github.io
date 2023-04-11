@@ -1,0 +1,12 @@
+/*
+MSQL File: clear_device_context.msql
+Description: This MSQL is clears the device context for a terminal to ensure successive runs are clear
+*/
+
+publish data
+ where devcod = $devcod
+   and wh_id = $wh_id
+|
+clear device context
+ where devcod = @devcod
+   and wh_id = @wh_id catch(@?)

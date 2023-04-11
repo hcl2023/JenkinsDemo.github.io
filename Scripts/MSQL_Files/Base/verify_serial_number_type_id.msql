@@ -1,0 +1,14 @@
+/*
+MSQL File: verify_serial_number_type_id.msql
+Description: This query verifies the ser_num_typ_id in the ser_num_typ table using a serial_num_type MOCA environment variable that is 
+   populated by data on the terminal screen. 
+   This query ensures the value Cycle copies from the terminal screen is a valid serial_num_typ_id. This ser_num_typ_id is used 
+   in a scenario to build the filename where the valid serial number values Cycle can use for testing are listed.
+*/
+
+publish data
+ where serial_num_type = $serial_num_type
+|
+[select ser_num_typ_id
+   from ser_num_typ
+  where ser_num_typ_id = ltrim(rtrim(@serial_num_type))]

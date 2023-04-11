@@ -1,0 +1,21 @@
+/*
+Dataset Name: Create_Car_Move
+Description: Dataset to generate carrier move id (based on move_id being carrier move)
+*/
+
+publish data
+ where wh_id = $wh_id
+   and client_id = $client_id
+   and prt_client_id = $prt_client_id
+   and devcod = $devcod
+   and carcod = $carcod
+   and move_id = $move_id
+|
+/* Create a Carrier move id */
+ create carrier move
+ where car_move_id = @move_id
+   and move_plan_id = @move_id
+   and host_client_id = @client_id
+   and carcod = @carcod
+   and attn_cod = 'NORMAL'
+   and trans_mode = 'T';

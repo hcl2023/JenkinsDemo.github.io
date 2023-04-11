@@ -1,0 +1,15 @@
+/* 
+MSQL File: get_sub_lpn_to_validate_reverse_receipt.msql
+Description: This MSQL script gets a sub-lpn (subnum) from an lpn (lodnum) that is used by a scenario
+   to validate a reverse receipt was complete MOCA environment variables for lodnum and wh_id must be 
+   provided for the query to return results
+*/
+
+publish data
+ where lodnum = $lodnum
+   and wh_id = $wh_id
+|
+[select max(subnum) subnum
+   from inventory_view
+  where lodnum = @lodnum
+    and wh_id = @wh_id]

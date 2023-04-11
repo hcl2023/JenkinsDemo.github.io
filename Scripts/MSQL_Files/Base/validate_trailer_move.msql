@@ -1,0 +1,18 @@
+/*
+MSQL File: validate_trailer_move.msql
+Description: This MSQL script is used to perform pre and post move validation in trailer move scenarios.
+   MOCA environment variables for carcod, validation_location, wh_id, and trlr_num are required.
+*/
+
+publish data
+ where yard_loc = $validate_loc
+   and trlr_num = $trlr_num
+   and carcod = $carcod
+   and wh_id = $wh_id
+|
+[select distinct 1
+   from trlr
+  where carcod = @carcod
+    and yard_loc = @yard_loc
+    and yard_loc_wh_id = @wh_id
+    and trlr_num = @trlr_num]

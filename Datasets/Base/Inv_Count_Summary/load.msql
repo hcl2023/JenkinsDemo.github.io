@@ -1,0 +1,222 @@
+/*
+ * This script will create a count batch and release the counts
+ * The input parameters for the release batch are exported to moca 
+ * environment variables in the feature Inv_Count_Summary
+ * The logic in this script is largely from the command 'generate
+ * cycle count'. Difference is in this script that the cntbat variable is passed in.
+ * Also, it only works for locations with inventory, not for empty locations
+ */
+
+publish data 
+ where wh_id = $wh_id
+    and cntbat = $cntbat
+    and stoloc = $stoloc
+	and prtnum = $prtnum
+	and prt_client_id = $prt_client_id
+	and request_cnt_by_opt = 'PART_LOC'
+	and cnttyp = $cnttyp
+	and reqtyp = 'U'
+|
+{
+    validate stack variable not null
+     where name = 'wh_id'
+    |
+    validate stack variable not null
+     where name = 'cntbat'
+    |
+    generate next number
+     where numcod = 'cnt_id'
+    |
+    publish data
+     where cnt_id = @nxtnum
+    |
+    if (@request_cnt_by_opt != 'LOC_RANGE' and @stoloc#onstack)
+    {
+        list count batch details
+         where wh_id = @wh_id
+           and stoloc = @stoloc
+           and
+        [cntsts not in ('C', 'N')] catch(-1403)
+        |
+        if (@? = 0)
+        {
+            set return status
+             where status = 11958
+            /*eCYCLE_COUNT_ALREADY_EXISTS_FOR_LOCATION*/
+        }
+    }
+    |
+    create count schedule header
+     where cnt_id = @cnt_id
+       and wh_id = @wh_id
+       and schdte = sysdate
+       and reqtyp = @reqtyp
+       and cnttyp = @cnttyp
+    |
+    hide stack variable
+     where name = 'ins_dt'
+    |
+    hide stack variable
+     where name = 'ins_user_id'
+    |
+	if (@begloc = '')
+		hide stack variable
+		 where name = 'begloc'
+	|
+	if (@endloc = '')
+		hide stack variable
+		 where name = 'endloc'
+	|
+	if (@stoloc = '')
+		hide stack variable
+		 where name = 'stoloc'
+	|
+	if (@prtnum = '')
+		hide stack variable
+		 where name = 'prtnum'
+	|
+	if (@prt_client_id = '')
+		hide stack variable
+		 where name = 'prt_client_id'
+	|
+    add cycle count locations
+     where cnt_id = @cnt_id
+       and wh_id = @wh_id
+       and @+begloc^stoloc
+       and @+endloc^endloc
+       and request_cnt_by_opt = @request_cnt_by_opt
+       and @+prtnum
+       and @+stoloc
+       and @+prt_client_id catch(-1403)
+    |
+    if (@emp_loc_filted > 0)
+    {
+        set return status
+         where status = 11187
+    }
+    |
+    if (@total_Counts_Scheduled < 1)
+    {
+        set return status
+         where status = 11957
+        /*eCYCLE_COUNT_GEN_ZERO_COUNT_SCHEDULE*/
+    }
+    |
+    list count schedule
+     where wh_id = @wh_id
+       and cnt_id = @cnt_id
+       and exclude_hold_details = true catch(-1403)
+    |
+    save session variable
+     where name = 'cnt_id'
+       and value = @cnt_id
+    |
+    if (@? = 0)
+    {
+        [select seqnum
+           from cntsch
+          where cnt_id = @cnt_id
+            and wh_id = @wh_id
+            and @+stoloc
+            and @+prtnum
+            and @+prt_client_id]
+        |
+        publish data
+         where seqnum = @seqnum
+        |
+        publish data
+         where cntbat = @cntbat
+        |
+        [select cnt_zone_id
+           from locmst
+          where stoloc = @stoloc
+            and wh_id = @wh_id] catch(-1403)
+        |
+        list count inventory identifiers
+         where wh_id = @wh_id
+           and cnt_zone_id = @cnt_zone_id
+        |
+        hide stack variable
+         where name = 'stoloc'
+        |
+        create count batch
+         where gencod = 'MAN'
+           and invid1 = @invid1
+           and invid2 = @invid2
+           and invid3 = @invid3
+           and invid4 = @invid4
+           and invid5 = @invid5
+           and invid6 = @invid6
+           and invid7 = @invid7
+           and invid8 = @invid8
+           and invid9 = @invid9
+           and invid10 = @invid10
+           and invid11 = @invid11
+           and invid12 = @invid12
+           and invid13 = @invid13
+           and invid14 = @invid14
+           and invid15 = @invid15
+           and invid16 = @invid16
+           and invid17 = @invid17
+           and invid18 = @invid18
+           and invid19 = @invid19
+           and invid20 = @invid20
+           and invid21 = @invid21
+           and invid22 = @invid22
+           and invid23 = @invid23
+           and invid24 = @invid24
+           and invid25 = @invid25
+           and invid26 = @invid26
+           and invid27 = @invid27
+           and invid28 = @invid28
+           and invid29 = @invid29
+           and invid30 = @invid30
+           and invid31 = @invid31
+           and invid32 = @invid32
+           and invid33 = @invid33
+           and invid34 = @invid34
+           and seqnum = @seqnum
+           and cnttyp = @cnttyp
+           and cntwav = @cnt_id
+           and cnt_id = @cnt_id
+           and wh_id = @wh_id
+           and cntbat = @cntbat
+           and @+prtnum
+           and @+prt_client_id
+    };
+
+    get session variable
+     where name = 'cnt_id'
+    |
+    [select distinct w.cnttyp
+       from cntwrk w,
+            cnthdr h,
+            locmst l
+      where h.cntbat = w.cntbat
+        and w.stoloc = l.stoloc
+        and w.wh_id = l.wh_id
+        and h.cntwav = @value
+        and h.wh_id = @wh_id] catch(-1403)
+    |
+    if (@? = 0)
+    {
+        process count release
+         where cntwav = @cnt_id
+           and wh_id = @wh_id
+    };
+	
+    get session variable
+     where name = 'cnt_id'
+    |
+    [select ch.cntbat,
+            ch.wh_id,
+            ch.gencod,
+            ch.cntmod,
+            ch.reqtyp,
+            ch.prtnum,
+            ch.prt_client_id,
+            ch.cntwav,
+            ch.cnt_id
+       from cnthdr ch
+      where cnt_id = @value] catch(-1403)
+}

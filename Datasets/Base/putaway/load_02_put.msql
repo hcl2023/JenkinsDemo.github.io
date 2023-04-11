@@ -1,0 +1,65 @@
+publish data
+ where wh_id = $wh_id
+   and client_id = $client_id
+   and prt_client_id = $prt_client_id
+   and devcod = $devcod
+   and trlr_num = $trlr_num
+   and host_wh_id = $wh_id
+   and supnum = $supnum
+   and prtnum = $prtnum
+   and invsts = $invsts
+   and username = $username
+   and ftpcod = $ftpcod
+   and uomcod = $uomcod
+   and lodnum = $lodnum
+   and untqty = $untqty
+   and rec_loc = $rec_loc
+   and actcod = $actcod
+   and devcod = $devcod
+|
+{
+create inventory
+ where invnum = @trlr_num
+   and supnum = @supnum
+   and wh_id = @wh_id
+   and asset_typ = ''
+   and bill_through_dte = ''
+   and prtnum = @prtnum
+   and prt_client_id = @prt_client_id
+   and orgcod = ''
+   and revlvl = ''
+   and lotnum = ''
+   and invsts = @invsts
+   and sup_lotnum = ''
+   and untcas = 1
+   and untpak = 1
+   and usr_id = @username
+   and devcod = @devcod
+   and ftpcod = @ftpcod
+   and rcvkey = ''
+   and client_id = @client_id
+   and oprcod = 'UID'
+   and uomcod = @uomcod
+   and trknum = @trlr_num
+   and movref = @trlr_num
+   and srcloc = 'PERM-CRE-LOC'
+   and dstloc = @trlr_num
+   and lodnum = @lodnum
+   and untqty = @untqty
+   and nxt_blng_dat = '';
+process lms identification event
+ where lodnum = @lodnum
+   and wh_id = @wh_id;
+process inventory move
+ where srclod = @lodnum
+   and srcloc = @trlr_num
+   and dstloc = @rec_loc
+   and dstlod = ''
+   and dstsub = ''
+   and actcod = @actcod
+   and oprcod = 'UID'
+   and trolley_flag = '0'
+   and mergeondep = '1'
+   and wh_id = @wh_id
+   and distro_resid = 0
+}

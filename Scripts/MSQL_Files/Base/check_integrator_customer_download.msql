@@ -1,0 +1,30 @@
+/*
+MSQL File: check_integrator_customer_download.msql
+Description: This MSQL checks customer download records for all trntyps
+*/
+
+publish data
+ where trntyp = $trntyp
+   and cstnum = $cstnum
+   and field_to_validate_change = $field_to_validate_change
+   and client_id = $client_id
+|
+if (@trntyp and (@trntyp = 'A' or @trntyp = 'D'))
+{
+    [select distinct 'x'
+       from cstmst
+      where cstnum = @cstnum
+        and client_id = @client_id]
+}
+else if (@trntyp and @trntyp = 'C')
+{
+    [select @field_to_validate_change:raw
+       from cstmst
+      where cstnum = @cstnum
+        and client_id = @client_id]
+}
+else
+{
+    set return status
+     where status = 510
+}

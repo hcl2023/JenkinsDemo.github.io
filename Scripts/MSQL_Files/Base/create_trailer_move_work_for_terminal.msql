@@ -1,0 +1,23 @@
+/*
+MSQL File: create_trailer_move_work_for_terminal.msql
+Description: This MSQL creates trailer move work for Terminal trailer moves
+*/
+publish data
+  where work_queue_or_immediate = $work_queue_or_immediate
+    and check_in_dock_loc = $check_in_dock_loc
+    and move_to_dock_loc = $move_to_dock_loc
+    and username = $username
+    and trlr_num = $trlr_num
+    and carcod = $carcod
+    and wh_id = $wh_id
+|
+if(@work_queue_or_immediate is not null and @work_queue_or_immediate = 'work_queue'){
+    create work
+      where oprcod = 'TRL'
+        and srcloc = @check_in_dock_loc
+        and dstloc = @move_to_dock_loc
+        and asg_usr_id = @username
+        and refloc = @trlr_num
+        and wrkref = @carcod
+        and wh_id = @wh_id
+}

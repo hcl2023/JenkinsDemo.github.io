@@ -1,0 +1,19 @@
+/*
+MSQL File: get_carrier_name.msql
+Description: This MSQL returns a carrier name base on a carrier code that code be either
+			 the carrier code or the carrier name.  A match on carcod is preferred.
+*/
+
+publish data
+ where carcod = $carcod
+|
+[select 1,
+        carnam
+   from carhdr
+  where carcod = @carcod
+ union
+ select 2,
+        carnam
+   from carhdr
+  where carnam = @carcod
+  order by 1]

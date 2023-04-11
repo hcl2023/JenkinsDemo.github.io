@@ -1,0 +1,32 @@
+/*
+MSQL File: ASN_add_serial_numbers.msql
+Description: This MSQL script looks at the already generated ASN receipt data and
+   uses the process host receipt serial number call to add serial numbers to the ASN.
+   This script requires MOCA environment variables to be set for lodnum (ASN), client_id, ser_num, ser_num_typ_id, prtnum, and wh_id
+*/
+
+publish data
+ where lodnum = $lodnum
+   and ser_num = $ser_num
+   and ser_num_typ_id = $ser_num_typ_id
+   and wh_id = $wh_id
+   and client_id = $client_id
+   and prtnum = $prtnum
+   and catch_qty = $catch_qty
+   and untqty = $untqty
+   and subnum = $subnum
+   and dtlnum = $dtlnum
+   and untcas = $untcas
+|
+process host receipt serial number
+ where prtnum = @prtnum
+   and prt_client_id = @client_id
+   and lodnum = @lodnum
+   and subnum = @subnum
+   and dtlnum = @dtlnum
+   and catch_qty = @catch_qty
+   and wh_id = @wh_id
+   and untqty = @untqty
+   and untcase = @untcas
+   and ser_num = @ser_num
+   and ser_num_typ_id = @ser_num_typ_id;

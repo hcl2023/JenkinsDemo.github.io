@@ -1,0 +1,64 @@
+/* 
+Dataset Name: Create_INV_Hold_Release
+Description: Cleans up data created as part of inventory hold and release test cases
+*/
+publish data
+ where wh_id = $wh_id
+   and client_id = $client_id
+   and prt_client_id = $prt_client_id
+   and devcod = $devcod
+   and count = $num_loads
+   and prtnum = $prtnum
+   and stoloc = $stoloc
+   and subnum = $subnum
+   and dtlnum = $dtlnum
+   and reacod = $reacod
+   and lodnum_1 = $lodnum_1
+   and lodnum_2 = $lodnum_2
+   and lodnum_3 = $lodnum_3
+|
+if (@subnum = '')
+	hide stack variable
+	 where name = 'subnum'
+|
+if (@dtlnum = '')
+	hide stack variable
+	 where name = 'dtlnum'
+|
+do loop
+ where count = @count
+|
+publish data
+ where cmd = 'publish data where lodnum = @lodnum_' || (@i + 1)
+|
+execute server command
+ where cmd = @cmd
+|
+if (@lodnum is null or @lodnum = '')
+{
+    hide stack variable
+     where name = 'lodnum'
+}
+|
+[select *
+   from inventory_view
+  where lodnum = @lodnum
+    and stoloc = @stoloc
+    and prt_client_id = @prt_client_id
+    and prtnum = @prtnum
+	and wh_id = @wh_id
+    and @+dtlnum
+    and @+subnum] catch(-1403)
+|
+/*Clean up Holds*/
+[delete
+   from invhld
+  where dtlnum = @dtlnum] catch(@?)
+|
+move inventory
+ where dstloc = 'PERM-ADJ-LOC'
+   and reacod = @reacod
+   and adj_ref2 = ''
+   and adj_ref1 = ''
+   and actcod = 'IDNTFY_AJ'
+   and reacod = @reacod catch(@?)

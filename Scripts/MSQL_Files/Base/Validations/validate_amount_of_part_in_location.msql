@@ -1,0 +1,45 @@
+/* 
+MSQL File: validate_amount_of_part_in_location.msql
+Description: This script confirms that a location contains an quantity of a part
+Inputs:
+	Required:
+		wh_id - Warehouse Id 
+		parameter_1 - Location (parameter_1)		
+		parameter_2 - Part Number (parameter_2)
+		parameter_3 - Quantity (parameter_3)
+	Optional:
+		parameter_4 - Exact Match Flag (TRUE/FALSE) default=FALSE (parameter_4)
+Outputs:
+	validation_status - TRUE or FALSE 
+	error_message - Error Message set when validation fails
+*/
+publish data
+ where wh_id = $wh_id
+   and stoloc = $parameter_1
+   and prtnum = $parameter_2
+   and untqty = $parameter_3
+   and exact_flg = nvl($parameter_4, 'FALSE')
+|
+[select nvl(sum(untqty),0) qty_in_loc
+   from inventory_view
+  where wh_id = @wh_id
+    and stoloc = @stoloc
+	and prtnum = @prtnum ]
+|
+if (@untqty > @qty_in_loc )
+{
+    publish data
+     where validation_status = 'FALSE'
+       and error_message = "Location " || @stoloc || " only contains " || @qty_in_loc|| " of part " || @prtnum
+}
+else if (@untqty < @qty_in_loc and @exact_flg = 'TRUE' )
+{
+    publish data
+     where validation_status = 'FALSE'
+       and error_message = "Location " || @stoloc || " contains too much (" || @qty_in_loc || ") of part " || @prtnum
+} 
+else 
+{
+    publish data
+     where validation_status = 'TRUE'
+}

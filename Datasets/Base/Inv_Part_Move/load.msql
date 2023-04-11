@@ -1,0 +1,62 @@
+/*
+ * Dataset Name : Partial Inventory Move
+ * Dataset Description : This dataset will be used to load data for Web UI Inventory Movement feature
+ */
+publish data
+  where ftpcod = $ftpcod
+    and wh_id = $wh_id
+    and client_id = $client_id
+    and prt_client_id = $prt_client_id
+    and devcod = $devcod
+    and prtnum = $prtnum
+    and untqty = $untqty
+    and catch_qty = $catch_qty
+    and lotnum = $lotnum
+	and srclod = $srclod
+    and srcloc = $srcloc
+| 
+/*Get the units per case and units per pack from the item footprint*/
+[select nvl(pd1.untqty, '1') as untcas,
+        nvl(pd2.untqty, '1') as untpak
+   from prtftp
+   left outer
+   join prtftp_dtl pd1
+     on pd1.prtnum = prtftp.prtnum
+    and pd1.prt_client_id = prtftp.prt_client_id
+    and pd1.wh_id = prtftp.wh_id
+    and pd1.ftpcod = prtftp.ftpcod
+    and pd1.cas_flg = 1
+   left outer
+   join prtftp_dtl pd2
+     on pd2.prtnum = prtftp.prtnum
+    and pd2.prt_client_id = prtftp.prt_client_id
+    and pd2.wh_id = prtftp.wh_id
+    and pd2.ftpcod = prtftp.ftpcod
+    and pd2.pak_flg = 1
+  where prtftp.prtnum = @prtnum
+    and prtftp.ftpcod = @ftpcod
+    and prtftp.prt_client_id = @prt_client_id
+    and prtftp.wh_id = @wh_id]
+|
+/*Create the inventory*/
+create inventory
+ where srcloc = 'PERM-ADJ-LOC'
+   and asset_typ = ''
+   and wh_id = @wh_id
+   and devcod = @devcod
+   and reacod = 'ADJ-ACCEPT'
+   and adj_ref2 = ''
+   and adj_ref1 = ''
+   and prtnum = @prtnum
+   and prt_client_id = @prt_client_id
+   and client_id = @client_id
+   and untcas = @untcas
+   and untpak = @untpak
+   and actcod = ''
+   and invsts = 'A'
+   and ftpcod = @ftpcod
+   and lodnum = @uc_cyc_srclod
+   and dstloc = @uc_cyc_srcloc
+   and untqty = @untqty
+   and catch_qty = @catch_qty
+   and lotnum = @lotnum;

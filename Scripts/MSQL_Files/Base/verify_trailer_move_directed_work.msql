@@ -1,0 +1,20 @@
+/*
+MSQL File: verify_trailer_move_directed_work.msql
+Description: This MSQL script is used to verify trailer move directed work
+   MOCA environment variables for check_in_dock_loc, move_to_dock_loc, trlr_num, car_cod, and username are required.
+*/
+
+publish data
+ where srcloc = $check_in_dock_loc
+   and dstloc = $move_to_dock_loc
+   and refloc = $trlr_num
+   and wrkref = $carcod
+   and asg_usr_id = $username
+|
+list work
+  where oprcod = 'TRL'
+    and srcloc = @srcloc
+    and dstloc = @dstloc
+    and refloc = @refloc
+    and wrkref = @wrkref
+    and asg_usr_id = @asg_usr_id

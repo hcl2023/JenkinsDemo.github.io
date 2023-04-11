@@ -1,0 +1,2 @@
+ordnum,clause,system,tran_name,pre_validation,post_validation,detail_file_name
+CYC-IX-ORD-0001,and ordlin='0001',HOST,SHIPORD_INB_IFD,Check Integrator Shipment Order Download,Check Integrator Shipment Order Download,BASE-INT-2100-01.csv

@@ -1,0 +1,36 @@
+/*
+   MSQL File: get_cycle_qty_and_uom_from_count_location.msql
+   Description: This MSQL script is used by cycle count scenarios to get the unit quantity and number of UOMs
+       for a specific item/client_id in a count location. MOCA environment variables for stoloc, wh_id, prtnum, 
+       and prt_client_id need to be provided for this query to retrun results
+*/
+
+publish data
+ where stoloc = $stoloc
+   and wh_id = $wh_id
+   and prtnum = $prtnum
+   and prt_client_id = $prt_client_id
+|
+[select sum(invdtl.untqty) untqty,
+        invdtl.ftpcod
+   from invlod
+   join invsub
+     on invsub.lodnum = invlod.lodnum
+   join invdtl
+     on invdtl.subnum = invsub.subnum
+  where invlod.stoloc = ltrim(rtrim(@stoloc))
+    and invlod.wh_id = @wh_id
+    and invdtl.prtnum = ltrim(rtrim(@prtnum))
+    and invdtl.prt_client_id = ltrim(rtrim(@prt_client_id))
+  group by invdtl.ftpcod]
+|
+[select count(*) numUOMs
+   from prtftp_dtl
+  where wh_id = @wh_id
+    and prtnum = @prtnum
+    and prt_client_id = @prt_client_id
+    and ftpcod = @ftpcod]
+|
+publish data
+ where untqty = @untqty
+   and numUOMs = @numUOMs

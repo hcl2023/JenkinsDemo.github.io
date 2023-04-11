@@ -1,0 +1,15 @@
+/* 
+MSQL File: validate_inbound_order.msql
+Description: This MSQL script gets an inbound order created by a test case to verify the Inbound Order was properly created.
+*/
+
+publish data
+ where invnum = $invnum
+   and supnum = $supnum
+   and wh_id = $wh_id
+|
+[select distinct 1
+   from rimhdr
+  where invnum = @invnum
+    and supnum = @supnum
+    and wh_id = @wh_id]

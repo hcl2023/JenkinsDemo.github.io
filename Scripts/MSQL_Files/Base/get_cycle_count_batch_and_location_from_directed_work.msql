@@ -1,0 +1,23 @@
+/*
+MSQL File: get_cycle_count_batch_and_location_from_directed_work.msql
+Description: This MSQL script is used by cycle count scenarios to get the count batch and count location
+   for directed cycle count work assigned to the current user.
+   MOCA environment variables for cnttyp, devcod, and username need to be provided for this query to return results
+*/
+
+publish data
+ where cnttyp = $cnttyp
+   and username = $username
+   and devcod = $devcod
+|
+[select cntwrk.stoloc,
+        cntwrk.cntbat
+   from wrkque
+   join cntwrk
+     on cntwrk.cntgrp = wrkque.cntgrp
+    and cntwrk.wh_id = wrkque.wh_id
+    and cntwrk.stoloc = wrkque.srcloc
+    and cntwrk.cnttyp = @cnttyp
+  where wrkque.ack_usr_id = @username
+    and wrkque.ackdevcod = @devcod
+    and rownum = 1]

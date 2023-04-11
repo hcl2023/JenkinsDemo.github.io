@@ -1,0 +1,2 @@
+trlr_num,inv_num,yard_loc,invtyp,prtnum,lotnum,rcvsts,ap_sts,qa_sts,expqty,supnum,rec_loc,dep_loc,rcv_qty,putaway_method,asn_flg,validate_loc,actcod,rcv_prtnum,lpn,expect_discrepancies,oprcod
+TSTRK4100,TSINV4100,RDCK-012,P,C_DR_PRT12,,A,A,,20,DEFSUP,RCVSTG-001,RCVSTG-001,20,1,FALSE,,INVRCV,,LPN-RCV-4100,FALSE,STO

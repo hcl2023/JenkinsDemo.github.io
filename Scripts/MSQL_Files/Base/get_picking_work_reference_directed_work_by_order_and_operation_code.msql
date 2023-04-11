@@ -1,0 +1,44 @@
+/*
+MSQL File: get_picking_work_reference_directed_work_by_order_and_operation_code.msql
+Description: This MSQL script is used by terminal picking utilities scenarios to get the work
+   reference tied to picking directed work by operation code and order number.
+   The script will look for any eligible work that is either not assigned or is already assigned 
+   to the current user.
+   If work is found for the operation code and order number, the script assigns the work to the user 
+   and deassigns any other work that might have already been assigned to the user.
+   This script requires MOCA environment variables to be set for oprcod, username, wh_id, 
+   and ordnum to work properly
+*/
+
+publish data
+ where oprcod = $oprcod
+   and ordnum = $ordnum
+   and username = $username
+   and wh_id = $wh_id
+|
+/*First we look for pending work that has not been assigned */
+[select w.reqnum,
+        w.wrkref,
+        w.wh_id
+   from wrkque w
+   join pckwrk_view pv
+     on pv.wh_id = w.wh_id
+    and pv.wrkref = w.wrkref
+  where w.oprcod = @oprcod
+    and (w.asg_usr_id is null or w.asg_usr_id = @username)
+    and wrksts in( 'PEND','WAIT')
+    and pv.ordnum = @ordnum
+    and rownum < 2]
+|
+/*Then we assign the pick to the testing user*/
+[update wrkque
+    set asg_usr_id = @username
+  where reqnum = @reqnum
+    and wh_id = @wh_id];
+
+/*Now we make sure there are no other work assignments for the user*/
+[update wrkque
+    set asg_usr_id = ''
+  where asg_usr_id = @username
+    and oprcod != @oprcod
+    and wh_id = @wh_id] catch(-1403)

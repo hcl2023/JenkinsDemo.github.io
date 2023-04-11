@@ -1,0 +1,11 @@
+/*
+MSQL File: check_stop_cdeleted.msql
+Description: This MSQL checks if the stop is deleted
+*/
+
+publish data
+ where load = $load
+|
+[select distinct 'x'
+   from stop
+  where car_move_id = @load]

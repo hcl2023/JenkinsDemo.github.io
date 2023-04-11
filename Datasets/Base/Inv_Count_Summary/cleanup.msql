@@ -1,0 +1,68 @@
+/* cleanup script for count summary script */
+publish data
+ where wh_id = $wh_id
+   and client_id = $client_id
+   and prt_client_id = $prt_client_id
+   and devcod = $devcod
+   and cntbat = $cntbat
+|
+/*First clean up the location in case any counts are started but not completed*/
+[select distinct stoloc cntloc
+   from cntwrk
+  where wh_id = @wh_id
+    and cntbat = @cntbat] catch(-1403)
+|
+if (@cntloc)
+{
+    [select 'x'
+       from locmst
+      where stoloc = @cntloc
+        and wh_id = @wh_id
+        and cipflg != '0'] catch(-1403)
+    |
+    if (@? = 0)
+    {
+        [update locmst
+            set cipflg = 0
+          where stoloc = @cntloc
+            and wh_id = @wh_id] catch(-1403)
+        |
+        validate location
+         where stoloc = @cntloc
+           and wh_id = @wh_id
+        |
+        reset location status
+         where stoloc = @cntloc
+           and wh_id = @wh_id
+    }
+}
+|
+/*Then Delete count data*/
+{
+    [delete
+       from wrkque
+      where cntgrp in (select distinct cntgrp
+                         from cntwrk
+                        where cntbat = @cntbat
+                          and wh_id = @wh_id)] catch(-1403);
+    [delete
+       from cntsch
+      where cnt_id = @cntbat
+        and wh_id = @wh_id] catch(-1403);
+    [delete
+       from cntsch_hdr
+      where cnt_id = @cntbat
+        and wh_id = @wh_id] catch(-1403);
+    [delete
+       from cntwrk
+      where cntbat = @cntbat
+        and wh_id = @wh_id] catch(-1403);
+    [delete
+       from cnthdr
+      where cntbat = @cntbat
+        and wh_id = @wh_id] catch(-1403);
+    [delete
+       from cnthst
+      where cntbat = @cntbat
+        and wh_id = @wh_id] catch(-1403);
+}

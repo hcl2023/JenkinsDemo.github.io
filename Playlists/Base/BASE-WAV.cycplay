@@ -1,0 +1,18 @@
+Playlist: 
+
+Resources: ../..
+
+Working Directory: 
+
+Namespaces: 
+
+FailFast: NONE
+
+Items:
+Feature: ../../Test Cases/Base/Outbound/BASE-WAV-1010 Web Outbound Allocate Wave.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-WAV-1020 Web Outbound Shipment Planning.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-WAV-1030 Web Outbound Unallocate Wave.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-WAV-1040 Web Outbound Plan Wave Remove Stop.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-WAV-1050 Web Outbound Plan Wave Delete Load.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-WAV-1070 Web Outbound Unplan Wave.feature
+Feature: ../../Test Cases/Base/Outbound/BASE-WAV-1090 Web Outbound Cancel Orders from Load.feature

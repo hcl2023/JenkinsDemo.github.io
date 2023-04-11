@@ -1,0 +1,52 @@
+/*
+MSQL File: get_list_picking_directed_work_for_work_order.msql
+Description: This MSQL script looks for any pending list pick work for a specific order and operation code that is 
+   either not assigned or assigned to the current user and associated with the work order being picked.
+   If work is found, the work is assigned to the user and any other work currently assigned to the user is deassigned.
+   This script requires MOCA environment variables to be set for wkorev, wkonum, client_id, oprcod, username, and wh_id
+*/
+
+publish data
+ where oprcod = $oprcod
+   and usr_id = $username
+   and wh_id = $wh_id
+   and client_id = $client_id
+   and wkonum = $wkonum
+   and wkorev = $wkorev
+|
+/*First we look for pending work that has not been assigned*/
+[select wrkque.reqnum, 
+        wrkque.wrkref,
+        wrkque.list_id,
+        wrkque.wh_id
+   from wrkque
+   join pckwrk_view
+     on pckwrk_view.wh_id = wrkque.wh_id
+    and (pckwrk_view.wrkref = wrkque.wrkref or pckwrk_view.list_id = wrkque.list_id)
+  where wrkque.oprcod = @oprcod
+    and wrkque.ack_usr_id is null
+    and (wrkque.asg_usr_id is null or wrkque.asg_usr_id = @usr_id)
+    and wrksts = 'PEND'
+    and wrkque.reqnum not in (select polval
+                                from poldat
+                               where polcod = 'TRYONLOCK'
+                                 and polvar = @oprcod
+                                 and wh_id_tmpl = @wh_id)
+    and pckwrk_view.wkonum = @wkonum
+    and pckwrk_view.wkorev = @wkorev
+    and pckwrk_view.client_id = @client_id
+    and pckwrk_view.wh_id = @wh_id
+    and rownum = 1]
+|
+/*Then we assign the pick to the testing user*/
+[update wrkque
+    set asg_usr_id = @username
+  where reqnum = @reqnum
+    and wh_id = @wh_id];
+
+/*Now we make sure there are no other work assignments for the user*/
+[update wrkque
+    set asg_usr_id = ''
+  where asg_usr_id = @username
+    and oprcod != @oprcod
+    and wh_id = @wh_id] catch(-1403)

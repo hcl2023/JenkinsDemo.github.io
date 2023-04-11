@@ -1,0 +1,17 @@
+/*
+MSQL File: validate_unload_equipment.msql
+Description: This MSQL script verifies the LPN is present in the shpstg_loc or final dep_loc (if unpicking is enabled). 
+             This script requires MOCA environment variables to be set for pck_lodnum,shpstg_loc, dep_loc, and wh_id
+*/
+
+publish data
+ where pck_lodnum = $pck_lodnum
+   and shpstg_loc = $shpstg_loc
+   and dep_loc = $dep_loc
+   and wh_id = $wh_id
+|
+[select 'x'
+   from inventory_view
+  where lodnum = @pck_lodnum
+    and (stoloc = @shpstg_loc or stoloc = @dep_loc)
+    and wh_id = @wh_id]

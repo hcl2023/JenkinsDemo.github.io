@@ -1,0 +1,2 @@
+prtnum,ftpcod,lngdsc,short_dsc,system,tran_name,add_part,pre_validation,post_validation,detail_file_name
+CYC-PRT-SR1-05,CYC-50-10,Cycle Toothpaste with extra calcium,Cycle Toothpaste + Ca,HOST,PARTFOOT_INB_IFD,YES,Check Integrator PartFootprint Download,Check Integrator PartFootprint Download,BASE-INT-2050-01.csv

@@ -1,0 +1,2 @@
+stoloc,lodnum,prtnum,ftpcod,untqty,adjref1,adjref2,reacod,invsts,lotnum,actcod,srcloc,adj_untqty,web_credentials,username,adjust_approval_reason,approval_needed
+CYCPALLOC9,CYC-INVADJ-INC-1100,SHAMPOO-LOT-01,50-10,500,CYCPALLOC8,SHAMPOO-LOT-01,Acceptable Adjustment,A,20170821,INVADJ-CYC,PERM-ADJ-LOC,400,INV_ADJ_USR,INV_ADJ_USR,Acceptable approval,TRUE

@@ -1,0 +1,9 @@
+dynamic_data,test_description,inv_num,prt_client_id,prtnum,srcprt,lotnum,expqty,supnum,rec_loc,ordnum,lot_sts
+TRUE,Fails on DD not existing,DEFAULT,DEFAULT,?does_not_exist,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT
+TRUE,Assign to ?sample_value,DEFAULT,DEFAULT,?sample_value,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT
+TRUE,Reassignent error - undefined,DEFAULT,DEFAULT,PARTA,?lodnum:use_current_value,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT
+TRUE,Reassignent - SRCPRT to PARTA,DEFAULT,DEFAULT,PARTA,?prtnum:use_current_value,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT,DEFAULT
+TRUE,Fails on lot and stops,TSINV001,CLIENT A,CYC_PRT3,,?lotnum:any_for_part,50,DEFSUP,RCVSTG-002,ORD1,
+TRUE,Part and lot are filled from msql,TSINV001,CLIENT A,?prtnum:lot_controlled,,?lotnum:any_for_part_and_status,50,DEFSUP,RCVSTG-002,?ordnum:ORD_datetime,U
+TRUE,Part gets put in srcprt,TSINV001,CLIENT A, ,?prtnum:lot_controlled,LOT4,50,DEFSUP,RCVSTG-002,?ordnum:ORD_datetime,
+TRUE,Use a Scenario that reads CSV,TSINV002,CLIENT A,CYC_PRT3,,LOT4,30,DEFSUP,RCVSTG-002,?ordnum:sample_csv,

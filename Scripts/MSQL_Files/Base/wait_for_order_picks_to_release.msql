@@ -1,0 +1,31 @@
+/*
+MSQL File: wait_for_order_picks_to_release.msql
+Description: This MSQL will wait up to 1 minute for
+             picks on an order to release
+*/
+publish data
+ where wh_id = $wh_id
+   and client_id = nvl($client_id, '----')
+   and ordnum = $ordnum
+|
+[[ 
+   def released = 0;
+   def loop = 0;    
+   while (released == 0 && loop < 20) {
+      sleep 3000;
+      x = moca.executeInline("[select count('x') rel_picks " +
+                         " from pckwrk_view " +
+                         "where wh_id = @wh_id " + 
+                         "  and ordnum = @ordnum " +
+                         "  and pcksts = 'R'] ");
+      x.next();
+      released = x.getValue("rel_picks");
+      loop++;
+   }
+]]
+|
+[select max(pcksts) pcksts
+   from pckwrk_view
+  where wh_id = @wh_id
+    and client_id = @client_id 
+    and ordnum = @ordnum]

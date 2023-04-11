@@ -1,0 +1,2 @@
+adrnam,adrtyp,adrln1,adrcty,adrstc,adrpsz,ctry_name,first_name,locale_id,ordnum,cstnum,cponum,ordtyp,untqty,prtnum,carcod,srvlvl
+Cycle Test,CST,1 Cycle Test Street,Cycle City,NC,27605,USA,Cycle Name,US_ENGLISH,CYC-PLN-ORD-1030,C-0001,CYC,C,100,SOAP-08,CYCCAR1,TL

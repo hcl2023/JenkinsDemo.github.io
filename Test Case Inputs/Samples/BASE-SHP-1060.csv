@@ -1,0 +1,2 @@
+ordnum,ui_ordtyp,cstnum,cust_po,create_ship_by,deliver_num,prtnum,untqty,ordlin,alloc_profile,carcod,project_number,ord_note,dstloc,res_pri,ftp_dtl,cert_origin
+CYC_OBORD1060,Customer Outbound Orders,CYC_CST01,56789,Ship-To Customer,98765,SHAMPOO-01,100,2001,Available,CYCCAR1,2900,test note 1,CYC_EA_LOC04,1,50-10,12345

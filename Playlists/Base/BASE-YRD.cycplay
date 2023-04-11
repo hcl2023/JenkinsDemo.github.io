@@ -1,0 +1,19 @@
+Playlist: 
+
+Resources: ../..
+
+Working Directory: 
+
+Namespaces: 
+
+FailFast: NONE
+
+Items:
+Feature: ../../Test Cases/Base/Yard/BASE-YRD-0010 Terminal Trailer Move.feature
+Feature: ../../Test Cases/Base/Yard/BASE-YRD-1010 Web Trailer Move.feature
+Feature: ../../Test Cases/Base/Yard/BASE-YRD-1020 Web Inbound Trailer Check In.feature
+Feature: ../../Test Cases/Base/Yard/BASE-YRD-1030 Web Inbound Trailer Check In with Safety Check.feature
+Feature: ../../Test Cases/Base/Yard/BASE-YRD-1040 Web Outbound Trailer Check In.feature
+Feature: ../../Test Cases/Base/Yard/BASE-YRD-1050 Web Outbound Trailer Check In with Safety Check.feature
+Feature: ../../Test Cases/Base/Yard/BASE-YRD-1060 Web Storage Trailer Check In.feature
+Feature: ../../Test Cases/Base/Yard/BASE-YRD-5000 Flow Yard Audit.feature

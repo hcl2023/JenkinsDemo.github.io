@@ -1,0 +1,18 @@
+/*
+MSQL File: validate_Cycle_Count.msql
+Description: This MSQL script is used to check cycle count generated or not.
+    MOCA environment variables for stoloc, prt_client_id, wh_id, and prtnum are required.
+*/
+ 
+/* Import variables assigned in Cycle */
+publish data
+ where  wh_id = $wh_id
+   and prtnum = $prtnum
+   and stoloc = $stoloc
+|
+[select 'X'
+   from cntwrk
+  where stoloc = @stoloc
+    and prtnum = @prtnum
+    and wh_id = @wh_id
+	and cntsts in ('I','R','G')] 

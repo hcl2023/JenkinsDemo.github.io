@@ -1,0 +1,10 @@
+publish data
+ where invnum = $invnum
+|
+[delete
+   from rimhdr
+  where invnum = @invnum] catch(-1403)
+|
+[delete
+   from rimlin
+  where invnum = @invnum] catch(-1403)

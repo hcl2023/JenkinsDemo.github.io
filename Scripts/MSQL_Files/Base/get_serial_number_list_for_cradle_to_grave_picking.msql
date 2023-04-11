@@ -1,0 +1,32 @@
+/*
+MSQL File: get_serial_number_list_for_cradle_to_grave_picking.msql
+Description: This query gets a list of serial numbers associated with inventory in a source location.
+   The list of serial numbers is used for handling items with cradle to grave serialization.
+   This query requires the srcloc, prtnum, client_id, and wh_id to retrieve the serial numbers tied to the inventory
+*/
+
+publish data
+ where srcloc = $srcloc
+   and prtnum = $prtnum
+   and client_id = $client_id
+   and wh_id = $wh_id
+|
+[select distinct lodnum,
+        subnum,
+        dtlnum
+   from inventory_view
+  where stoloc = ltrim(rtrim(@srcloc))
+    and prtnum = @prtnum
+    and prt_client_id = @client_id
+    and wh_id = @wh_id
+  order by lodnum,
+        subnum,
+        dtlnum]
+|
+[select ser_num,
+        ser_num_typ_id,
+        invtid
+   from inv_ser_num 
+  where invtid in (@lodnum, @subnum, @dtlnum)
+  order by invtid,
+        ser_num_typ_id]

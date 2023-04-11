@@ -1,0 +1,4 @@
+trntyp,transaction_file_name,field_to_validate_change,table_to_validate_change
+A,CYC-FOOTPRINT_INB_IFD.xml,,
+C,CYC-FOOTUPDT_INB_IFD.xml,caslvl,prtftp
+D,CYC-FOOTDEL_INB_IFD.xml,,

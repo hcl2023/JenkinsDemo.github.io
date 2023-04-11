@@ -1,0 +1,13 @@
+/*
+MSQL File: check_inventory_after_count.msql
+Descriptions: This MSQL checks the inventory after a count
+*/
+
+publish data
+ where stoloc = $stoloc
+   and wh_id = $wh_id
+|
+[select sum(untqty) as sum_untqty
+   from inventory_view
+  where stoloc = @stoloc
+    and wh_id = @wh_id]

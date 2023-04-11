@@ -1,0 +1,13 @@
+/* 
+MSQL File: get_location_verification_code.msql
+Description:  This MSQL script is used to get the location information from the passed in stoloc
+*/
+
+publish data
+ where stoloc = $stoloc
+   and wh_id = $wh_id
+|
+[select *
+   from locmst
+  where stoloc = @stoloc
+    and wh_id = @wh_id]

@@ -1,0 +1,11 @@
+/*
+MSQL File: get_serial_num_type_id.msql
+Description: This MSQL gets ser_num_typ_id from a specified part. Requires prtnum to be passed in. 
+*/
+
+publish data
+ where prtnum = $prtnum
+|
+[select ser_num_typ_id
+   from prt_ser_typ
+  where prtnum = @prtnum];

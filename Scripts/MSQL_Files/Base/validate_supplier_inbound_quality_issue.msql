@@ -1,0 +1,17 @@
+/* 
+MSQL File: validate_supplier_inbound_quality_issue.msql
+Description: This MSQL script gets the Supplier Inbound Quality Issue that was created by the test case to verify it was properly created.
+*/
+
+publish data
+ where supnum = $supnum
+   and inbqty = $inbqty
+   and ib_issue = $ib_issue
+   and wh_id = $wh_id
+|
+[select distinct 1
+   from inbqlt
+  where supnum = @supnum
+    and inbqty = @inbqty
+    and ib_issue = @ib_issue
+    and wh_id = @wh_id]

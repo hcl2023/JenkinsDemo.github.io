@@ -1,0 +1,2 @@
+client_id,prtnum,untqty,invsts_prg,caslod,srcloc,adjrea,adjact,dst_untqty,dst_caslod,repl_loc,reacodfull
+CLIENT A,SHAMPOO-98,500,A,TSTRALOD1,CYC_O_PAL2,ADJ-ACCEPT,INVADJ-CYC,100,TSTRALOD2,CYCPALLOC11,Acceptable Adjustment

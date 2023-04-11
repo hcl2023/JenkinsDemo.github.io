@@ -1,0 +1,2 @@
+num_loads,stoloc,lodnum_1,lodnum_2,lodnum_3,prtnum,untqty,adjref1,adjref2,reacod,invsts,lotnum,actcod,hldnum,reacodfull,hold_mode,hold_multi,lodnum
+3,CYCPALLOC9,CYC-INV-1170,CYC-INV-1170a,CYC-INV-1170b,SHAMPOO-01,2,CYCPALLOC9,SHAMPOO-01,ADJ-ACCEPT,A,20170821,INVADJ-CYC,OUTAUDHLD,Cycle Hold,0,TRUE,CYC-INV-1170

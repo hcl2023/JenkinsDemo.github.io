@@ -1,0 +1,6 @@
+stoloc,committed_inventory_in_count_loc,create_mismatch,man_cnt_mode
+CYCCSLOC37,Y,FALSE,LOAD
+CYCCSLOC37,Y,TRUE,LOAD
+CYCCSLOC38,Y,FALSE,SUB
+CYCCSLOC38,Y,TRUE,SUB
+CYCCSLOC39,Y,FALSE,DETAIL

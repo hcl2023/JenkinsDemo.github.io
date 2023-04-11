@@ -1,0 +1,36 @@
+/* 
+    Dataset: Inv_Count_Batch/cleanup
+	Description: Script for create count batch script, and for other count related scripts 
+*/
+publish data
+ where wh_id = $wh_id
+   and client_id = $client_id
+   and prt_client_id = $prt_client_id
+   and devcod = $devcod
+   and cntbat = $cntbat
+|
+{
+	cancel counts 
+	  where cntbat = @cntbat
+   		and wh_id = @wh_id catch(-1403);
+    [delete
+       from cntsch
+      where cnt_id = @cntbat
+        and wh_id = @wh_id] catch(-1403);
+    [delete
+       from cntsch_hdr
+      where cnt_id = @cntbat
+        and wh_id = @wh_id] catch(-1403);
+    [delete
+       from cntwrk
+      where cntbat = @cntbat
+        and wh_id = @wh_id] catch(-1403);
+    [delete
+       from cnthdr
+      where cntbat = @cntbat
+        and wh_id = @wh_id] catch(-1403);
+    [delete
+       from cnthst
+      where cntbat = @cntbat
+        and wh_id = @wh_id] catch(-1403);
+}

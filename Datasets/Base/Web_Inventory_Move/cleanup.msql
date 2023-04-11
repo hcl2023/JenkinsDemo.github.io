@@ -1,0 +1,46 @@
+/* 
+Dataset Name: Web_Inventory_Move
+Description: Cleans up data created as part of Web Inventory Move test case
+*/
+
+publish data
+    where wh_id = $wh_id
+      and client_id = $client_id
+      and prt_client_id = $prt_client_id
+      and devcod = $devcod
+	  and prtnum = $prtnum
+      and srclod = $srclod
+      and dstlod = $dstlod
+|
+if (@srclod != '')
+    publish data
+     where lodnum_1 = @srclod
+|
+if (@dstlod != '')
+    publish data
+     where lodnum_2 = @dstlod
+|
+if (@srclod)
+    hide stack variable
+     where name = 'srclod'
+|
+if (@dstlod)
+    hide stack variable
+     where name = 'dstlod'
+|
+[select *
+   from inventory_view
+  where lodnum in (@lodnum_1, @lodnum_2)
+	and prtnum = @prtnum
+    and prt_client_id = @prt_client_id
+    and wh_id = @wh_id] catch(-1403)
+|
+if (@? = 0)
+{
+    move inventory
+     where dstloc = 'PERM-ADJ-LOC'
+       and reacod = 'ADJ-ACCEPT'
+       and adj_ref2 = ''
+       and adj_ref1 = ''
+       and actcod = 'IDNTFY_AJ'
+}

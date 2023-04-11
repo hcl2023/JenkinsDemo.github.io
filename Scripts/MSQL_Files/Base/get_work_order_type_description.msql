@@ -1,0 +1,15 @@
+/*
+MSQL File: get_work_order_type_description.msql
+Description: This MSQL script gets the work order type description for the wko_typ. 
+   This description is used by Web UI scenarios to select the work order type that is displayed on screen.
+   MOCA environment variables for wko_typ and wh_id must be provided for this query to return results
+*/
+
+publish data
+ where wko_typ = $wko_typ
+   and wh_id = $wh_id
+|
+[select lngdsc
+   from dscmst
+  where colnam = 'wko_typ|wh_id'
+    and colval = @wko_typ || '|' || @wh_id]

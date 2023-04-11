@@ -1,0 +1,11 @@
+/*
+Dataset Name: Web_Location_Status_Change
+Description: This script will reset location status
+*/
+publish data
+ where wh_id = $wh_id
+   and stoloc = $stoloc
+|
+reset location status
+ where location = @stoloc
+   and wh_id = @wh_id

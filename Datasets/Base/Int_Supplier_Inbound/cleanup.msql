@@ -1,0 +1,21 @@
+publish data
+ where wh_id = $wh_id
+    and client_id = $client_id
+    and prt_client_id = $prt_client_id
+    and devcod = $devcod
+    and supnum = $supnum
+|
+[select supnum,
+        adr_id,
+        client_id
+   from supmst
+  where supnum = @supnum
+    and client_id = @client_id] catch(-1403)
+|
+remove supplier
+ where client_id = @client_id
+   and supnum = @supnum catch(@?)
+|
+remove address
+ where adr_id = @adr_id
+   and client_id = @client_id catch(@?)

@@ -1,0 +1,197 @@
+publish data
+ where wh_id = $wh_id
+   and client_id = $client_id
+   and prt_client_id = $prt_client_id
+   and devcod = $devcod
+   and ordnum = $ordnum
+   and ship_id = $ship_id
+   and adr_id = $adr_id
+   and cstnum = $cstnum
+   and carcod = $carcod
+   and srvlvl = $srvlvl
+   and ordtyp = $ordtyp
+   and prtnum = $prtnum
+   and untqty = $untqty
+   and invsts_prg = $invsts_prg
+   and wave_num = $wave_num
+   and move_id = $move_id
+   and trlr_id = $trlr_id
+   and dock = nvl($dock_door,$dock)
+   and pck_dstloc = $pck_dstloc
+   and load_stop = nvl($load_stop, 'NO')
+   and close_trailer = nvl($close_trailer, 'NO')
+   and usr_id = $username
+|
+/* Allocate the wave */
+allocate wave
+ where pcktyp = 'PICK-N-REPLEN-N-SHIP'
+   and bulk_pck_flg = '0'
+   and pricod = ''
+   and schbat = @wave_num
+   and pcksts_uom = 'L,S,D'
+   and fraUomMarked = 'UOMs Marked for Immediate Release'
+   and wh_id = @wh_id
+   and imr_uom_list = 'EA,CS,PA'
+   and consby = 'ordnum'
+|
+job pick release manager
+	where wh_id = @wh_id catch(@?)
+|
+process pick list rules
+	where wh_id = @wh_id catch(@?)
+|
+process pick list release
+	where wh_id = @wh_id catch(@?)
+|
+[select wrkref cyc_wrkref,
+        srcloc cyc_srcloc,
+        dtl_pckqty cyc_qty,
+        srcare cyc_srcare,
+        list_id cyc_list_id,
+        dstloc pndloc,
+        src_mov_zone_id cyc_movzone,
+        src_pck_zone_id cyc_pckzone,
+        src_wrk_zone_id cyc_wrkzone
+   from pckwrk_view
+  where schbat = @wave_num
+		and pcksts = 'R']
+|
+{
+    list pick work for mass confirm picks
+     where wh_id = @wh_id
+       and wrkref = @cyc_wrkref
+    |
+    publish data
+     where cyc_pck_srclod = @lodnum
+    |
+    reset asset type for pick
+     where wrkref = @cyc_wrkref
+       and wh_id = @wh_id
+    |
+    hide stack variable
+     where name = 'ship_line_id'
+    |
+    process inventory move
+     where wrkref = @cyc_wrkref
+       and prt_client_id = @prt_client_id
+       and usr_id = @usr_id
+       and dstloc = @pck_dstloc
+       and srcloc = @cyc_srcloc
+       and prtnum = @prtnum
+       and srclod = @cyc_pck_srclod
+       and srcqty = @cyc_qty
+       and srcref = @cyc_wrkref
+       and newdst = 1
+} >> res
+|
+complete rf pick list
+ where list_id = @cyc_list_id
+   and wh_id = @wh_id
+|
+[select lodnum,
+        stoloc
+   from inventory_view
+  where wrkref = @cyc_wrkref]
+|
+if (@pndloc is null)
+{
+    [select max(pndloc) pndloc
+       from nxtloc_view
+      where lodnum = @lodnum
+        and stoloc = @stoloc] catch(-1403)
+    |
+    if (@pndloc is null)
+    {
+        process rf reserving location for next step
+         where invid = @lodnum
+           and wh_id = @wh_id
+        |
+        publish data
+         where pndloc = @dstloc
+    }
+    |
+    publish data
+     where pndloc = @pndloc
+}
+|
+hide stack variable
+ where name = 'ordnum'
+|
+save session variable
+ where variable = 'assumedPick'
+|
+process inventory move
+ where srclod = @lodnum
+   and srcloc = @stoloc
+   and dstloc = @pndloc
+   and dstlod = ''
+   and dstsub = ''
+   and actcod = 'LSTPCK'
+   and oprcod = 'UPK'
+   and newdst = '0'
+   and mergeondep = '0'
+   and wh_id = @wh_id
+|
+{
+   /*  Handle Move to Stage from Hop Location */
+   [select distinct lodnum, 
+           pndloc
+      from pndinv_view
+     where ship_line_id in (select ship_line_id
+                              from shipment_line
+                             where ship_id = @ship_id)] catch(-1403)
+   |
+   if (@? = 0)
+   {
+      process inventory move
+ 	where srclod = @lodnum
+          and srcloc = ''
+          and stoloc = ''
+          and dstloc = @pndloc
+          and dstlod = ''
+          and dstsub = ''
+          and actcod = 'LSTPCK'
+          and oprcod = 'UPK'
+          and newdst = '0'
+          and mergeondep = '0'
+          and wh_id = @wh_id
+   }
+}
+|
+write stage shipment
+ where ship_id = @ship_id
+   and wh_id = @wh_id catch(@?)
+|
+if (@load_stop = 'YES')
+{
+    [select stop_id as cyc_stop_id
+       from stop
+      where car_move_id = @move_id]
+    |
+    process load stop
+     where wh_id = @wh_id
+       and stop_id = @cyc_stop_id
+       and trlr_id = @trlr_id
+       and dock_door = @dock
+       and is_door_changed = 0
+       and work_queue = 0
+       and dispatch_trailer = 0
+       and close_trailer = 0
+       and stop_seal = ''
+       and is_door_changed = 0
+       and was_door_empty = 0
+       and load_immediate = 1
+}
+|
+if (@close_trailer = 'YES')
+{
+    close shipping transport equipment
+     where trlr_id = @trlr_id
+       and trlr_seal1 = ''
+       and trlr_seal2 = ''
+       and trlr_seal3 = ''
+       and trlr_seal4 = ''
+       and wh_id = @wh_id
+       and dispatch_trailer = 0
+       and leave_equipment = 1
+}

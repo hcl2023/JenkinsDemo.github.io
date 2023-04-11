@@ -1,0 +1,36 @@
+/*
+MSQL File: check_integrator_partfoot_download.msql
+Description: This MSQL checks part footprint download records for all trntyps
+*/
+
+publish data
+ where trntyp = $trntyp
+   and prtnum = $prtnum
+   and query_str = $table_to_validate_change || '.' || $field_to_validate_change
+   and client_id = $client_id
+   and ftpcod = $ftpcod
+|
+if (@trntyp and (@trntyp = 'A' or @trntyp = 'D'))
+{
+    [select distinct 'x'
+       from prtftp_view
+      where prtnum = @prtnum
+	  and ftpcod = @ftpcod
+        and prt_client_id = @client_id]
+}
+else if (@trntyp and @trntyp = 'C')
+{
+    [select @query_str:raw
+       from prtftp,
+            prtftp_dtl
+      where prtftp.prtnum = prtftp_dtl.prtnum
+	    and prtftp.ftpcod = prtftp_dtl.ftpcod
+        and prtftp.prtnum = @prtnum
+		and prtftp.ftpcod = @ftpcod
+        and prtftp.prt_client_id = @client_id]
+}
+else
+{
+    set return status
+     where status = 510
+}

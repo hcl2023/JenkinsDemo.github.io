@@ -1,0 +1,15 @@
+/*  
+MSQL File: get_any_customer_unrestricted.msql
+Description: 
+Get a customer.  Built for use with Dynamic Data logic.
+*/
+Publish data 
+where dynamic_where = nvl($where_clause, "1 = 1")
+  and dynamic_order_by = nvl($order_by_clause, "1")
+  and dynamic_rownum = nvl($rownum, 1)
+|
+[select *
+   from cstmst
+  where @dynamic_where:RAW
+	and rownum = @dynamic_rownum
+order by @dynamic_order_by:RAW]

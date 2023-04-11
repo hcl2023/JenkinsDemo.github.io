@@ -1,0 +1,20 @@
+/*  
+MSQL File: get_any_part.msql
+Description: 
+Get a part (production and receivable) for specified warehouse and Client Id.  Built for use with Dynamic Data logic.
+*/ 
+publish data 
+ where wh_id = $wh_id
+   and prt_client_id = nvl($prt_client_id, nvl($client_id,'----'))
+   and dynamic_where = nvl($where_clause, "1 = 1")
+   and dynamic_order_by = nvl($order_by_clause, "1")
+   and dynamic_rownum = nvl($rownum, 1)
+|
+[select *
+   from prtmst
+  where wh_id_tmpl = @wh_id 
+    and prt_client_id = @prt_client_id
+	and rcvflg = 1
+    and @dynamic_where:RAW
+	and rownum = @dynamic_rownum
+order by @dynamic_order_by:RAW]
