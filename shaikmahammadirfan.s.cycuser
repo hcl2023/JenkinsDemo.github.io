@@ -1,0 +1,45 @@
+{
+  "additionalData" : {
+    "openTabs" : [ {
+      "filePath" : "C:\\BYCycle\\CycleBy23\\Utilities\\Base\\Verify Environment.feature"
+    }, {
+      "filePath" : "C:\\BYCycle\\CycleBy23\\Test Cases\\Base\\Inbound\\BASE-RCV-1070 Web Inbound Create Inbound Shipment.feature"
+    }, {
+      "filePath" : "C:\\BYCycle\\CycleBy23\\Utilities\\Base\\Environment.feature"
+    } ]
+  },
+  "settings" : {
+    "EmailUsername" : "",
+    "DatastoreUrl" : "",
+    "WriteCloudDatastore" : false,
+    "CustomChromeBrowserLocation" : "C:\\Users\\shaikmahammadirfan.s",
+    "DatastoreName" : "",
+    "SenderEmailAddress" : "",
+    "StoredCredentials" : [ ],
+    "SendEmailSummary" : false,
+    "CloseBrowserAfterScenario" : false,
+    "DatastorePassword" : "",
+    "WinAppDriverForceCloseLocalApp" : false,
+    "IEDriverLocation" : "C:\\Users\\shaikmahammadirfan.s",
+    "EdgeDriverLocation" : "C:\\Users\\shaikmahammadirfan.s",
+    "UseCustomChromeLocation" : false,
+    "CloudRefreshToken" : "",
+    "EmailHost" : "",
+    "CloseBrowserOnCycleExit" : false,
+    "WinAppDriverLocation" : "C:\\Program Files (x86)\\Windows Application Driver\\WinAppDriver.exe",
+    "EmailProtocol" : "SSL",
+    "DatastoreUsername" : "",
+    "EmailPassword" : "",
+    "ProduceLocalReport" : false,
+    "IncludeStepsInGroupTestReports" : false,
+    "RecipientEmail" : "",
+    "ChromeDriverLocation" : "C:\\Users\\shaikmahammadirfan.s\\OneDrive - HCL Technologies Ltd\\Desktop\\chromewebdriver\\chromedriver.exe",
+    "KnownHostsLocation" : null,
+    "WriteToDatastore" : false,
+    "OutputDirectory" : "Output",
+    "EmailPort" : 0,
+    "DatastoreType" : "",
+    "DatastoreConnection" : "JDBC",
+    "ProduceLocalCsv" : false
+  }
+}
