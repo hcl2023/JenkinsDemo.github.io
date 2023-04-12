@@ -63,7 +63,7 @@ And I "mention there is no dataset to cleanup"
 Scenario Outline: BASE-API-8020 API Purchase Order
 CSV Examples: Test Case Inputs/BASE-API-8020.csv
 
-Given I "execute pre-test scenario actions (including pre-validations)"
+Given I "execute pre-test scenario actions (including pre-validations)   "
 	And I execute scenario "Begin Pre-Test Activities"
 	
 # Prerequisites: API Environment Variables are set correctly and Verify API in Verify Environment Utility

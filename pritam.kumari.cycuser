@@ -1,12 +1,6 @@
 {
   "additionalData" : {
-    "openTabs" : [ {
-      "filePath" : "C:\\Cycle\\JenkinsDemo\\Playlists\\Custom\\BASE-RCV-1070 Web Inbound Create Inbound Shipment.feature"
-    }, {
-      "filePath" : "C:\\Cycle\\JenkinsDemo\\Playlists\\Custom\\BASE-API-8020 API Purchase Order.feature"
-    }, {
-      "filePath" : "C:\\Cycle\\JenkinsDemo\\Playlists\\INB-RCV-SUIT.cycplay"
-    } ]
+    "openTabs" : [ ]
   },
   "settings" : {
     "EmailUsername" : "",
